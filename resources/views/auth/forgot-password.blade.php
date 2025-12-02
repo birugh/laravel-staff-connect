@@ -1,5 +1,6 @@
-@section('content')
+@extends('layouts.app')
 
+@section('content')
     <h1>Lupa Password</h1>
 
     @if (session('status'))
@@ -10,13 +11,15 @@
         @csrf
 
         <div>
-            <label>Email</label>
+            <label>Email</label><br>
             <input type="email" name="email" value="{{ old('email') }}" required>
             @error('email')
-                <p style="color: red">{{ $message }}</p>
+                <p style="color:red">{{ $message }}</p>
             @enderror
         </div>
 
         <button type="submit">Kirim Link Reset Password</button>
     </form>
+
+    <p><a href="{{ route('login') }}">Kembali ke login</a></p>
 @endsection
