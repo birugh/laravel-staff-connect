@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AuthToken;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,33 +12,71 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    public function showRegister()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        $user = User::create($validated);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect()->route('verification.notice');
+    }
+
+    public function showLogin()
+    {
+        return view('auth.login');
+    }
+
     public function login(Request $request)
     {
-        $data = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        $user = User::where('email', $data['email'])->first();
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
 
-        if (!$user || !Hash::check($data['password'], $user->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Email atau password salah',
-            ], 401);
+            $user = Auth::user();
+
+            $tokenString = Str::random(60);
+            session(['token' => $tokenString]);
+
+            $apiToken = AuthToken::create([
+                'user_id' => $user->id,
+                'token' => hash('sha256', $tokenString),
+                'expires_at' => now()->addDay(7),
+            ]);
+
+            return redirect()->intended('/dashboard');
         }
 
-        $tokenString = Str::random(60);
-        session(['token' => $tokenString]);
+        return back()->withErrors([
+            'email' => 'Email atau password salah',
+        ])->onlyInput('email');
+    }
 
-        $apiToken = AuthToken::create([
-            'user_id' => $user->id,
-            'token' => hash('sha256', $tokenString),
-            'expires_at' => now()->addDay(7),
-        ]);
+    public function logout(Request $request)
+    {
+        Auth::logout();
 
-        Auth::setUser($user);
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect()->with('success', 'Login berhasil');
+        return redirect()->route('login');
     }
 }
