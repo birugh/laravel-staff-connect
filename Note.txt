@@ -20,11 +20,12 @@ struktur table:
 - receiver_id int not null
 - subject varchar(50) nullable
 - body text not null
+- sent date not null
 - is_read boolean default false not null
 4. message_replies
-- id intnot null
-- message_id intnot null
-- user_id intnot null
+- id int not null
+- message_id int not null
+- user_id int not null
 - body text not null
 
 activity roles:
