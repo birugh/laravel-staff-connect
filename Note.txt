@@ -1,0 +1,46 @@
+struktur table:
+1. user
+- id int not null
+- name varchar(50) not null
+- email varchar(50) not null
+- password not null
+- email_verified_at not null
+- role (enum: admin, pegawai dan karyawan) not null
+2. user_profiles
+- id int not null
+- user_id int not null
+- nik varchar(16) not null
+- jabatan varchar(50) not null -- FITUR OPSIONAL
+- phone varchar(13) not null
+- address text not null
+- dob date not null
+3. message
+- id int not null
+- sender_id int not null
+- receiver_id int not null
+- subject varchar(50) nullable
+- body text not null
+- is_read boolean default false not null
+4. message_replies
+- id intnot null
+- message_id intnot null
+- user_id intnot null
+- body text not null
+
+activity roles:
+admin - master
+pegawai:
+- kirim pesan
+- liat pesan terkirim
+- reply
+- liat reply dari karyawan
+- notifikasi reply karyawan
+karyawan:
+- liat pesan masuk
+- reply
+- liat reply dari pegawai
+- notifikasi pesan masuk/reply pegawai
+
+- notifikasi kirim pesan pegawai
+- reply
+- 
