@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Psy\Util\Str;
 
 class UserController extends Controller
@@ -15,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::latest()->paginate(5);
-        return view('', compact('users'));
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -23,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('');
+        return view('users.create');
     }
 
     /**
@@ -33,17 +34,14 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'min:5', 'max:50', 'string'],
-            'email' => ['required', 'unique', 'email'],
+            'email' => ['required', 'unique:users,email', 'email'],
             'password' => ['required', 'min:5', 'max:50', 'confirmed'],
+            'role' => ['required', 'string', 'in:admin,pegawai,karyawan']
         ]);
 
-        User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
+        User::create($validated);
 
-        return redirect('')->with('success', 'User berhasil di buat');
+        return redirect()->route('user.index')->with('success', 'User berhasil dibuat');
     }
 
     /**
@@ -52,7 +50,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::find($id);
-        return view('', compact('user'));
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -61,7 +59,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::find($id);
-        return view('', compact('user'));
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -73,18 +71,24 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'min:5', 'max:50', 'string'],
-            'email' => ['required', 'unique', 'email'],
-            'password' => ['required', 'min:5', 'max:50', 'confirmed'],
+            'email' => ['required', Rule::unique('users', 'email')->ignore($id), 'email'],
+            'password' => ['nullable', 'min:5', 'max:50', 'confirmed'],
+            'role' => ['required', 'string', 'in:admin,pegawai,karyawan']
         ]);
 
-        $user->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
+        // Jika password kosong → jangan update password
+        if (empty($validated['password'])) {
+            unset($validated['password']);
+        } else {
+            // Jika password diisi → hash password baru
+            $validated['password'] = Hash::make($validated['password']);
+        }
 
-        return redirect('')->with('success', 'User berhasil di update');
+        $user->update($validated);
+
+        return redirect()->route('user.index')->with('success', 'User berhasil diupdate');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -93,6 +97,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect('')->with('success', 'User berhasil dihapus');
+        return redirect()->route('user.index')->with('success', 'User berhasil dihapus');
     }
 }

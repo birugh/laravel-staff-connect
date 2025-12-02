@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -103,11 +104,5 @@ Route::post('/reset-password', function (Request $request) {
     return back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.store');
 
-Route::get('/test-mail', function () {
-    Mail::raw('Test email dari Laravel', function ($message) {
-        $message->to('rizki.zulfahmi2018@gmail.com');
-        $message->subject('Test Email');
-    });
-
-    return 'Email dikirim (atau mencoba mengirim)';
-});
+// Route::get('/user', [UserController::class, 'index']);
+Route::resource('/user', UserController::class);
