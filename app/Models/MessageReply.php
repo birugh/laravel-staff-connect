@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MessageReply extends Model
 {
     /** @use HasFactory<\Database\Factories\MessageReplyFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'message_replies';
     protected $fillable = ['message_id', 'user_id', 'body'];
     public function message()
