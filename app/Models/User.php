@@ -45,6 +45,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function token()
+    {
+        return $this->hasMany(AuthToken::class);
+    }
     public function sentMessages()
     {
         return $this->hasMany(Message::class, 'sender_id', 'id');
