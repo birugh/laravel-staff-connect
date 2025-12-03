@@ -59,9 +59,8 @@ class AuthController extends Controller
             $apiToken = AuthToken::create([
                 'user_id' => $user->id,
                 'token' => hash('sha256', $tokenString),
-                'expires_at' => now()->addDay(7),
+                'expires_at' => now()->addDays(7),
             ]);
-
             return redirect()->intended('/dashboard');
         }
 

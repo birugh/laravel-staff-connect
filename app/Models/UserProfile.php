@@ -16,7 +16,8 @@ class UserProfile extends Model
         'nik',
         'phone_number',
         'address',
-        'date_of_birth'
+        'date_of_birth',
+        'profile_path'
     ];
 
     protected $casts = [

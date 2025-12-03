@@ -8,7 +8,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MessageReplyController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -32,7 +35,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
 
 Route::get('/email/verify', function () {
@@ -47,82 +50,78 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
-
     return back()->with('status', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified']);
 
 
-Route::get('/forgot-password', function () {
-    return view('auth.forgot-password');
-})->middleware('guest')->name('password.request');
 
-Route::post('/forgot-password', function (Request $request) {
-    $request->validate([
-        'email' => 'required|email',
-    ]);
+// Forgot password
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->middleware('guest')
+    ->name('password.request');
 
-    $status = Password::sendResetLink(
-        $request->only('email')
-    );
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->middleware('guest')
+    ->name('password.email');
 
-    if ($status === Password::RESET_LINK_SENT) {
-        return back()->with(['status' => __($status)]);
-    }
+// Reset password
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->middleware('guest')
+    ->name('password.reset');
 
-    return back()->withErrors(['email' => __($status)]);
-})->middleware('guest')->name('password.email');
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
+    ->middleware('guest')
+    ->name('password.store');
 
-Route::get('/reset-password/{token}', function (string $token, Request $request) {
-    return view('auth.reset-password', [
-        'token' => $token,
-        'email' => $request->query('email'),
-    ]);
-})->middleware('guest')->name('password.reset');
+// ADMIN SPACE
+Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
+    Route::resource('/user', UserController::class)->except('show');
 
-Route::post('/reset-password', function (Request $request) {
-    $request->validate([
-        'token'    => 'required',
-        'email'    => 'required|email',
-        'password' => 'required|min:6|confirmed',
-    ]);
+    Route::resource('/user-profile', UserProfileController::class)->except('show');
 
-    $status = Password::reset(
-        $request->only('email', 'password', 'password_confirmation', 'token'),
-        function ($user) use ($request) {
-            $user->forceFill([
-                'password' => Hash::make($request->password),
-            ])->setRememberToken(Str::random(60));
+    Route::post('/reset-password', function (Request $request) {
+        $request->validate([
+            'token'    => 'required',
+            'email'    => 'required|email',
+            'password' => 'required|min:6|confirmed',
+        ]);
 
-            $user->save();
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return redirect()->route('login')->with('status', __($status));
         }
-    );
 
-    if ($status === Password::PASSWORD_RESET) {
-        return redirect()->route('login')->with('status', __($status));
-    }
+        return back()->withErrors(['email' => [__($status)]]);
+    })->middleware('guest')->name('password.store');
 
-    return back()->withErrors(['email' => [__($status)]]);
-})->middleware('guest')->name('password.store');
+    // Route::get('/user', [UserController::class, 'index']);
+    Route::resource('/user', UserController::class);
 
-// Route::get('/user', [UserController::class, 'index']);
-Route::resource('/user', UserController::class);
-
-// ! Admin Routes
-Route::prefix('admin')
-    ->name('admin.')
-    ->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index']);
-        // ! Users
-        Route::resource('users', UserController::class);
-        // ! User Profiles
-        Route::resource('user-profiles', UserController::class);
-        // ! Messages
-        Route::resource('messages', MessageController::class)->except('show');
-        Route::get('/message/detail/{id}', [MessageController::class, 'show'])->name('messages.show');
-        // ! Replies
-        Route::resource('replies', MessageReplyController::class)->except('show');
-    });
+    // ! Admin Routes
+    Route::prefix('admin')
+        ->name('admin.')
+        ->group(function () {
+            Route::get('/dashboard', [DashboardController::class, 'index']);
+            // ! Users
+            Route::resource('users', UserController::class);
+            Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.show');
+            // ! User Profiles
+            Route::resource('user-profiles', UserController::class);
+            // ! Messages
+            Route::resource('messages', MessageController::class)->except('show');
+            Route::get('/message/detail/{id}', [MessageController::class, 'show'])->name('messages.show');
+            // ! Replies
+            Route::resource('replies', MessageReplyController::class)->except('show');
+        });
+});

@@ -25,8 +25,6 @@
             </label>
         </div>
 
-        
-
         <button type="submit">Login</button>
     </form>
 
