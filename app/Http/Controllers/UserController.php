@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Psy\Util\Str;
 
 class UserController extends Controller
 {
@@ -53,7 +52,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::find($id);
+        $user = User::with('profile')->findOrFail($id);
         return view('admin.users.show', compact('user'));
     }
 

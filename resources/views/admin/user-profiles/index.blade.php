@@ -21,7 +21,7 @@
         <td>{{ $u['phone_number'] }}</td>
         <td>{{ $u['address'] }}</td>
         <td>{{ $u->date_of_birth->format('d M Y') }}</td>
-        <td> <a href="{{ route('admin.user-profile.edit', $u) }}">Edit</a> | <a href="{{ route('admin.user-profile.show', $u) }}">Show</a> </td>
+        <td> <a href="{{ route('admin.user-profile.edit', $u) }}">Edit</a> | <a href="{{ route('admin.user.show', $u) }}">Show</a> </td>
     </tr>
     @endforeach
 </table>

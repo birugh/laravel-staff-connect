@@ -76,8 +76,12 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
 
 // ADMIN SPACE
 Route::prefix('/admin')->name('admin.')->group(function () {
-    Route::resource('/user', UserController::class);
-    Route::resource('/user-profile', UserProfileController::class);
+    Route::resource('/user', UserController::class)->except('show');
+    
+    Route::resource('/user-profile', UserProfileController::class)->except('show');
+
+    Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.show');
+    
     Route::resource('/message', UserController::class);
     Route::resource('/message-reply', UserController::class);
 });

@@ -59,8 +59,9 @@ class UserProfileController extends Controller
      */
     public function show(string $id)
     {
-        $user_profiles = UserProfile::find($id);
-        return view('admin.user-profiles.show', compact('user_profiles'));
+        // $user_profile = UserProfile::find($id);
+        // $user = User::find($user_profile->user_id);
+        // return view('admin.user-profiles.show', compact('user_profile', 'user'));
     }
 
     /**
