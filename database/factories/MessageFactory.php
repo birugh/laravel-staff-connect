@@ -20,7 +20,7 @@ class MessageFactory extends Factory
         return [
             'sender_id' => $this->faker->numberBetween(1, 2),
             'receiver_id' => $this->faker->numberBetween(1, 2),
-            'subject' => $this->faker->sentence(),
+            'subject' => $this->faker->sentence(10),
             'sent' => $this->faker->dateTimeBetween('now', '+7 days'),
             'body' => $this->faker->paragraph(),
         ];
