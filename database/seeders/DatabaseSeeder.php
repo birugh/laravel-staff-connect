@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         User::create([
             'name' => 'zulfahmi',
-            'email' => 'fahmi@gmail.com',
+            'email' => 'pahmi@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('123'),
             'remember_token' => Str::random(10),
@@ -41,6 +41,27 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123'),
             'remember_token' => Str::random(10),
             'role' => 'pegawai',
+        ]);
+        UserProfile::create([
+            'user_id' => 1,
+            'nik' => fake()->numerify('################'),
+            'phone_number' => fake()->numerify('#############'),
+            'address' => fake()->address(),
+            'date_of_birth' => fake()->date()
+        ]);
+        UserProfile::create([
+            'user_id' => 2,
+            'nik' => fake()->numerify('################'),
+            'phone_number' => fake()->numerify('#############'),
+            'address' => fake()->address(),
+            'date_of_birth' => fake()->date()
+        ]);
+        UserProfile::create([
+            'user_id' => 3,
+            'nik' => fake()->numerify('################'),
+            'phone_number' => fake()->numerify('#############'),
+            'address' => fake()->address(),
+            'date_of_birth' => fake()->date()
         ]);
         User::factory()
             ->has(Message::factory()
