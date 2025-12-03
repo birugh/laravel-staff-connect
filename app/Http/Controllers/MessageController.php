@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\MessageReply;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class MessageController extends Controller
@@ -13,8 +16,15 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $messages = Message::latest()->paginate(5);
-        return view('', compact('messages'));
+        $messages = Message::select(
+            'messages.*',
+            'sender.name as sender_name',
+            'receiver.name as receiver_name'
+        )
+            ->join('users as sender', 'sender.id', '=', 'messages.sender_id')
+            ->join('users as receiver', 'receiver.id', '=', 'messages.receiver_id')
+            ->paginate(10);
+        return view('messages.index', compact('messages'));
     }
 
     /**
@@ -22,8 +32,17 @@ class MessageController extends Controller
      */
     public function create()
     {
-        return view('');
+        // $sender = Auth::user();
+        // $listReceiver = User::whereNotIn('id', [$sender])->get();
+        $users = User::latest()->get();
+        return view('messages.create', compact('users'));
     }
+    // public function create()
+    // {
+    //     $sender = Auth::user();
+    //     $listReceiver = User::whereNotIn('id', [$sender])->get();
+    //     return view('messages.create', compact(['sender', 'listReceiver']));
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -32,16 +51,21 @@ class MessageController extends Controller
     {
         $validated = $request->validate([
             'sender_id' => ['required'],
-            'receiver_id' => ['required', 'unique'],
+            'receiver_id' => ['required'],
             'subject' => ['required', 'min:5', 'max:50'],
             'body' => ['required', 'min:10', 'max:255'],
             'sent' => ['required'],
-            'is_read' => ['required'],
         ]);
+
+        if ($validated['sender_id'] === $validated['receiver_id']) {
+            return redirect()->route('admin.messages.create')->with('error', 'Sender dan Receiver tidak boleh sama!');
+        }
+
+        $validated['is_read'] = $request->get('is_read') == 'on' ? 1 : 0;
 
         Message::create($validated);
 
-        return redirect('')->with('success', 'Message berhasil di buat');
+        return redirect()->route('admin.messages.index')->with('success', 'Message berhasil di buat');
     }
 
     /**
@@ -49,8 +73,31 @@ class MessageController extends Controller
      */
     public function show(string $id)
     {
-        $message = Message::find($id);
-        return view('', compact('message'));
+        // $message = Message::find($id)->join();
+        $message = Message::select(
+            'messages.*',
+            'sender.name as sender_name',
+            'sender.email as sender_email',
+            'receiver.name as receiver_name',
+            'receiver.email as receiver_email',
+        )
+            ->join('users as sender', 'sender.id', '=', 'messages.sender_id')
+            ->join('users as receiver', 'receiver.id', '=', 'messages.receiver_id')
+            ->where('messages.id', $id)
+            ->first();
+
+        $replies = MessageReply::select(
+            'message_replies.*',
+            'sender_reply.name as sender_name',
+            'sender_reply.email as sender_email',
+        )
+            ->join('users as sender_reply', 'sender_reply.id', '=', 'message_replies.user_id')
+            ->where('message_replies.message_id', $id)
+            ->get();
+        // dd($message);
+        // dd($replies);
+
+        return view('messages.show', compact('message', 'replies'));
     }
 
     /**
@@ -58,8 +105,21 @@ class MessageController extends Controller
      */
     public function edit(string $id)
     {
-        $message = Message::find($id);
-        return view('', compact('message'));
+        $message = Message::select(
+            'messages.*',
+            'sender.name as sender_name',
+            'sender.email as sender_email',
+            'receiver.name as receiver_name',
+            'receiver.email as receiver_email',
+        )
+            ->join('users as sender', 'sender.id', '=', 'messages.sender_id')
+            ->join('users as receiver', 'receiver.id', '=', 'messages.receiver_id')
+            ->where('messages.id', $id)
+            ->first();
+        $users = User::latest()->get();
+        // dd($message);
+        // dd($listReceiver);
+        return view('messages.edit', compact(['message', 'users']));
     }
 
     /**
@@ -71,16 +131,21 @@ class MessageController extends Controller
 
         $validated = $request->validate([
             'sender_id' => ['required'],
-            'receiver_id' => ['required', 'unique'],
+            'receiver_id' => ['required'],
             'subject' => ['required', 'min:5', 'max:50'],
             'body' => ['required', 'min:10', 'max:255'],
             'sent' => ['required'],
-            'is_read' => ['required'],
         ]);
+
+        if ($validated['sender_id'] === $validated['receiver_id']) {
+            return redirect()->route('admin.messages.index')->with('error', 'Sender dan Receiver tidak boleh sama!');
+        }
+
+        $validated['is_read'] = $request->get('is_read') == 'on' ? 1 : 0;
 
         $message->update($validated);
 
-        return redirect('')->with('success', 'Message berhasil di update');
+        return redirect()->route('admin.messages.index')->with('success', 'Message berhasil di update');
     }
 
     /**
@@ -91,6 +156,6 @@ class MessageController extends Controller
         $message = Message::findOrFail($id);
         $message->delete();
 
-        return redirect('')->with('success', 'Message berhasil di hapus');
+        return redirect()->route('admin.messages.index')->with('success', 'Message berhasil di hapus');
     }
 }

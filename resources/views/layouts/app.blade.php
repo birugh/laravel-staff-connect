@@ -9,6 +9,10 @@
         <p style="color: green">{{ session('success') }}</p>
     @endif
 
+    @if (session('error'))
+        <p style="color: red">{{ session('error') }}</p>
+    @endif
+
     @if (session('status'))
         <p style="color: green">{{ session('status') }}</p>
     @endif

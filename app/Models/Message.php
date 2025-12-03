@@ -14,7 +14,7 @@ class Message extends Model
     /** @use HasFactory<\Database\Factories\MessageFactory> */
     use HasFactory, SoftDeletes;
     protected $table = 'messages';
-    protected $fillable = ['sender_id', 'receiver_id', 'subject', 'sent', 'body'];
+    protected $fillable = ['sender_id', 'receiver_id', 'subject', 'sent', 'body', 'is_read'];
     public function messageReplies()
     {
         return $this->hasMany(MessageReply::class, 'message_id');
@@ -27,14 +27,30 @@ class Message extends Model
     {
         return $this->belongsTo(User::class, 'receiver_id');
     }
-    protected function limitSubject()
+    public function limitSubject()
     {
-        return Str::limit($this->attributes['subject'], 30);
+        return Str::limit($this->attributes['subject'], limit: 20);
+    }
+    public function limitBody()
+    {
+        return Str::limit($this->attributes['body'], 30);
     }
     protected function sent(): Attribute
     {
         return Attribute::make(
             get: fn($v) => Carbon::parse($v)->format('d M'),
+        );
+    }
+    protected function sentDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn($v) => Carbon::parse($v)->format('Y-m-d'),
+        );
+    }
+    protected function senderName(): Attribute
+    {
+        return Attribute::make(
+            fn() => $this->sender?->name
         );
     }
     public function sentFull()

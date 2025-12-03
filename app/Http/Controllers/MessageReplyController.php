@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\MessageReply;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MessageReplyController extends Controller
@@ -12,8 +14,14 @@ class MessageReplyController extends Controller
      */
     public function index()
     {
-        $replies = MessageReply::latest()->paginate(5);
-        return view('', compact('messages'));
+        // $replies = MessageReply::latest()->paginate(5);
+        // return view('', compact('messages'));
+
+        $replies = MessageReply::with('message')
+            ->latest()
+            ->paginate(10);
+        // dd($messages);
+        return view('replies.index', compact('replies'));
     }
 
     /**
@@ -21,7 +29,13 @@ class MessageReplyController extends Controller
      */
     public function create()
     {
-        return view('');
+        // $sender = User::latest();
+        // $listReceiver = User::whereNotIn('id', [$sender])->get();
+        $messages = Message::with('sender')
+            ->get();
+        // dd($replies);
+        $users = User::latest()->get();
+        return view('replies.create', compact(['messages', 'users']));
     }
 
     /**
@@ -37,7 +51,7 @@ class MessageReplyController extends Controller
 
         MessageReply::create($validated);
 
-        return redirect('')->with('success', 'Reply berhasil di buat');
+        return redirect()->route('admin.replies.index')->with('success', 'Reply berhasil di buat');
     }
 
     /**
@@ -45,8 +59,11 @@ class MessageReplyController extends Controller
      */
     public function show(string $id)
     {
-        $reply = MessageReply::find($id);
-        return view('', compact('reply'));
+        // $messages = Message::with('sender')
+        //     ->get();
+        // // dd($replies);
+        // $users = User::latest()->get();
+        // return view('replies.show', compact('reply'));
     }
 
     /**
@@ -54,8 +71,12 @@ class MessageReplyController extends Controller
      */
     public function edit(string $id)
     {
+        $messages = Message::with('sender')
+            ->get();
+        $users = User::latest()->get();
         $reply = MessageReply::find($id);
-        return view('', compact('reply'));
+
+        return view('replies.edit', compact('messages', 'users', 'reply'));
     }
 
     /**
@@ -73,7 +94,7 @@ class MessageReplyController extends Controller
 
         $reply->update($validated);
 
-        return redirect('')->with('success', 'Reply berhasil di update');
+        return redirect()->route('admin.replies.update')->with('success', 'Reply berhasil di update');
     }
 
     /**
@@ -83,6 +104,6 @@ class MessageReplyController extends Controller
     {
         $reply = MessageReply::findOrFail($id);
         $reply->delete();
-        return redirect('')->with('success', 'Reply berhasil di hapus');
+        return redirect()->route('admin.replies.index')->with('success', 'Reply berhasil di hapus');
     }
 }

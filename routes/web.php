@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\MessageReplyController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UserController;
@@ -70,14 +73,19 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
 
 // ADMIN SPACE
 Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
+    // ! DASHBOARD
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+    // ! USER
     Route::resource('/user', UserController::class)->except('show');
-
+    // ! USER-PROFILE
     Route::resource('/user-profile', UserProfileController::class)->except('show');
-
     Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.show');
+    // ! MESSAGES
+    Route::resource('messages', MessageController::class)->except('show');
+    Route::get('/message/detail/{id}', [MessageController::class, 'show'])->name('messages.show');
+    // ! REPLIES
+    Route::resource('replies', MessageReplyController::class)->except('show');
 
-    Route::resource('/message', UserController::class);
-    Route::resource('/message-reply', UserController::class);
 });
 
 // USER SPACE
