@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory()->count(10)->create();
         User::factory()
-            // ->has(Message::factory()
-            // ->has(MessageReply::factory()
-            //     ->count(3))
-            // ->count(5))
             ->count(10)
             ->create();
+        // ->has(Message::factory()
+        // ->has(MessageReply::factory()
+        //     ->count(3))
+        // ->count(5))
     }
 }

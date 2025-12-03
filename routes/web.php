@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
@@ -49,9 +50,6 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('status', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-
-
-
 // Forgot password
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
     ->middleware('guest')
@@ -73,11 +71,32 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
 // ADMIN SPACE
 Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
     Route::resource('/user', UserController::class)->except('show');
-    
+
     Route::resource('/user-profile', UserProfileController::class)->except('show');
 
     Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.show');
-    
+
     Route::resource('/message', UserController::class);
     Route::resource('/message-reply', UserController::class);
 });
+
+// USER SPACE
+Route::get('/user/dashboard', function () {
+    return view('user.dashboard');
+})->name('user.dashboard');
+
+Route::get('/user/inbox', function () {
+    return view('user.messages.inbox');
+})->name('messages.inbox');
+
+Route::get('/user/sent', function () {
+    return view('user.messages.sent');
+})->name('messages.sent');
+
+Route::get('/user/show', function () {
+    return view('user.messages.show');
+})->name('messages.show');
+
+// Route::get('/user/show/{id}', function () {
+//     return view('user.messages.show');
+// })->name('messages.show');
