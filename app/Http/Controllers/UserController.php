@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Psy\Util\Str;
@@ -16,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::latest()->paginate(5);
-        return view('users.index', compact('users'));
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -24,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('admin.users.create');
     }
 
     /**
@@ -39,9 +41,11 @@ class UserController extends Controller
             'role' => ['required', 'string', 'in:admin,pegawai,karyawan']
         ]);
 
-        User::create($validated);
-
-        return redirect()->route('user.index')->with('success', 'User berhasil dibuat');
+        $user = User::create($validated);
+        dd($user);
+        event(new Registered($user));
+        Auth::login($user);
+        return redirect()->route('verification.notice');
     }
 
     /**
@@ -50,7 +54,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::find($id);
-        return view('users.show', compact('user'));
+        return view('admin.users.show', compact('user'));
     }
 
     /**
@@ -59,7 +63,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::find($id);
-        return view('users.edit', compact('user'));
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -86,7 +90,7 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('user.index')->with('success', 'User berhasil diupdate');
+        return redirect()->route('admin.user.index')->with('success', 'User berhasil diupdate');
     }
 
 
@@ -97,6 +101,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('user.index')->with('success', 'User berhasil dihapus');
+        return redirect()->route('admin.user.index')->with('success', 'User berhasil dihapus');
     }
 }
