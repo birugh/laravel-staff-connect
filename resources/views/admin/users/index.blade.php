@@ -12,10 +12,10 @@
     </tr>
     @foreach ($users as $u)
     <tr>
-        <td>{{ $u['name'] }}</td>
-        <td>{{ $u['email'] }}</td>
+        <td>{{ $u->name }}</td>
+        <td>{{ $u->email }}</td>
         <td>*****</td>
-        <td>{{ $u['role'] }}</td>
+        <td>{{ $u->role }}</td>
         <td> <a href="{{ route('admin.user.edit', $u) }}">Edit</a> | <a href="{{ route('admin.user.show', $u) }}">Show</a> </td>
     </tr>
     @endforeach

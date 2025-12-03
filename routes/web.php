@@ -31,7 +31,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
 
 Route::get('/email/verify', function () {
@@ -50,9 +50,6 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('status', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified']);
 
 
 
@@ -75,7 +72,7 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
     ->name('password.store');
 
 // ADMIN SPACE
-Route::prefix('/admin')->name('admin.')->group(function () {
+Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
     Route::resource('/user', UserController::class)->except('show');
     
     Route::resource('/user-profile', UserProfileController::class)->except('show');
