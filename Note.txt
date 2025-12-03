@@ -41,7 +41,3 @@ karyawan:
 - reply
 - liat reply dari pegawai
 - notifikasi pesan masuk/reply pegawai
-
-- notifikasi kirim pesan pegawai
-- reply
-- 

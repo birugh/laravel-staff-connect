@@ -1,9 +1,13 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\MessageReplyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -106,3 +110,19 @@ Route::post('/reset-password', function (Request $request) {
 
 // Route::get('/user', [UserController::class, 'index']);
 Route::resource('/user', UserController::class);
+
+// ! Admin Routes
+Route::prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index']);
+        // ! Users
+        Route::resource('users', UserController::class);
+        // ! User Profiles
+        Route::resource('user-profiles', UserController::class);
+        // ! Messages
+        Route::resource('messages', MessageController::class)->except('show');
+        Route::get('/message/detail/{id}', [MessageController::class, 'show'])->name('messages.show');
+        // ! Replies
+        Route::resource('replies', MessageReplyController::class)->except('show');
+    });
