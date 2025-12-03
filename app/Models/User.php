@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\QueuedVerifyEmail;
+use App\Notifications\QueuedResetPassword;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -62,5 +64,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function receivedMessages()
     {
         return $this->hasMany(Message::class, 'receiver_id', 'id');
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new QueuedVerifyEmail);
+    }
+
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new QueuedResetPassword($token));
     }
 }
