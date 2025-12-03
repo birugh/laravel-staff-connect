@@ -10,9 +10,9 @@
     @method('DELETE')
     <button type="submit">Delete</button>
 </form>
-<form method="POST" action="{{ route('admin.replies.store') }}">
+<form method="POST" action="{{ route('admin.replies.update', $reply->id) }}">
     @csrf
-
+    @method('PUT')
     <div>
         <label>Message</label><br>
         <select name="message_id" id="message_id">

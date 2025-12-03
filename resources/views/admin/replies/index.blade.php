@@ -19,7 +19,7 @@
         <td>{{ $r->user->name }}</td>
         <td>{{ $r->limitBody() }}</td>
         <td>
-            <a href="{{ route('admin.messages.show', $r->id) }}">View</a>
+            <a href="{{ route('admin.messages.show', $r->message->id) }}">View</a>
             <a href="{{ route('admin.replies.edit', $r->id) }}">Edit</a>
         </td>
     </tr>

@@ -21,7 +21,7 @@ class MessageReplyController extends Controller
             ->latest()
             ->paginate(10);
         // dd($messages);
-        return view('replies.index', compact('replies'));
+        return view('admin.replies.index', compact('replies'));
     }
 
     /**
@@ -35,7 +35,7 @@ class MessageReplyController extends Controller
             ->get();
         // dd($replies);
         $users = User::latest()->get();
-        return view('replies.create', compact(['messages', 'users']));
+        return view('admin.replies.create', compact(['messages', 'users']));
     }
 
     /**
@@ -76,7 +76,7 @@ class MessageReplyController extends Controller
         $users = User::latest()->get();
         $reply = MessageReply::find($id);
 
-        return view('replies.edit', compact('messages', 'users', 'reply'));
+        return view('admin.replies.edit', compact('messages', 'users', 'reply'));
     }
 
     /**
@@ -94,7 +94,7 @@ class MessageReplyController extends Controller
 
         $reply->update($validated);
 
-        return redirect()->route('admin.replies.update')->with('success', 'Reply berhasil di update');
+        return redirect()->route('admin.replies.index')->with('success', 'Reply berhasil di update');
     }
 
     /**

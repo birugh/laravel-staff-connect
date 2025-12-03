@@ -24,7 +24,7 @@ class MessageController extends Controller
             ->join('users as sender', 'sender.id', '=', 'messages.sender_id')
             ->join('users as receiver', 'receiver.id', '=', 'messages.receiver_id')
             ->paginate(10);
-        return view('messages.index', compact('messages'));
+        return view('admin.messages.index', compact('messages'));
     }
 
     /**
@@ -35,7 +35,7 @@ class MessageController extends Controller
         // $sender = Auth::user();
         // $listReceiver = User::whereNotIn('id', [$sender])->get();
         $users = User::latest()->get();
-        return view('messages.create', compact('users'));
+        return view('admin.messages.create', compact('users'));
     }
     // public function create()
     // {
@@ -53,7 +53,7 @@ class MessageController extends Controller
             'sender_id' => ['required'],
             'receiver_id' => ['required'],
             'subject' => ['required', 'min:5', 'max:50'],
-            'body' => ['required', 'min:10', 'max:255'],
+            'body' => ['required', 'min:5', 'max:255'],
             'sent' => ['required'],
         ]);
 
@@ -97,7 +97,7 @@ class MessageController extends Controller
         // dd($message);
         // dd($replies);
 
-        return view('messages.show', compact('message', 'replies'));
+        return view('admin.messages.show', compact('message', 'replies'));
     }
 
     /**
@@ -119,7 +119,7 @@ class MessageController extends Controller
         $users = User::latest()->get();
         // dd($message);
         // dd($listReceiver);
-        return view('messages.edit', compact(['message', 'users']));
+        return view('admin.messages.edit', compact(['message', 'users']));
     }
 
     /**
@@ -133,7 +133,7 @@ class MessageController extends Controller
             'sender_id' => ['required'],
             'receiver_id' => ['required'],
             'subject' => ['required', 'min:5', 'max:50'],
-            'body' => ['required', 'min:10', 'max:255'],
+            'body' => ['required', 'min:5', 'max:255'],
             'sent' => ['required'],
         ]);
 

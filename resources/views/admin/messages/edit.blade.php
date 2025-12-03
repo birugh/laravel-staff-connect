@@ -56,7 +56,7 @@
 
     <div>
         <label>Body</label><br>
-        <textarea name="body" id="body">{{ old('subject', $message->body ?? '') }}</textarea>
+        <textarea name="body" id="body">{{ old('body', $message->body ?? '') }}</textarea>
         @error('body')
         <p style="color:red">{{ $message }}</p>
         @enderror
@@ -64,7 +64,7 @@
 
     <div>
         <label>Sent Date</label><br>
-        <input type="date" name="sent" value="{{ old('subject', $message->sentDate ?? '') }}">
+        <input type="date" name="sent" value="{{ old('sent', $message->sentDate ?? '') }}">
         @error('sent')
         <p style="color:red">{{ $message }}</p>
         @enderror
@@ -72,7 +72,7 @@
 
     <div>
         <label>Read</label><br>
-        <input type="checkbox" name="is_read" {{ old('subject', $message->is_read ?? '' == true ? 'checked' : '') }}>
+        <input type="checkbox" name="is_read" {{ old('is_read', $message->is_read ?? '' == true ? 'checked' : '') }}>
         @error('is_read')
         <p style="color:red">{{ $message }}</p>
         @enderror
