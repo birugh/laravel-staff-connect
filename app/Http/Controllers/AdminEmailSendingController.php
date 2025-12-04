@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendCustomEmailJob;
 use App\Models\EmailTemplate;
+use App\Models\Message;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class AdminEmailSendingController extends Controller
@@ -52,12 +56,24 @@ class AdminEmailSendingController extends Controller
             $body = str_replace('{{' . $key . '}}', $value, $body);
         }
 
-        Mail::raw($body, function ($message) use ($receiver, $template) {
-            $message->to($receiver->email)
-                ->subject($template->subject);
-        });
+        // Queue email
+        SendCustomEmailJob::dispatch(
+            $receiver->email,
+            $template->subject,
+            $body
+        );
+
+        // Save to database
+        Message::create([
+            'receiver_id' => $receiver->id,
+            'sender_id'   => Auth::id(),
+            'subject'     => $template->subject,
+            'body'        => $body,
+            'sent'        => now(),
+            'is_read'     => 0,
+        ]);
 
         return redirect()->route('admin.email-send.create')
-            ->with('success', 'Email berhasil dikirim ke ' . $receiver->email);
+            ->with('success', 'Email Sent!');
     }
 }
