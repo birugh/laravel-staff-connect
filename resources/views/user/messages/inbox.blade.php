@@ -12,34 +12,23 @@
         <th>Status</th>
         <th>Aksi</th>
     </tr>
+    @foreach($recievedMail as $r)
     <tr>
-        <td> $msg->sender->name </td>
-        <td> $msg->subject </td>
-        <td> $msg->body Kepotong </td>
-        <td> $msg->created_at->format('d M Y H:i') </td>
+        <td>{{ $r->sender->name }}</td>
+        <td>{{ $r->subject }}</td>
+        <td>{{ $r->limitBody() }}</td>
+        <td>{{ $r->created_at->format('d M Y H:i') }}</td>
         <td>
+            @if(!$r->is_read)
             <span style="color:red">Belum Dibaca</span>
+            @else
+            Dibaca
+            @endif
         </td>
         <td>
-            <a href=" route('messages.show', $msg->id) }}">Lihat</a>
+            <a href="{{ route('user.messages.show', $r->id) }}">Lihat</a>
         </td>
     </tr>
-    <!-- foreach($messages as $msg)
-            <tr>
-                <td> $msg->sender->name }}</td>
-                <td> $msg->subject }}</td>
-                <td> $msg->created_at->format('d M Y H:i') }}</td>
-                <td>
-                    if(!$msg->is_read)
-                        <span style="color:red">Belum Dibaca</span>
-                    else
-                        Dibaca
-                    endif
-                </td>
-                <td>
-                    <a href=" route('messages.show', $msg->id) }}">Lihat</a>
-                </td>
-            </tr>
-        endforeach -->
+    @endforeach
 </table>
 @endsection

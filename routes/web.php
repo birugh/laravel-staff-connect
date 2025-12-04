@@ -10,7 +10,9 @@ use App\Http\Controllers\AdminUserProfileController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\UserMessageController;
+use App\Http\Controllers\UserMessageReplyController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -84,23 +86,12 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(fu
 // USER SPACE
 Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     // ! DASHBOARD
-    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
     
     // ! MESSAGES
-    Route::resource('/messages', AdminMessageController::class)->except('show');
-    Route::get('/inbox', function () {
-        return view('user.messages.inbox');
-    })->name('messages.inbox');
-
-    Route::get('/sent', function () {
-        return view('user.messages.sent');
-    })->name('messages.sent');
-    Route::get('/show', function () {
-        return view('user.messages.show');
-    })->name('messages.show');
+    Route::resource('/messages', UserMessageController::class)->except('show');
+    Route::get('/inbox', [UserMessageController::class, 'index'])->name('messages.inbox');
+    Route::post('/reply', [UserMessageReplyController::class, 'store'])->name('messages.reply');
+    Route::get('/sent', [UserMessageController::class, 'sent'])->name('messages.sent');
+    Route::get('/show/{id}', [UserMessageController::class, 'show'])->name('messages.show');
 });
-
-
-// Route::get('/user/show/{id}', function () {
-//     return view('user.messages.show');
-// })->name('messages.show');

@@ -1,6 +1,6 @@
 <div style="width:220px; background:#f4f4f4; padding:20px">
 
-    <h3>Menu</h3>
+    <h3>{{ Auth::user()->email }}</h3>
 
     <ul style="list-style:none; padding:0">
         @if(auth()->user()->role !== 'admin')
@@ -11,7 +11,6 @@
         <li>
             <a href="{{ route('user.messages.inbox') }}">
                 Inbox
-                <span style="color:red">()</span>
                 <!-- if($unreadCount > 0)
                     <span style="color:red">(+ $unreadCount )</span>
                 endif -->
@@ -28,14 +27,6 @@
         </li>
         @endif
 
-        <li>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button style="background:none; border:none; color:red; cursor:pointer">
-                    Logout
-                </button>
-            </form>
-        </li>
         @else
         <li>
             <a href="{{ route('admin.user.index') }}">User Management</a>
@@ -53,6 +44,15 @@
             <a href="{{ route('admin.email-templates.index') }}">Email Templates Management</a>
         </li>
         @endif
+
+        <li>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button style="background:none; border:none; color:red; cursor:pointer">
+                    Logout
+                </button>
+            </form>
+        </li>
     </ul>
 
 </div>

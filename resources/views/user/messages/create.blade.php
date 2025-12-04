@@ -5,6 +5,7 @@
 
 <form method="POST" action="{{ route('user.messages.store') }}" enctype="multipart/form-data">
     @csrf
+    <input type="hidden" name="sender_id" value="{{ Auth::user()->id }}">
     Pengirim : {{ Auth::user()->email }}
     <div>
         <label>Penerima :</label>
@@ -19,11 +20,17 @@
         <label>Subject</label>
         <input type="text" name="subject">
     </div>
-
+    
     <div>
         <label>Isi Pesan</label>
         <textarea name="body" rows="5"></textarea>
     </div>
+    
+    <div>
+        <label>Sent on</label>
+        <input type="date" name="sent" id="">
+    </div>
+
     <button type="submit">Kirim</button>
 </form>
 @endsection

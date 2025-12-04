@@ -28,11 +28,11 @@ class AdminMessageController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        $users = User::latest()->get();
-        return view('admin.messages.create', compact('users'));
-    }
+public function create()
+{
+    $users = User::latest()->get();
+    return view('admin.messages.create', compact('users'));
+}
 
 
     /**
