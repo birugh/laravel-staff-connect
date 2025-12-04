@@ -18,5 +18,8 @@
     @endif
 
     @yield('content')
+    <script>
+        
+    </script>
 </body>
 </html>
