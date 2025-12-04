@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EmailTemplate;
 use Illuminate\Http\Request;
 
-class EmailTemplateController extends Controller
+class AdminEmailTemplateController extends Controller
 {
     /**
      * Display a listing of the resource.

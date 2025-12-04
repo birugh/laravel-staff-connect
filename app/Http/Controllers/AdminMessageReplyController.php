@@ -7,7 +7,7 @@ use App\Models\MessageReply;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class MessageReplyController extends Controller
+class AdminMessageReplyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,6 @@ class MessageReplyController extends Controller
             ->paginate(10);
         return view('admin.replies.index', compact('replies'));
     }
-
     /**
      * Show the form for creating a new resource.
      */

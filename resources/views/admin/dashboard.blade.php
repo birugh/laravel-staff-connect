@@ -3,8 +3,6 @@
 <h1>Dashboard</h1>
 <div>
     <div>
-        <small>Received</small>
-        <p>{{ $recievedCount }}</p>
         <div class="seperator"></div>
         <small>Sent</small>
         <p>{{ $sentCount }}</p>
@@ -21,15 +19,8 @@
         // TODO Icon notification
         -->
     </div>
-    <div>
-        <h2>Important Notification</h2>
-        <p>(7) message need your immediate attention.</p>
-    </div>
 </div>
 <div>
-    <div>
-        <h2>Inbox <small>({{ $unreadCount }})</small></h2>
-    </div>
     <table border="1" cellpadding="8" cellspacing="0">
         <tr>
             <th>Subject</th>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user')
 @section('content')
 <h1>User Table</h1>
 <a href="{{ route('admin.user-profile.create') }}">Add new user profilles</a>
@@ -20,7 +20,7 @@
         <td>{{ $u->phone_number }}</td>
         <td>{{ $u->address }}</td>
         <td>{{ $u->date_of_birth->format('d M Y') }}</td>
-        <td> <a href="{{ route('admin.user-profile.edit', $u) }}">Edit</a> | <a href="{{ route('admin.user.show', $u) }}">Show</a> </td>
+        <td> <a href="{{ route('admin.user-profile.edit', $u) }}">Edit</a> | <a href="{{ route('admin.user.show', $u->user_id) }}">Show</a> </td>
     </tr>
     @endforeach
 </table>

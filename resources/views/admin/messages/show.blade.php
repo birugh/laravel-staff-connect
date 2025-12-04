@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user')
 @section('content')
 <h2>Message Detail</h1>
     <h3>{{ $message->subject }}</h1>

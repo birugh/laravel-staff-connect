@@ -1,27 +1,19 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EmailSendingController;
-use App\Http\Controllers\EmailTemplateController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\MessageReplyController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminEmailSendingController;
+use App\Http\Controllers\AdminEmailTemplateController;
+use App\Http\Controllers\AdminMessageController;
+use App\Http\Controllers\AdminMessageReplyController;
+use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminUserProfileController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserProfileController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\AuthController;
+
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -70,32 +62,32 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
 // ADMIN SPACE
 Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(function () {
     // ! DASHBOARD
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     // ! USER
-    Route::resource('/user', UserController::class)->except('show');
+    Route::resource('/user', AdminUserController::class)->except('show');
     // ! USER-PROFILE
-    Route::resource('/user-profile', UserProfileController::class)->except('show');
-    Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::resource('/user-profile', AdminUserProfileController::class)->except('show');
+    Route::get('/user/detail/{id}', [AdminUserController::class, 'show'])->name('user.show');
     // ! MESSAGES
-    Route::resource('/messages', MessageController::class)->except('show');
-    Route::get('/message/detail/{id}', [MessageController::class, 'show'])->name('messages.show');
+    Route::resource('/messages', AdminMessageController::class)->except('show');
+    Route::get('/message/detail/{id}', [AdminMessageController::class, 'show'])->name('messages.show');
     // ! REPLIES
-    Route::resource('replies', MessageReplyController::class)->except('show');
+    Route::resource('replies', AdminMessageReplyController::class)->except('show');
     // ! EMAIL TEMPLATE
-    Route::resource('email-templates', EmailTemplateController::class);
+    Route::resource('email-templates', AdminEmailTemplateController::class);
     // ! EMAIL SENDING
-    Route::get('/email-send', [EmailSendingController::class, 'create'])->name('email-send.create');
-    Route::post('/email-send/fill', [EmailSendingController::class, 'fillForm'])->name('email-send.fill');
-    Route::post('/email-send/send', [EmailSendingController::class, 'send'])->name('email-send.send');
+    Route::get('/email-send', [AdminEmailSendingController::class, 'create'])->name('email-send.create');
+    Route::post('/email-send/fill', [AdminEmailSendingController::class, 'fillForm'])->name('email-send.fill');
+    Route::post('/email-send/send', [AdminEmailSendingController::class, 'send'])->name('email-send.send');
 });
 
 // USER SPACE
 Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     // ! DASHBOARD
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // ! MESSAGES
-    Route::resource('/messages', MessageController::class)->except('show');
+    Route::resource('/messages', AdminMessageController::class)->except('show');
     Route::get('/inbox', function () {
         return view('user.messages.inbox');
     })->name('messages.inbox');

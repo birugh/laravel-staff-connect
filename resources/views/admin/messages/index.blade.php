@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user')
 @section('content')
 <h1>Message Table</h1>
 <a href="{{ route('admin.messages.create') }}">Add message</a>

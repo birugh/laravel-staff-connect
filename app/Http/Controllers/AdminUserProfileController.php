@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
-class UserProfileController extends Controller
+class AdminUserProfileController extends Controller
 {
     /**
      * Display a listing of the resource.

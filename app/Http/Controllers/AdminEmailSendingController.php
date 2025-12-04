@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-class EmailSendingController extends Controller
+class AdminEmailSendingController extends Controller
 {
     public function create()
     {

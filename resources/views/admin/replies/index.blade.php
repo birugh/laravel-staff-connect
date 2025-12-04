@@ -10,6 +10,7 @@
         <th>Sender's Reply</th>
         <th>Body</th>
     </tr>
+    
     @foreach ($replies as $r)
 
     <tr>

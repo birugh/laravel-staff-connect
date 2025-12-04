@@ -6,10 +6,8 @@ use App\Models\Message;
 use App\Models\MessageReply;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
-class MessageController extends Controller
+class AdminMessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +21,7 @@ class MessageController extends Controller
         )
             ->join('users as sender', 'sender.id', '=', 'messages.sender_id')
             ->join('users as receiver', 'receiver.id', '=', 'messages.receiver_id')
-            ->paginate(10);
+            ->latest()->paginate(10);
         return view('admin.messages.index', compact('messages'));
     }
 
@@ -32,13 +30,10 @@ class MessageController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->role === 'admin'){
-            $users = User::latest()->get();
-            return view('admin.messages.create', compact('users'));
-        }  
-        $users = User::latest()->whereNot('id', Auth::user()->id)->get();
-        return view('user.messages.create', compact('users'));
+        $users = User::latest()->get();
+        return view('admin.messages.create', compact('users'));
     }
+
 
     /**
      * Store a newly created resource in storage.
