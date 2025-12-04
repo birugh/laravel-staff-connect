@@ -22,45 +22,39 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 // });
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return view('welcome');
 });
 
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->middleware('auth')->name('verification.notice');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/dashboard')->with('status', 'Email verified!');
+    })->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');
 
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('status', 'Verification link sent!');
+    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-
-    return redirect('/dashboard')->with('status', 'Email verified!');
-})->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('status', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-// Forgot password
-Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
-    ->middleware('guest')
-    ->name('password.request');
-
-Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
-    ->middleware('guest')
-    ->name('password.email');
+    // Forgot password
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+        ->name('password.request');
+        
+        Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+        ->name('password.email');
+    });
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Reset password
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
@@ -72,9 +66,12 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
     ->name('password.store');
 
 // ADMIN SPACE
-Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(function () {
     // ! DASHBOARD
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('admin.dashboard');
+    // });
     // ! USER
     Route::resource('/user', UserController::class)->except('show');
     // ! USER-PROFILE
@@ -85,7 +82,6 @@ Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
     Route::get('/message/detail/{id}', [MessageController::class, 'show'])->name('messages.show');
     // ! REPLIES
     Route::resource('replies', MessageReplyController::class)->except('show');
-
 });
 
 // USER SPACE
