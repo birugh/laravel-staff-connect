@@ -11,3 +11,4 @@
 
     <a href="{{ route('messages.inbox') }}">Lihat Inbox</a>
 @endsection
+ 

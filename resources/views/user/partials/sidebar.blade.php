@@ -11,7 +11,7 @@
         <li>
             <a href="{{ route('messages.inbox') }}">
                 Inbox 
-                <span style="color:red">(+5)</span>
+                <span style="color:red">(+{{ $recievedCount }})</span>
                 <!-- if($unreadCount > 0)
                     <span style="color:red">(+ $unreadCount )</span>
                 endif -->
