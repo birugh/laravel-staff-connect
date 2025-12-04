@@ -17,6 +17,6 @@ class UserMessageReplyController extends Controller
 
         MessageReply::create($validated);
 
-        return redirect()->route('user.messages.inbox')->with('success', 'Reply berhasil di buat');
+        return redirect()->back()->with('success', 'Reply berhasil di buat');
     }
 }

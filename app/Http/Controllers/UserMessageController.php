@@ -42,7 +42,11 @@ class UserMessageController extends Controller
             ->join('users as receiver', 'receiver.id', '=', 'messages.receiver_id')
             ->where('messages.id', $id)
             ->first();
-
+        if ($message->is_read === 0) {
+            $message->update([
+                'is_read' => 1
+            ]);
+        }
         $replies = MessageReply::select(
             'message_replies.*',
             'sender_reply.name as sender_name',

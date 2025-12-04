@@ -40,10 +40,12 @@ class AdminUserProfileController extends Controller
             'phone_number'  => ['required', 'string', 'max:13'],
             'address'       => ['required', 'string', 'min:5'],
             'date_of_birth' => ['required', 'date'],
-            'profile_path' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'profile_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ]);
-        $path = $request->file('profile_path')->store('profiles', 'public');
-        $validated['profile_path'] = $path;
+        if ($request->profile_path) {
+            $path = $request->file('profile_path')->store('profiles', 'public');
+            $validated['profile_path'] = $path;
+        }
         UserProfile::create($validated);
 
         return redirect()->route('admin.user-profile.index')
