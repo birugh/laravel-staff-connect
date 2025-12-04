@@ -58,31 +58,27 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
         return view('admin.users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
 
         $validated = $request->validate([
             'name' => ['required', 'min:5', 'max:50', 'string'],
-            'email' => ['required', Rule::unique('users', 'email')->ignore($id), 'email'],
+            'email' => ['required', Rule::unique('users', 'email')->ignore($user), 'email'],
             'password' => ['nullable', 'min:5', 'max:50', 'confirmed'],
             'role' => ['required', 'string', 'in:admin,pegawai,karyawan']
         ]);
 
-        // Jika password kosong → jangan update password
         if (empty($validated['password'])) {
             unset($validated['password']);
         } else {
-            // Jika password diisi → hash password baru
             $validated['password'] = Hash::make($validated['password']);
         }
 
@@ -95,9 +91,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
         $user->delete();
         return redirect()->route('admin.user.index')->with('success', 'User berhasil dihapus');
     }

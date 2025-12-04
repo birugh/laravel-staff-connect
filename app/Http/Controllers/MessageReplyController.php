@@ -14,13 +14,9 @@ class MessageReplyController extends Controller
      */
     public function index()
     {
-        // $replies = MessageReply::latest()->paginate(5);
-        // return view('', compact('messages'));
-
         $replies = MessageReply::with('message')
             ->latest()
             ->paginate(10);
-        // dd($messages);
         return view('admin.replies.index', compact('replies'));
     }
 
@@ -29,11 +25,8 @@ class MessageReplyController extends Controller
      */
     public function create()
     {
-        // $sender = User::latest();
-        // $listReceiver = User::whereNotIn('id', [$sender])->get();
         $messages = Message::with('sender')
             ->get();
-        // dd($replies);
         $users = User::latest()->get();
         return view('admin.replies.create', compact(['messages', 'users']));
     }
@@ -57,24 +50,16 @@ class MessageReplyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        // $messages = Message::with('sender')
-        //     ->get();
-        // // dd($replies);
-        // $users = User::latest()->get();
-        // return view('replies.show', compact('reply'));
-    }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(MessageReply $reply)
     {
         $messages = Message::with('sender')
             ->get();
         $users = User::latest()->get();
-        $reply = MessageReply::find($id);
 
         return view('admin.replies.edit', compact('messages', 'users', 'reply'));
     }
@@ -82,10 +67,8 @@ class MessageReplyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, MessageReply $reply)
     {
-        $reply = MessageReply::findOrFail($id);
-
         $validated = $request->validate([
             'message_id' => ['required'],
             'user_id' => ['required'],
@@ -93,16 +76,14 @@ class MessageReplyController extends Controller
         ]);
 
         $reply->update($validated);
-
         return redirect()->route('admin.replies.index')->with('success', 'Reply berhasil di update');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(MessageReply $reply)
     {
-        $reply = MessageReply::findOrFail($id);
         $reply->delete();
         return redirect()->route('admin.replies.index')->with('success', 'Reply berhasil di hapus');
     }

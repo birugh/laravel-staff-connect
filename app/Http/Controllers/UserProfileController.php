@@ -16,10 +16,6 @@ class UserProfileController extends Controller
      */
     public function index()
     {
-        // $user_profiles = DB::table('user_profiles', 'up')
-        // ->join('users', 'up.user_id', '=', 'users.id')
-        // ->select('up.*', 'users.name')
-        // ->get();
         $user_profiles = UserProfile::with('user')->get();
         return view('admin.user-profiles.index', compact('user_profiles'));
     }
@@ -55,25 +51,14 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        // $user_profile = UserProfile::find($id);
-        // $user = User::find($user_profile->user_id);
-        // return view('admin.user-profiles.show', compact('user_profile', 'user'));
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(UserProfile $userProfile)
     {
-        $profile = UserProfile::findOrFail($id);
         $usersWithoutProfile = User::doesntHave('profile')->get();
-        $users = $usersWithoutProfile->push($profile->user);
+        $users = $usersWithoutProfile->push($userProfile->user);
 
-        return view('admin.user-profiles.edit', compact('profile', 'users'));
+        return view('admin.user-profiles.edit', compact('userProfile', 'users'));
     }
 
 
@@ -81,9 +66,8 @@ class UserProfileController extends Controller
      * Update the specified resource in storage.
      */
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, UserProfile $userProfile)
     {
-        $user_profile = UserProfile::findOrFail($id);
 
         $validated = $request->validate([
             'user_id'       => ['required', 'integer', 'exists:users,id'],
@@ -91,7 +75,7 @@ class UserProfileController extends Controller
                 'required',
                 'string',
                 'max:16',
-                Rule::unique('user_profiles', 'nik')->ignore($id),
+                Rule::unique('user_profiles', 'nik')->ignore($userProfile),
             ],
             'phone_number'  => ['required', 'string', 'max:13'],
             'address'       => ['required', 'string', 'min:5'],
@@ -100,8 +84,8 @@ class UserProfileController extends Controller
         ]);
 
         if ($request->hasFile('profile_path')) {
-            if ($user_profile->profile_path && Storage::disk('public')->exists($user_profile->profile_path)) {
-                Storage::disk('public')->delete($user_profile->profile_path);
+            if ($userProfile->profile_path && Storage::disk('public')->exists($userProfile->profile_path)) {
+                Storage::disk('public')->delete($userProfile->profile_path);
             }
 
             $newPath = $request->file('profile_path')->store('profiles', 'public');
@@ -110,7 +94,7 @@ class UserProfileController extends Controller
             unset($validated['profile_path']);
         }
 
-        $user_profile->update($validated);
+        $userProfile->update($validated);
 
         return redirect()->route('admin.user-profile.index')->with('success', 'Profile user berhasil diupdate');
     }
@@ -118,10 +102,9 @@ class UserProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(UserProfile $userProfile)
     {
-        $user = UserProfile::findOrFail($id);
-        $user->delete();
+        $userProfile->delete();
         return redirect()->route('admin.user-profile.index')->with('success', 'Profile user berhasil dihapus');
     }
 }

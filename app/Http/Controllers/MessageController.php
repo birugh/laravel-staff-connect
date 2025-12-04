@@ -73,7 +73,6 @@ class MessageController extends Controller
      */
     public function show(string $id)
     {
-        // $message = Message::find($id)->join();
         $message = Message::select(
             'messages.*',
             'sender.name as sender_name',
@@ -117,18 +116,14 @@ class MessageController extends Controller
             ->where('messages.id', $id)
             ->first();
         $users = User::latest()->get();
-        // dd($message);
-        // dd($listReceiver);
         return view('admin.messages.edit', compact(['message', 'users']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Message $message)
     {
-        $message = Message::findOrFail($id);
-
         $validated = $request->validate([
             'sender_id' => ['required'],
             'receiver_id' => ['required'],
@@ -151,11 +146,9 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Message $message)
     {
-        $message = Message::findOrFail($id);
         $message->delete();
-
         return redirect()->route('admin.messages.index')->with('success', 'Message berhasil di hapus');
     }
 }
