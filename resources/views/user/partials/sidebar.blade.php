@@ -9,9 +9,9 @@
         </li>
 
         <li>
-            <a href="{{ route('messages.inbox') }}">
+            <a href="{{ route('user.messages.inbox') }}">
                 Inbox 
-                <span style="color:red">(+{{ $recievedCount }})</span>
+                <span style="color:red">()</span>
                 <!-- if($unreadCount > 0)
                     <span style="color:red">(+ $unreadCount )</span>
                 endif -->
@@ -19,12 +19,12 @@
         </li>
 
         <li>
-            <a href="{{ route('messages.sent') }}">Pesan Terkirim</a>
+            <a href="{{ route('user.messages.sent') }}">Pesan Terkirim</a>
         </li>
 
         @if(auth()->user()->role === 'pegawai')
             <li>
-                <a href="{{ route('messages.create') }}">Kirim Pesan</a>
+                <a href="{{ route('user.messages.create') }}">Kirim Pesan</a>
             </li>
         @endif
 

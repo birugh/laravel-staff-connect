@@ -19,11 +19,10 @@ class DashboardController extends Controller
         //     ->whereBetween('sent', [$now->startOfWeek(), $now->endOfWeek()])
         //     ->count();
 
+        $sentCount = Message::where('sender_id', operator: Auth::id())->count();
         $recievedCount = Message::where('receiver_id', Auth::id())->count();
-        $sentCount = Message::where('sender_id', Auth::id())->count();
         $unreadCount = Message::where('receiver_id', Auth::id())->where('is_read', 0)->count();
         $recievedMail = Message::with('sender')->where('receiver_id', Auth::id())->latest()->paginate(5);
-        
-        return view('admin.dashboard', compact('recievedCount', 'sentCount', 'recievedMail', 'unreadCount'));
+        return Auth::user()->role === 'admin' ? view('admin.dashboard', compact('recievedCount', 'sentCount', 'recievedMail', 'unreadCount')) : view('user.dashboard', compact('recievedCount', 'sentCount', 'recievedMail', 'unreadCount'));
     }
 }

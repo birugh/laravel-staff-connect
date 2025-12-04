@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailSendingController;
+use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MessageReplyController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -32,7 +34,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-    
+
     Route::get('/email/verify', function () {
         return view('auth.verify-email');
     })->middleware('auth')->name('verification.notice');
@@ -50,11 +52,11 @@ Route::middleware('guest')->group(function () {
     // Forgot password
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
         ->name('password.request');
-        
-        Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
         ->name('password.email');
-    });
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Reset password
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
@@ -69,37 +71,43 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
 Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(function () {
     // ! DASHBOARD
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    // Route::get('/dashboard', function () {
-    //     return view('admin.dashboard');
-    // });
     // ! USER
     Route::resource('/user', UserController::class)->except('show');
     // ! USER-PROFILE
     Route::resource('/user-profile', UserProfileController::class)->except('show');
     Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.show');
     // ! MESSAGES
-    Route::resource('messages', MessageController::class)->except('show');
+    Route::resource('/messages', MessageController::class)->except('show');
     Route::get('/message/detail/{id}', [MessageController::class, 'show'])->name('messages.show');
     // ! REPLIES
     Route::resource('replies', MessageReplyController::class)->except('show');
+    // ! EMAIL TEMPLATE
+    Route::resource('email-templates', EmailTemplateController::class);
+    // ! EMAIL SENDING
+    Route::get('/email-send', [EmailSendingController::class, 'create'])->name('email-send.create');
+    Route::post('/email-send/fill', [EmailSendingController::class, 'fillForm'])->name('email-send.fill');
+    Route::post('/email-send/send', [EmailSendingController::class, 'send'])->name('email-send.send');
 });
 
 // USER SPACE
-Route::get('/user/dashboard', function () {
-    return view('user.dashboard');
-})->name('user.dashboard');
+Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
+    // ! DASHBOARD
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // ! MESSAGES
+    Route::resource('/messages', MessageController::class)->except('show');
+    Route::get('/inbox', function () {
+        return view('user.messages.inbox');
+    })->name('messages.inbox');
 
-Route::get('/user/inbox', function () {
-    return view('user.messages.inbox');
-})->name('messages.inbox');
+    Route::get('/sent', function () {
+        return view('user.messages.sent');
+    })->name('messages.sent');
+    Route::get('/show', function () {
+        return view('user.messages.show');
+    })->name('messages.show');
+});
 
-Route::get('/user/sent', function () {
-    return view('user.messages.sent');
-})->name('messages.sent');
-
-Route::get('/user/show', function () {
-    return view('user.messages.show');
-})->name('messages.show');
 
 // Route::get('/user/show/{id}', function () {
 //     return view('user.messages.show');

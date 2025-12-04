@@ -34,6 +34,11 @@ class EmailTemplateController extends Controller
             'subject' => ['required', 'string'],
             'body' => ['required', 'string'],
         ]);
+
+        $template = EmailTemplate::create($validated);
+
+        return redirect()->route('admin.email-templates.index')
+            ->with('success', 'Template berhasil dibuat!');
     }
 
     /**
@@ -43,7 +48,6 @@ class EmailTemplateController extends Controller
     {
         preg_match_all('/{{(.*?)}}/', $emailTemplate->body, $matches);
         $fields = $matches[1];
-
         return view('admin.email_templates.show', [
             'template' => $emailTemplate,
             'fields' => $fields
@@ -71,7 +75,7 @@ class EmailTemplateController extends Controller
 
         $emailTemplate->update($validated);
 
-        return redirect()->route('email-templates.index')
+        return redirect()->route('admin.email-templates.index')
             ->with('success', 'Template berhasil diperbarui!');
     }
 
@@ -81,7 +85,7 @@ class EmailTemplateController extends Controller
     public function destroy(EmailTemplate $emailTemplate)
     {
         $emailTemplate->delete();
-        return redirect()->route('email-templates.index')
+        return redirect()->route('admin.email-templates.index')
             ->with('success', 'Template berhasil dihapus!');
     }
 }

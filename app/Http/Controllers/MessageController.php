@@ -32,17 +32,13 @@ class MessageController extends Controller
      */
     public function create()
     {
-        // $sender = Auth::user();
-        // $listReceiver = User::whereNotIn('id', [$sender])->get();
-        $users = User::latest()->get();
-        return view('admin.messages.create', compact('users'));
+        if(Auth::user()->role === 'admin'){
+            $users = User::latest()->get();
+            return view('admin.messages.create', compact('users'));
+        }  
+        $users = User::latest()->whereNot('id', Auth::user()->id)->get();
+        return view('user.messages.create', compact('users'));
     }
-    // public function create()
-    // {
-    //     $sender = Auth::user();
-    //     $listReceiver = User::whereNotIn('id', [$sender])->get();
-    //     return view('messages.create', compact(['sender', 'listReceiver']));
-    // }
 
     /**
      * Store a newly created resource in storage.
@@ -93,8 +89,6 @@ class MessageController extends Controller
             ->join('users as sender_reply', 'sender_reply.id', '=', 'message_replies.user_id')
             ->where('message_replies.message_id', $id)
             ->get();
-        // dd($message);
-        // dd($replies);
 
         return view('admin.messages.show', compact('message', 'replies'));
     }
