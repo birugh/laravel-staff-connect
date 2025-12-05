@@ -3,8 +3,8 @@
 
 <head>
     <title>User Dashboard</title>
+    @vite(['resources/css/app.css', ''])
 </head>
-@vite(['resources/css/app.css', ''])
 
 <body>
     <div style="display:flex; min-height:100vh">

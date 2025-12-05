@@ -9,3 +9,155 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer components {
+
+    /* ! Flex Shortcuts */
+    .f-row-center {
+        @apply flex flex-row justify-between items-center mb-4;
+    }
+
+    /* ! Button */
+
+    .btn {
+        @apply flex px-3 py-1.5 gap-2 w-fit transition-colors duration-150
+    }
+
+    .btn-link {
+        @apply no-underline text-medium;
+    }
+
+    .btn-link:hover {
+        @apply underline;
+    }
+
+    .btn-primary {
+        @apply bg-blue-500 text-white rounded-md shadow-md;
+    }
+
+    .btn-primary:hover {
+        @apply bg-blue-600;
+    }
+
+    .btn-secondary {
+        @apply bg-neutral-100 text-gray-800 font-normal rounded-md shadow-xs border-1 border-neutral-300;
+    }
+
+    .btn-secondary:hover {
+        @apply bg-neutral-200;
+    }
+
+    .btn-action {
+        @apply flex flex-row text-blue-600 hover:text-blue-900;
+    }
+
+    .btn-action-icon {
+        @apply w-4 transition-colors stroke-blue-600;
+    }
+
+    .status-read {
+        @apply text-xs py-1 px-4 inline-block rounded-full mx-auto;
+    }
+
+    .status-read.read {
+        @apply bg-green-500 text-white;
+    }
+
+    .status-read.unread {
+        @apply bg-yellow-500 text-white;
+    }
+
+    /* ! Text Field */
+    .field {
+        @apply w-full p-1 border-2 rounded-sm border-neutral-200 transition-colors duration-300
+    }
+
+    .field:hover {
+        @apply border-blue-500 shadow-sm
+    }
+
+    /* ! Table */
+
+    .table {
+        @apply w-full border-separate border-spacing-0 rounded-lg border border-gray-300 bg-white overflow-hidden text-sm text-gray-800;
+    }
+
+    .table th {
+        @apply font-semibold text-start bg-gray-100 text-gray-900 px-4 py-2 border-gray-200;
+    }
+
+    .table td {
+        @apply px-4 py-2 border-b border-gray-200;
+    }
+
+    .table-hover tbody tr {
+        @apply transition-colors duration-150;
+    }
+
+    .table-hover tbody tr:hover {
+        @apply bg-gray-100;
+    }
+
+    .table-responsive {
+        @apply w-full overflow-x-auto;
+    }
+
+    .table-responsive::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background-color: rgb(209 213 219);
+        border-radius: 9999px;
+    }
+
+    /* ! Sidebar */
+
+    .main {
+        @apply ml-[var(--sidebar-width)];
+    }
+
+    .sidebar {
+        @apply w-[var(--sidebar-width)]
+    }
+
+    .sidebar ul {
+        @apply w-full;
+    }
+
+    .btn-sidebar {
+        @apply w-full inline-flex gap-2 text-gray-900 font-medium p-2 rounded-md transition-colors duration-150
+    }
+
+    .btn-sidebar:hover {
+        @apply bg-blue-500 text-white;
+    }
+
+    body.sidebar-collapsed .sidebar {
+        @apply w-[var(--sidebar-collapsed-width)]
+    }
+
+    body.sidebar-collapsed .main {
+        @apply ml-[var(--sidebar-collapsed-width)]
+    }
+
+    body.sidebar-collapsed .sidebar-title,
+    body.sidebar-collapsed .btn-sidebar-text {
+        @apply hidden;
+    }
+}
+
+:root {
+    --gutter: 32px;
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 70px;
+}
+
+
+* {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #fafafa;
+}
