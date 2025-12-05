@@ -48,8 +48,8 @@
         </div>
 
         <div>
-            <label class="font-medium">Sent Date</label><br>
-            <input class="field" type="date" name="sent">
+            <label class="font-medium">Sent Date (Optional)</label><br>
+            <input class="field" type="datetime-local" name="sent">
             @error('sent')
             <p style="color:red">{{ $message }}</p>
             @enderror
