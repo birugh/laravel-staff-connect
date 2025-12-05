@@ -28,7 +28,7 @@
     
     <div>
         <label>Sent on</label>
-        <input type="date" name="sent" id="">
+        <input type="datetime-local" name="sent" id="">
     </div>
 
     <button type="submit">Kirim</button>

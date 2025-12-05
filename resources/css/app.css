@@ -24,7 +24,7 @@
     }
 
     .btn-link {
-        @apply no-underline text-medium;
+        @apply no-underline font-medium;
     }
 
     .btn-link:hover {

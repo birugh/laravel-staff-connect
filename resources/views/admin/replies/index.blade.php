@@ -12,7 +12,6 @@
     </tr>
     
     @foreach ($replies as $r)
-
     <tr>
         <td>{{ $loop->iteration }}</td>
         <td>{{ $r->message->limitSubject() }} - {{ $r->message->sender_name }}</td>

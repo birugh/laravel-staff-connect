@@ -61,6 +61,8 @@ class AuthController extends Controller
                 'token' => hash('sha256', $tokenString),
                 'expires_at' => now()->addDays(7),
             ]);
+
+            // return redirect()->intended('/dashboard');
             return $user->role === 'admin' ? redirect()->intended('admin/dashboard') : redirect()->intended('user/dashboard');
         }
 

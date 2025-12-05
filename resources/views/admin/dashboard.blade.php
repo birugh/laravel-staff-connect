@@ -4,11 +4,13 @@
 <div>
     <div>
         <div class="seperator"></div>
-        <small>Sent</small>
-        <p>{{ $sentCount }}</p>
+        
+        <p>Email Sent : <small>{{ $sentCount }}</small></p>
+        <p>Jumlah Pegawai : <small>{{ $pegawaiCount }}</small></p>
+        <p>Jumlah Karyawan : <small>{{ $karyawanCount }}</small></p>
         <div>
             <!--
-                // TODO Chart
+                // TODO Chart matamu
             -->
         </div>
     </div>
