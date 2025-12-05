@@ -16,7 +16,7 @@ class AdminMessageReplyController extends Controller
     {
         $replies = MessageReply::with('message')
             ->latest()
-            ->paginate(10);
+            ->paginate(5);
         return view('admin.replies.index', compact('replies'));
     }
     /**

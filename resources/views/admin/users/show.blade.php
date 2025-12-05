@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.admin')
 
 @section('content')
 <div>
@@ -15,7 +15,7 @@
                 <label>Email</label><br>
                 <input type="text" disabled value="{{ $user->email }}">
             </div>
-            
+
             <div>
                 <label>Role</label><br>
                 <input type="text" disabled value="{{ $user->role }}">
@@ -38,17 +38,17 @@
                 <label>NIK</label><br>
                 <input type="text" disabled value="{{ $user->profile->nik }}">
             </div>
-            
+
             <div>
                 <label>Phone Number</label><br>
                 <input type="text" disabled value="{{ $user->profile->phone_number }}">
             </div>
-            
+
             <div>
                 <label>Address</label><br>
                 <input type="text" disabled value="{{ $user->profile->address }}">
             </div>
-            
+
             <div>
                 <label>Date of Birth</label><br>
                 <input type="text" disabled value="{{ $user->profile->date_of_birth->format('d M Y') }}">

@@ -14,7 +14,7 @@ class AdminDashboardController extends Controller
         // $recievedCountThisWeek = Message::where('receiver_id', Auth::id())
         //     ->whereBetween('sent', [$now->startOfWeek(), $now->endOfWeek()])
         //     ->count();
-        
+
         // $sentCountThisWeek = Message::where('sender_id', Auth::id())
         //     ->whereBetween('sent', [$now->startOfWeek(), $now->endOfWeek()])
         //     ->count();
@@ -24,7 +24,7 @@ class AdminDashboardController extends Controller
         // $unreadCount = Message::where('receiver_id', Auth::id())->where('is_read', 0)->count();
         // $recievedMail = Message::with('sender')->where('receiver_id', Auth::id())->latest()->paginate(5);
         $sentCount = Message::count();
-        $recievedMail = Message::with('sender')->latest()->paginate(5);
+        $recievedMail = Message::with('sender')->latest()->paginate(10);
         return view('admin.dashboard', compact('sentCount', 'recievedMail'));
     }
 }

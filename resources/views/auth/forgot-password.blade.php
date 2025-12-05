@@ -1,25 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Lupa Password</h1>
+<h1 class="text-center font-medium text-2xl mb-4">Lupa Password</h1>
 
-    @if (session('status'))
-        <p style="color: green">{{ session('status') }}</p>
-    @endif
+@if (session('status'))
+<p class="text-red-500">{{ session('status') }}</p>
+@endif
 
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
+<form method="POST" action="{{ route('password.email') }}">
+    @csrf
 
-        <div>
-            <label>Email</label><br>
-            <input type="email" name="email" value="{{ old('email') }}" required>
-            @error('email')
-                <p style="color:red">{{ $message }}</p>
-            @enderror
-        </div>
+    <label class="label-field">Email</label><br>
+    <input class="field" type="email" name="email" value="{{ old('email') }}" required>
 
-        <button type="submit">Kirim Link Reset Password</button>
-    </form>
+    <button class="btn btn-primary cursor-pointer mt-2 mb-4" type="submit">Kirim Link Reset Password</button>
+</form>
 
-    <p><a href="{{ route('login') }}">Kembali ke login</a></p>
+<p class="text-center">
+    <a class="btn-link" href="{{ route('login') }}">Kembali ke login</a>
+</p>
 @endsection

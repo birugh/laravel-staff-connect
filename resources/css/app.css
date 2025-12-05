@@ -12,19 +12,14 @@
 
 @layer components {
 
-    /* ! Flex Shortcuts */
-    .f-row-center {
-        @apply flex flex-row justify-between items-center mb-4;
-    }
-
     /* ! Button */
 
     .btn {
-        @apply flex px-3 py-1.5 gap-2 w-fit transition-colors duration-150
+        @apply flex px-3 py-1.5 gap-2 w-fit rounded-md transition-colors duration-150
     }
 
     .btn-link {
-        @apply no-underline text-medium;
+        @apply no-underline font-medium transition-all;
     }
 
     .btn-link:hover {
@@ -39,12 +34,24 @@
         @apply bg-blue-600;
     }
 
+    .btn-warning {
+        @apply bg-red-500 text-white rounded-md shadow-md text-white;
+    }
+
+    .btn-warning:hover {
+        @apply bg-red-600;
+    }
+
     .btn-secondary {
-        @apply bg-neutral-100 text-gray-800 font-normal rounded-md shadow-xs border-1 border-neutral-300;
+        @apply bg-neutral-100 text-gray-800 font-normal rounded-md shadow-xs border border-neutral-300;
     }
 
     .btn-secondary:hover {
         @apply bg-neutral-200;
+    }
+
+    .btn-danger:hover {
+        @apply bg-red-500 text-white rounded-md shadow-md;
     }
 
     .btn-action {
@@ -69,11 +76,15 @@
 
     /* ! Text Field */
     .field {
-        @apply w-full p-1 border-2 rounded-sm border-neutral-200 transition-colors duration-300
+        @apply w-full p-1 border-2 ring-0 rounded-sm border-neutral-200 transition-colors duration-300 mb-2 outline-none bg-white
     }
 
     .field:hover {
-        @apply border-blue-500 shadow-sm
+        @apply border-transparent ring-2 ring-blue-500
+    }
+
+    .label-field {
+        @apply font-medium text-lg text-gray-900;
     }
 
     /* ! Table */
@@ -133,6 +144,10 @@
         @apply bg-blue-500 text-white;
     }
 
+    .btn-sidebar.btn-danger:hover {
+        @apply bg-red-500 text-white;
+    }
+
     body.sidebar-collapsed .sidebar {
         @apply w-[var(--sidebar-collapsed-width)]
     }
@@ -142,6 +157,7 @@
     }
 
     body.sidebar-collapsed .sidebar-title,
+    body.sidebar-collapsed .btn-logout-text,
     body.sidebar-collapsed .btn-sidebar-text {
         @apply hidden;
     }
