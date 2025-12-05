@@ -65,7 +65,9 @@ class MessageController extends Controller
 
         Message::create($validated);
 
-        return redirect()->route('admin.messages.index')->with('success', 'Message berhasil di buat');
+        swal('success', 'Message berhasil dibuat');
+
+        return redirect()->route('admin.messages.index');
     }
 
     /**
