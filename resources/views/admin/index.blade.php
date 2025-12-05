@@ -1,21 +1,33 @@
 @extends('layouts.user')
 
 @section('content')
+<h1>Dashboard</h1>
+
 <div>
     <div>
-        <h1>Inbox</h1>
-        <small> 1.923 Email</small>
+        <small>Received</small>
+        <p>12</p>
+        <div class="seperator"></div>
+        <small>Sent</small>
+        <p>15</p>
+        <div>
+            <!-- 
+                // TODO Chart
+            -->
+        </div>
     </div>
-    <form action="" method="POST">
-        @csrf
-        <input type="search" name="search" placeholder="Search by subject and sender">
-    </form>
 </div>
 
 <div>
-    <a href="">All Mail</a>
-    <a href="">Now (5)</a>
-    <a href="">This Week (6)</a>
+    <div>
+        <!-- 
+        // TODO Icon notification
+        -->
+    </div>
+    <div>
+        <h2>Important Notification</h2>
+        <p>(7) message need your immediate attention.</p>
+    </div>
 </div>
 
 <div>
@@ -26,13 +38,21 @@
     <table border="1" cellpadding="8" cellspacing="0">
         <tr>
             <th>Subject</th>
-            <th>Receiver</th>
+            <th>Sender</th>
+            <th>Status</th>
             <th>Date</th>
         </tr>
         <tr>
             <td> Lorem, ipsum dolor. </td>
             <td> Lorem ipsum dolor sit amet. </td>
+            <td> Read </td>
             <td>Selasa, 16 Desember 2025</td>
+            <td>
+                <span style="color:red">Belum Dibaca</span>
+            </td>
+            <td>
+                <a href=" route('messages.show', $msg->id) }}">Lihat</a>
+            </td>
         </tr>
         <!-- foreach($messages as $msg)
                 <tr>
@@ -51,8 +71,8 @@
     </table>
     <div>
         <!-- 
-            // TODO pagination button        
-            -->
+        // TODO pagination button        
+        -->
         $message->links()
     </div>
 </div>
