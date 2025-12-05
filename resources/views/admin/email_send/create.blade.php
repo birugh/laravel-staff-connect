@@ -5,17 +5,17 @@
     <h1>Kirim Email ke Karyawan</h1>
 
     @if (session('success'))
-        <div style="color: green">{{ session('success') }}</div>
+    <div style="color: green">{{ session('success') }}</div>
     @endif
 
     @if ($errors->any())
-        <div style="color: red">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div style="color: red">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
 
     <form action="{{ route('admin.email-send.fill') }}" method="POST">
@@ -26,9 +26,9 @@
             <select name="template_id">
                 <option value="">-- Pilih Template --</option>
                 @foreach ($templates as $t)
-                    <option value="{{ $t->id }}" {{ old('template_id') == $t->id ? 'selected' : '' }}>
-                        {{ $t->name }} ({{ $t->subject }})
-                    </option>
+                <option value="{{ $t->id }}" {{ old('template_id') == $t->id ? 'selected' : '' }}>
+                    {{ $t->name }} ({{ $t->subject }})
+                </option>
                 @endforeach
             </select>
         </div>
@@ -38,20 +38,12 @@
             <select name="receiver_id">
                 <option value="">-- Pilih Penerima --</option>
                 @foreach ($employees as $e)
-                    <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }}>
-                        {{ $e->name }} - {{ $e->email }}
-                    </option>
+                <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }}>
+                    {{ $e->name }} - {{ $e->email }}
+                </option>
                 @endforeach
             </select>
         </div>
-
-        {{-- Optional: jadwal kirim di masa depan --}}
-        {{-- 
-        <div style="margin-top: 8px;">
-            <label>Jadwalkan Kirim (opsional)</label><br>
-            <input type="datetime-local" name="schedule_at" value="{{ old('schedule_at') }}">
-        </div>
-        --}}
 
         <div style="margin-top: 16px;">
             <button type="submit">Lanjut Isi Data Template</button>

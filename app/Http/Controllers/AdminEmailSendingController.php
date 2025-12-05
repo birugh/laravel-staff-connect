@@ -47,6 +47,7 @@ class AdminEmailSendingController extends Controller
             'fields'      => ['array'],
         ]);
 
+
         $template = EmailTemplate::findOrFail($request->template_id);
         $receiver = User::findOrFail($request->receiver_id);
 
@@ -55,25 +56,32 @@ class AdminEmailSendingController extends Controller
         foreach ($request->input('fields', []) as $key => $value) {
             $body = str_replace('{{' . $key . '}}', $value, $body);
         }
+        $sendAt = $request->sent ? Carbon::parse($request->sent) : now();
 
-        // Queue email
-        SendCustomEmailJob::dispatch(
-            $receiver->email,
-            $template->subject,
-            $body
-        );
+        if ($sendAt <= now()) {
+            SendCustomEmailJob::dispatch(
+                $receiver->email,
+                $template->subject,
+                $body
+            );
+        } else {
+            SendCustomEmailJob::dispatch(
+                $receiver->email,
+                $template->subject,
+                $body
+            )->delay($sendAt);
+        }
 
-        // Save to database
         Message::create([
             'receiver_id' => $receiver->id,
             'sender_id'   => Auth::id(),
             'subject'     => $template->subject,
             'body'        => $body,
-            'sent'        => now(),
+            'sent'        => $sendAt,
             'is_read'     => 0,
         ]);
 
         return redirect()->route('admin.email-send.create')
-            ->with('success', 'Email Sent!');
+            ->with('success', $sendAt <= now() ? 'Email Sent!' : 'Email Scheduled!');
     }
 }
