@@ -47,7 +47,6 @@ class AdminEmailSendingController extends Controller
             'fields'      => ['array'],
         ]);
 
-
         $template = EmailTemplate::findOrFail($request->template_id);
         $receiver = User::findOrFail($request->receiver_id);
 
@@ -71,13 +70,22 @@ class AdminEmailSendingController extends Controller
                 $body
             )->delay($sendAt);
         }
+        $recurrence = $request->recurrence;
+
+        if ($recurrence) {
+            $nextRun = Carbon::now();
+        } else {
+            $nextRun = $sendAt;
+        }
 
         Message::create([
             'receiver_id' => $receiver->id,
             'sender_id'   => Auth::id(),
             'subject'     => $template->subject,
             'body'        => $body,
-            'sent'        => $sendAt,
+            'sent'        => $nextRun,
+            'recurrence'  => $recurrence,
+            'next_run_at' => $nextRun,
             'is_read'     => 0,
         ]);
 

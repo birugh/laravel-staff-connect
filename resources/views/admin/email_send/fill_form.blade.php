@@ -45,6 +45,16 @@
             <input type="datetime-local" name="sent" value="{{ old('sent') }}">
         </div>
 
+        <label>Frekuensi Pengiriman</label>
+        <select name="recurrence">
+            <option value="">Sekali saja</option>
+            <option value="hourly">Setiap Jam</option>
+            <option value="daily">Setiap Hari</option>
+            <option value="weekly">Setiap Minggu</option>
+            <option value="monthly">Setiap Bulan</option>
+        </select>
+
+
         <div style="margin-top: 16px;">
             <button type="submit" class="border">Kirim Email</button>
             <a href="{{ route('admin.email-send.create') }}">Kembali</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -25,6 +26,9 @@ class AdminDashboardController extends Controller
         // $recievedMail = Message::with('sender')->where('receiver_id', Auth::id())->latest()->paginate(5);
         $sentCount = Message::count();
         $recievedMail = Message::with('sender')->latest()->paginate(10);
-        return view('admin.dashboard', compact('sentCount', 'recievedMail'));
+        $pegawaiCount = User::where('role', 'pegawai')->count();
+        $karyawanCount = User::where('role', 'karyawan')->count();
+        $recievedMail = Message::with('sender')->latest()->paginate(5);
+        return view('admin.dashboard', compact('sentCount', 'recievedMail', 'pegawaiCount', 'karyawanCount'));
     }
 }

@@ -56,7 +56,7 @@ public function create()
 
         Message::create($validated);
 
-        swal('success', 'Message berhasil dibuat');
+        // swal('success', 'Message berhasil dibuat');
 
         return redirect()->route('admin.messages.index');
     }
