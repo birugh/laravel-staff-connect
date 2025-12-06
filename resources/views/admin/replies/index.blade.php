@@ -14,6 +14,7 @@
                     <!-- <th>Body</th> -->
                     <th>Sender's Reply</th>
                     <th>Body</th>
+                    <th>Action</th>
                 </tr>
                 @foreach ($replies as $r)
                 <tr>
