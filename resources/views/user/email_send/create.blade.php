@@ -1,61 +1,60 @@
 @extends('layouts.user')
 
 @section('content')
-<div class="container">
-    <h1>Kirim Email ke Karyawan</h1>
-
-    @if (session('success'))
-        <div style="color: green">{{ session('success') }}</div>
-    @endif
-
-    @if ($errors->any())
-        <div style="color: red">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ route('user.email-send.fill') }}" method="POST">
-        @csrf
-
-        <div>
-            <label>Pilih Template Email</label><br>
-            <select name="template_id">
-                <option value="">-- Pilih Template --</option>
-                @foreach ($templates as $t)
-                    <option value="{{ $t->id }}" {{ old('template_id') == $t->id ? 'selected' : '' }}>
-                        {{ $t->name }} ({{ $t->subject }})
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div style="margin-top: 8px;">
-            <label>Pilih Penerima (Receiver)</label><br>
-            <select name="receiver_id">
-                <option value="">-- Pilih Penerima --</option>
-                @foreach ($employees as $e)
-                    <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }}>
-                        {{ $e->name }} - {{ $e->email }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        {{-- Optional: jadwal kirim di masa depan --}}
-        {{-- 
-        <div style="margin-top: 8px;">
-            <label>Jadwalkan Kirim (opsional)</label><br>
-            <input type="datetime-local" name="schedule_at" value="{{ old('schedule_at') }}">
-        </div>
-        --}}
-
-        <div style="margin-top: 16px;">
-            <button type="submit">Lanjut Isi Data Template</button>
-        </div>
-    </form>
+<div class="dashboard__title">
+    <h1 class="font-medium text-2xl mb-4">Kirim Email ke Karyawan</h1>
 </div>
+
+@if (session('success'))
+<p class="success-message mb-4">{{ session('success') }}</p>
+@endif
+
+@if ($errors->any())
+<div class="error-message mb-4">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
+<form action="{{ route('admin.email-send.fill') }}" method="POST">
+    @csrf
+
+    <div class="mb-2">
+        <label class="label-field req">Pilih Template Email</label><br>
+        <select class="field" name="template_id">
+            <option value="">-- Pilih Template --</option>
+            @foreach ($templates as $t)
+            <option value="{{ $t->id }}" {{ old('template_id') == $t->id ? 'selected' : '' }}>
+                {{ $t->name }} ({{ $t->subject }})
+            </option>
+            @endforeach
+        </select>
+        @error('template_id')
+        <p class="error-message">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div class="mb-2">
+        <label class="label-field req">Pilih Penerima</label><br>
+        <select class="field" name="receiver_id">
+            <option value="">-- Pilih Penerima --</option>
+            @foreach ($employees as $e)
+            <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }}>
+                {{ $e->name }} - {{ $e->email }}
+            </option>
+            @endforeach
+        </select>
+        @error('receiver_id')
+        <p class="error-message">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div class="dashboard__create">
+        <button type="submit" class="btn btn-primary cursor-pointer">Lanjut Isi Data Template</button>
+        <a class="btn btn-secondary" href="{{ route('admin.email-send.create') }}">Cancel</a>
+    </div>
+</form>
 @endsection

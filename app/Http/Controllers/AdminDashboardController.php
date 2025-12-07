@@ -60,10 +60,49 @@ class AdminDashboardController extends Controller
 
         $recievedMail = $query->latest()->paginate(5);
 
+        // $sentCount = Message::where('sender_id', operator: Auth::id())->count();
+        // $recievedCount = Message::where('receiver_id', Auth::id())->count();
+        // $unreadCount = Message::where('receiver_id', Auth::id())->where('is_read', 0)->count();
+        // $recievedMail = Message::with('sender')->where('receiver_id', Auth::id())->latest()->paginate(5);
+        // $recievedMail = Message::with('sender')->latest()->paginate(10);
         $sentCount = Message::count();
         $petugasCount = User::where('role', 'petugas')->count();
         $karyawanCount = User::where('role', 'karyawan')->count();
 
+        $messagesPerMonth = Message::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->pluck('total', 'month');
+
+        $monthLabels = [
+            1 => 'Jan',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Apr',
+            5 => 'Mei',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'Agu',
+            9 => 'Sep',
+            10 => 'Okt',
+            11 => 'Nov',
+            12 => 'Des',
+        ];
+
+        $chartData = [
+            'labels' => array_values($monthLabels),
+            'data' => collect(range(1, 12))
+                ->map(fn($m) => (int) ($messagesPerMonth[$m] ?? 0))
+                ->values()
+                ->toArray()
+        ];
+
+        // return view('admin.dashboard', [
+        //     'recievedMail' => $recievedMail,
+        //     'pegawaiCount' => $pegawaiCount,
+        //     'karyawanCount' => $karyawanCount,
+        //     'sentCount' => $sentCount,
+        //     'chartData' => json_encode($chartData),
+        // ]);
         return view('admin.dashboard', compact('sentCount', 'recievedMail', 'petugasCount', 'karyawanCount', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread'));
     }
 }

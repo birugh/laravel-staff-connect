@@ -1,64 +1,80 @@
 @extends('layouts.user')
 
 @section('content')
-<div class="container">
-    <h1>Isi Data untuk Template: {{ $template->name }}</h1>
+<div class="dashboard__title">
+    <h1 class="font-medium text-2xl mb-4">Isi Data Template: {{ $template->name }}</h1>
+</div>
 
-    <p><strong>Subject:</strong> {{ $template->subject }}</p>
-
-    <p><strong>Body Template:</strong></p>
-    <pre style="background: #f4f4f4; padding: 8px;">{{ $template->body }}</pre>
-
-    <hr>
-
-    @if ($errors->any())
-    <div style="color: red">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+<div class="container-content">
+    <div class="container-action">
+        <h3>Template Preview</h3>
     </div>
-    @endif
+    <div class="h-separator"></div>
 
-    <form action="{{ route('user.email-send.send') }}" method="POST">
-        @csrf
-        <input type="hidden" name="template_id" value="{{ $template->id }}">
-        <input type="hidden" name="receiver_id" value="{{ $receiver_id }}">
+    <div class="flex flex-col mb-4">
+        <label>Subject</label>
+        <label class="label-user">{{ $template->subject }}</label>
+    </div>
 
-        <h3>Isi Nilai Dynamic Fields</h3>
+    <div class="flex flex-col mb-4">
+        <label>Body Template</label>
+        <pre class="bg-gray-100 p-4 whitespace-pre-wrap">{{ $template->body }}</pre>
+    </div>
+</div>
+
+@if ($errors->any())
+<div class="error-message mb-4">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
+<form action="{{ route('admin.email-send.send') }}" method="POST">
+    @csrf
+    <input type="hidden" name="template_id" value="{{ $template->id }}">
+    <input type="hidden" name="receiver_id" value="{{ $receiver_id }}">
+
+    <div class="container-content">
+        <div class="container-action">
+            <h3>Isi Dynamic Fields</h3>
+        </div>
+        <div class="h-separator"></div>
 
         @forelse ($fields as $field)
-        <div style="margin-top: 8px;">
-            <label>{{ ucwords(str_replace('_', ' ', $field)) }}</label><br>
-            <input
+        <div class="mb-2">
+            <label class="label-field req">{{ ucwords(str_replace('_', ' ', $field)) }}</label><br>
+            <input class="field"
                 type="text"
                 name="fields[{{ $field }}]"
                 value="{{ old('fields.'.$field) }}">
         </div>
         @empty
-        <p><em>Tidak ada dynamic field di template ini. Tinggal klik kirim.</em></p>
+        <p class="italic text-center my-6">
+            Tidak ada dynamic field. Anda bisa langsung kirim.
+        </p>
         @endforelse
+    </div>
 
-        <div style="margin-top: 8px;">
-            <label>Jadwalkan Kirim (opsional)</label><br>
-            <input type="datetime-local" name="sent" value="{{ old('sent') }}">
-        </div>
+    <div style="margin-top: 8px;">
+        <label>Jadwalkan Kirim (opsional)</label><br>
+        <input type="datetime-local" name="sent" value="{{ old('sent') }}">
+    </div>
 
-        <label>Frekuensi Pengiriman</label>
-        <select name="recurrence">
-            <option value="">Sekali saja</option>
-            <option value="hourly">Setiap Jam</option>
-            <option value="daily">Setiap Hari</option>
-            <option value="weekly">Setiap Minggu</option>
-            <option value="monthly">Setiap Bulan</option>
-        </select>
+    <label>Frekuensi Pengiriman</label>
+    <select name="recurrence">
+        <option value="">Sekali saja</option>
+        <option value="hourly">Setiap Jam</option>
+        <option value="daily">Setiap Hari</option>
+        <option value="weekly">Setiap Minggu</option>
+        <option value="monthly">Setiap Bulan</option>
+    </select>
 
-
-        <div style="margin-top: 16px;">
-            <button type="submit" class="border">Kirim Email</button>
-            <a href="{{ route('user.email-send.create') }}">Kembali</a>
-        </div>
-    </form>
-</div>
+    <div class="dashboard__create">
+        <button type="submit" class="btn btn-primary cursor-pointer">Kirim Email</button>
+        <a class="btn btn-secondary" href="{{ route('admin.email-send.create') }}">Kembali</a>
+    </div>
+</form>
 @endsection

@@ -2,7 +2,7 @@
 @section('content')
 <div class="my-6">
     <div class="dashboard__title">
-        <h1>User List</h1>
+        <h2>User List</h2>
         <a class="btn btn-primary" href="{{ route('admin.user.create') }}">Create User</a>
     </div>
     <div class="table-responsive">
@@ -12,14 +12,14 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th></th>
+                <th>Action</th>
             </tr>
             @foreach ($users as $u)
             <tr>
                 <td>{{ $users->firstItem() + $loop->index }}</td>
                 <td>{{ $u->name }}</td>
                 <td>{{ $u->email }}</td>
-                <td>{{ $u->role }}</td>
+                <td>{{ ucfirst($u->role) }}</td>
                 <td>
                     <div class="dashboard__action">
                         <a class="btn-action group" href="{{ route('admin.user.show', $u) }}">

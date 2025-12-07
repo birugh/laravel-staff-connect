@@ -1,34 +1,58 @@
 @extends('layouts.admin')
+
 @section('content')
-<h2>Message Detail</h1>
-    <h3>{{ $message->subject }}</h1>
-        <div>
-            <div>
-                <div>
-                    <div>
-                        <small>{{ $message->sender_name }}
-                            {{ $message->sender_email }}
-                        </small><br>
-                        <small>{{ $message->receiver_name }}
-                            {{ $message->receiver_email }}
-                        </small>
-                    </div>
-                </div>
-                <div>
-                    <small>{{ $message->sent }}</small>
-                </div>
-            </div>
-            <div>
-                <p>{{ $message->body }}</p>
-            </div>
-            <div>
-                @foreach ($replies as $r)
-                <div>
-                    <strong>{{ $r-> sender_name}}</strong>
-                    <strong>{{ $r-> sender_email}}</strong>
-                    <p>{{ $r->body }}</p>
-                </div>
-                @endforeach
-            </div>
+<div class="dashboard__title">
+    <h2>Message Detail</h2>
+</div>
+
+<div class="container-content">
+    <div class="container-action">
+        <h3>{{ $message->subject }}</h3>
+    </div>
+    <div class="h-separator"></div>
+
+    <div class="flex justify-between items-start mb-4">
+        <div class="flex flex-col">
+            <label>Sender</label>
+            <label class="label-user">{{ $message->sender_name }} ({{ $message->sender_email }})</label>
         </div>
-        @endsection
+
+        <div class="flex flex-col">
+            <label>Receiver</label>
+            <label class="label-user">{{ $message->receiver_name }} ({{ $message->receiver_email }})</label>
+        </div>
+
+        <div class="flex flex-col">
+            <label>Sent</label>
+            <label class="label-user">{{ $message->sent }}</label>
+        </div>
+    </div>
+</div>
+
+<div class="container-content">
+    <div class="container-action">
+        <h3>Message Body</h3>
+    </div>
+
+    <div class="h-separator"></div>
+
+    <p class="mt-2">{{ $message->body }}</p>
+</div>
+
+<div class="container-content">
+    <div class="container-action">
+        <h3>Replies</h3>
+    </div>
+    <div class="h-separator"></div>
+
+    @forelse ($replies as $r)
+    <div class="mb-4">
+        <h4 class="font-medium">{{ $r->sender_name }} ({{ $r->sender_email }})</h4>
+        <p>{{ $r->body }}</p>
+    </div>
+    @empty
+    <p class="text-center my-6">No replies yet.</p>
+    @endforelse
+</div>
+
+@endsection

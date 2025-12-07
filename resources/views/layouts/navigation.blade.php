@@ -1,4 +1,4 @@
-<header class="h-14 bg-white flex items-center justify-between sticky top 0 z-10 px-4">
+<header class="h-14 bg-white flex items-center justify-between sticky top-0 inset-x-0 z-10 px-4 w-full">
     <div class="flex items-center gap-2">
         <button class="border-none bg-transparent cursor-pointer p-2 rounded-full inline-flex items-center justify-center" id="toggleBtn">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -7,8 +7,9 @@
         </button>
     </div>
     <div class="flex items-center gap-2">
-        <a href="">
+        <a href="{{ route('user.profile') }}">
             <img class="rounded-full border-2 border-transparent transition-all duration-250 hover:border-blue-500" src="https://placehold.co/36x36" alt="">
+            <!-- {{ Auth::user()->name }} -->
         </a>
     </div>
 </header>

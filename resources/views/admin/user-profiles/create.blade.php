@@ -1,64 +1,73 @@
 @extends('layouts.admin')
 
 @section('content')
-<h1>Add New User</h1>
+<div class="dashboard__title">
+    <h1 class="font-medium text-2xl mb-4">Add New User Profile</h1>
+</div>
 
 <form method="POST" action="{{ route('admin.user-profile.store') }}" enctype="multipart/form-data">
     @csrf
 
-    <div>
-        <label>User</label><br>
-        <select name="user_id">
-            <option value="" hidden>PILIH USER</option>
+    <div class="mb-2">
+        <label class="label-field req">User</label><br>
+        <select class="field" name="user_id" required>
+            <option hidden>Pilih User</option>
             @foreach ($users as $u)
             <option value="{{ $u->id }}">{{ $u->name }}</option>
             @endforeach
         </select>
         @error('user_id')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>NIK</label><br>
-        <input type="number" name="nik" value="{{ old('nik') }}">
+    <div class="mb-2">
+        <label class="label-field req">NIK</label><br>
+        <input class="field" maxlength="16" type="number" name="nik" value="{{ old('nik') }}" required>
         @error('nik')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Phone Number</label><br>
-        <input type="text" name="phone_number" value="{{ old('phone_number') }}">
+    <div class="mb-2">
+        <label class="label-field req">Phone Number</label><br>
+        <input class="field" maxlength="13" type="text" name="phone_number" value="{{ old('phone_number') }}" required>
         @error('phone_number')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Address</label><br>
-        <textarea name="address">{{ old('address') }}</textarea>
+    <div class="mb-2">
+        <label class="label-field req">Address</label><br>
+        <textarea class="field" minlength="5" name="address" required>{{ old('address') }}</textarea>
         @error('address')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
-    <div>
-        <label>Date of Birth</label><br>
-        <input type="date" name="date_of_birth" value="{{ old('date_of_birth') }}">
+
+    <div class="mb-2">
+        <label class="label-field req">Date of Birth</label><br>
+        <input class="field" type="date" name="date_of_birth" value="{{ old('date_of_birth') }}" required>
         @error('date_of_birth')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-
-    <div>
-        <label>Foto Profil</label><br>
-        <input type="file" name="profile_path">
+    <div class="mb-2">
+        <label class="label-field">Foto Profil</label><br>
+        <input class="field" type="file" name="profile_path">
         @error('profile_path')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <button type="submit">Add</button>
+    <div class="dashboard__create">
+        <button class="btn btn-primary cursor-pointer" type="submit">
+            Add
+        </button>
+        <a class="btn btn-secondary" href="{{ route('admin.user-profile.index') }}">
+            Cancel
+        </a>
+    </div>
 </form>
 @endsection

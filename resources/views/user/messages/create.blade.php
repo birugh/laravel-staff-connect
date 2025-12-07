@@ -1,36 +1,56 @@
 @extends('layouts.user')
 
 @section('content')
-<h1>Kirim Pesan</h1>
+<div class="dashboard__title">
+    <h1 class="font-medium text-2xl mb-4">Kirim Pesan</h1>
+</div>
 
 <form method="POST" action="{{ route('user.messages.store') }}" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="sender_id" value="{{ Auth::user()->id }}">
-    Pengirim : {{ Auth::user()->email }}
-    <div>
-        <label>Penerima :</label>
-        <select name="receiver_id">
+
+
+    <div class="mb-2">
+        <label class="label-field">Pengirim</label>
+        <input class="field" type="text" name="sender_id" value="{{ Auth::user()->email }}" readonly>
+        <input type="hidden" name="sender_id" value="{{ Auth::user()->id }}">
+    </div>
+
+    <div class="mb-2">
+        <label class="label-field req">Penerima</label><br>
+        <select class="field" name="receiver_id">
             @foreach($users as $k)
             <option value="{{ $k->id }}">{{ $k->name }} ({{ $k->email }})</option>
             @endforeach
         </select>
+        @error('receiver_id')
+        <p class="error-message">{{ $message }}</p>
+        @enderror
     </div>
 
-    <div>
-        <label>Subject</label>
-        <input type="text" name="subject">
-    </div>
-    
-    <div>
-        <label>Isi Pesan</label>
-        <textarea name="body" rows="5"></textarea>
-    </div>
-    
-    <div>
-        <label>Sent on</label>
-        <input type="datetime-local" name="sent" id="">
+    <div class="mb-2">
+        <label class="label-field">Subject</label><br>
+        <input class="field" type="text" name="subject" value="{{ old('subject') }}">
+        @error('subject')
+        <p class="error-message">{{ $message }}</p>
+        @enderror
     </div>
 
-    <button type="submit">Kirim</button>
+    <div class="mb-2">
+        <label class="label-field req">Isi Pesan</label><br>
+        <textarea class="field" name="body" rows="5">{{ old('body') }}</textarea>
+        @error('body')
+        <p class="error-message">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div class="mb-2">
+        <label class="label-field">Sent On (opsional)</label><br>
+        <input class="field" type="datetime-local" name="sent">
+    </div>
+
+    <div class="dashboard__create">
+        <button type="submit" class="btn btn-primary cursor-pointer">Kirim</button>
+        <a class="btn btn-secondary" href="{{ route('user.messages.inbox') }}">Cancel</a>
+    </div>
 </form>
 @endsection

@@ -1,43 +1,49 @@
 @extends('layouts.admin')
 
 @section('content')
-<h1>Add New Reply</h1>
+<div class="dashboard__title">
+    <h1 class="font-medium text-2xl mb-4">Add New Reply</h1>
+</div>
 
 <form method="POST" action="{{ route('admin.replies.store') }}">
     @csrf
 
-    <div>
-        <label>Message</label><br>
-        <select name="message_id" id="message_id">
+    <div class="mb-2">
+        <label class="label-field req">Message</label><br>
+        <select class="field" name="message_id" id="message_id" required>
             @foreach ($messages as $m)
             <option value="{{ $m->id }}">{{ $m->limitSubject() }} - {{ $m->sender_name }}</option>
             @endforeach
         </select>
         @error('message_id')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Sender Reply</label><br>
-        <select name="user_id" id="user_id">
+    <div class="mb-2">
+        <label class="label-field req">Sender Reply</label><br>
+        <select class="field" name="user_id" id="user_id" required>
             @foreach ($users as $u)
             <option value="{{ $u->id }}">{{ $u->name }}</option>
             @endforeach
         </select>
-        @error('subject')
-        <p style="color:red">{{ $message }}</p>
+        @error('user_id')
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Body</label><br>
-        <input type="text" name="body">
+    <div class="mb-2">
+        <label class="label-field req">Body</label><br>
+        <textarea class="field" name="body" id="body" required>{{ old('body') }}</textarea>
         @error('body')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <button type="submit">Add</button>
+    <div class="dashboard__create">
+        <button type="submit" class="btn btn-primary cursor-pointer">Add</button>
+        <a class="btn btn-secondary" href="{{ route('admin.replies.index') }}">Cancel</a>
+    </div>
+
 </form>
 @endsection

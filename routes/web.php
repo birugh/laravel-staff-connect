@@ -113,3 +113,8 @@ Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     Route::post('/email-send/fill', [UserEmailSendingController::class, 'fillForm'])->name('email-send.fill');
     Route::post('/email-send/send', [UserEmailSendingController::class, 'send'])->name('email-send.send');
 });
+
+Route::get('/email', function () {
+
+    return view('email.custom', ['subject' => 'Kantor sedang bermasalah, kantor akan libur sampai minggu depan', 'receiverEmail' => 'biru@gmail.com', 'body' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corrupti, unde modi architecto temporibus sit dignissimos vel fuga facilis eaque dolore voluptate repellat vero placeat recusandae totam rem et consequuntur culpa blanditiis possimus. Similique praesentium obcaecati, dicta minus numquam quam culpa quod, ex quaerat dignissimos iure minima sequi magni? Praesentium, eveniet.']);
+});
