@@ -1,67 +1,80 @@
 @extends('layouts.admin')
 
 @section('content')
-<h1 class="font-medium text-2xl mb-4">Edit User</h1>
-<form action="{{ route('admin.user.destroy', $user) }}"
-    method="POST"
-    onsubmit="return confirm('Delete this User?')">
-    @csrf
-    @method('DELETE')
-    <button class="btn btn-warning cursor-pointer mt-2 mb-4" type="submit">Delete User</button>
-</form>
+<div class="dashboard__title">
+    <h1 class="font-medium text-2xl mb-4">Edit User {{ $user->id }}</h1>
+    <form action="{{ route('admin.user.destroy', $user) }}"
+        method="POST"
+        onsubmit="return confirm('Delete this User?')">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-warning cursor-pointer mt-2 mb-4" type="submit">Delete User</button>
+    </form>
+</div>
+
 <form method="POST" action="{{ route('admin.user.update', $user->id) }}">
     @csrf
     @method('PUT')
 
-    <div>
-        <label class="label-field">Nama</label><br>
+    <div class="mb-2">
+        <label class="label-field req">Nama</label><br>
         <input class="field"
+            minlength="5"
             type="text"
             name="name"
             value="{{ old('name', $user->name) }}">
         @error('name')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label class="label-field">Email</label><br>
+    <div class="mb-2">
+        <label class="label-field req">Email</label><br>
         <input class="field"
             type="email"
             name="email"
             value="{{ old('email', $user->email) }}">
         @error('email')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label class="label-field">Password (opsional)</label><br>
+    <div class="mb-2">
+        <label class="label-field">Password</label><br>
         <input class="field"
+            minlength="5"
             type="password"
-            name="password"
-            placeholder="Biarkan kosong jika tidak diganti">
+            name="password">
         @error('password')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
+    <div class="mb-2">
         <label class="label-field">Konfirmasi Password</label><br>
         <input class="field"
+            minlength="5"
             type="password"
             name="password_confirmation">
+        @error('password')
+        <p class="error-message">{{ $message }}</p>
+        @enderror
     </div>
 
-    <div>
-        <label class="label-field">Role</label><br>
+    <div class="mb-2">
+        <label class="label-field req">Role</label><br>
         <select class="field" name="role"> class="field"
-            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>ADMIN</option>
-            <option value="pegawai" {{ old('role', $user->role) == 'pegawai' ? 'selected' : '' }}>PEGAWAI</option>
-            <option value="karyawan" {{ old('role', $user->role) == 'karyawan' ? 'selected' : '' }}>KARYAWAN</option>
+            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+            <option value="pegawai" {{ old('role', $user->role) == 'pegawai' ? 'selected' : '' }}>Petugas</option>
+            <option value="karyawan" {{ old('role', $user->role) == 'karyawan' ? 'selected' : '' }}>Karyawan</option>
         </select>
+        @error('role')
+        <p class="error-message">{{ $message }}</p>
+        @enderror
     </div>
-
-    <button class="btn btn-primary cursor-pointer mt-2 mb-4" type="submit">Update</button>
+    <div class="dashboard__create">
+        <button class="btn btn-primary cursor-pointer" type="submit">Update</button>
+        <a class="btn btn-secondary" href="{{ route('admin.user.index') }}">Cancel</a>
+    </div>
 </form>
 @endsection
