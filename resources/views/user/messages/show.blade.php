@@ -37,7 +37,7 @@
 
         @foreach($replies as $reply)
         <p>
-            <strong>{{ $reply->user->name }}:</strong>{{ $reply->body }}<br>
+            <strong>{{ $reply->user?->name }}:</strong>{{ $reply->body }}<br>
             <small>{{ $reply->created_at->diffForHumans() }}</small>
         </p>
         @endforeach

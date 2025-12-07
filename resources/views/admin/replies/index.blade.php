@@ -19,8 +19,8 @@
                 @foreach ($replies as $r)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $r->message->limitSubject() }} - {{ $r->message->sender_name }}</td>
-                    <!-- <td>{{ $r->message->limitBody() }}</td> -->
+                    <td>{{ $r->message?->limitSubject() }} - {{ $r->message?->sender_name }}</td>
+                    <!-- <td>{{ $r->message?->limitBody() }}</td> -->
                     <td>{{ $r->user->name }}</td>
                     <td>{{ $r->limitBody() }}</td>
                     <td class="flex flex-row items-center gap-2">

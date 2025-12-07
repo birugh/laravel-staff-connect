@@ -6,14 +6,14 @@
 
 <div>
     <div>
-        <img src="{{ $user->profile->profile_path 
-            ? asset('storage/' . $user->profile->profile_path) 
+        <img src="{{ $user->profile?->profile_path 
+            ? asset('storage/' . $user->profile?->profile_path) 
             : 'https://placehold.co/200x200' }}"
             alt="profile">
 
         <h3>{{ $user->name }}</h3>
         <small>{{ $user->role }}</small>
-        <small>{{ $user->profile->address ?? '-' }}</small>
+        <small>{{ $user->profile?->address ?? '-' }}</small>
     </div>
 
     <div>
@@ -28,10 +28,10 @@
                 <p>{{ $user->name }}</p>
 
                 <small>NIK</small>
-                <p>{{ $user->profile->nik ?? '-' }}</p>
+                <p>{{ $user->profile?->nik ?? '-' }}</p>
 
                 <small>Date of Birth</small>
-                <p>{{ $user->profile->date_of_birth ?? '-' }}</p>
+                <p>{{ $user->profile?->date_of_birth ?? '-' }}</p>
             </div>
 
             <div>
@@ -46,10 +46,10 @@
                 @endif
 
                 <small>Phone</small>
-                <p>{{ $user->profile->phone ?? '-' }}</p>
+                <p>{{ $user->profile?->phone ?? '-' }}</p>
 
                 <small>Address</small>
-                <p>{{ $user->profile->address ?? '-' }}</p>
+                <p>{{ $user->profile?->address ?? '-' }}</p>
             </div>
         </div>
     </div>
