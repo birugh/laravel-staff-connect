@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\QueuedVerifyEmail;
 use App\Notifications\QueuedResetPassword;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -49,6 +50,12 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+    protected function role(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => ucfirst($value),
+        );
+    }
     public function token()
     {
         return $this->hasMany(AuthToken::class);
@@ -57,7 +64,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(UserProfile::class);
     }
-    public function message() {
+    public function message()
+    {
         return $this->hasMany(Message::class, 'sender_id', 'id');
     }
     public function sentMessages()
