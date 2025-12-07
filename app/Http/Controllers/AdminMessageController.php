@@ -13,17 +13,59 @@ class AdminMessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $messages = Message::select(
-            'messages.*',
-            'sender.name as sender_name',
-            'receiver.name as receiver_name'
-        )
-            ->join('users as sender', 'sender.id', '=', 'messages.sender_id')
-            ->join('users as receiver', 'receiver.id', '=', 'messages.receiver_id')
-            ->latest()->paginate(10);
-        return view('admin.messages.index', compact('messages'));
+        $filter = $request->filter;
+        $search = $request->search;
+
+        $query = Message::with('sender', 'receiver');
+        $countAll = (clone $query)->count();
+
+        $countNow = (clone $query)
+            ->whereDate('sent', now()->toDateString())
+            ->count();
+
+        $countThisWeek = (clone $query)
+            ->whereBetween('sent', [now()->startOfWeek(), now()->endOfWeek()])
+            ->count();
+
+        $countUnread = (clone $query)
+            ->where('is_read', 0)
+            ->count();
+
+        $query = Message::with('sender', 'receiver');
+
+        switch ($filter) {
+            case 'now':
+                $query->whereDate('sent', now()->toDateString());
+                break;
+
+            case 'this_week':
+                $query->whereBetween('sent', [
+                    now()->startOfWeek(),
+                    now()->endOfWeek(),
+                ]);
+                break;
+
+            case 'unread':
+                $query->where('is_read', 0);
+                break;
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('subject', 'LIKE', "%{$search}%")
+                    ->orWhereHas('sender', function ($senderQuery) use ($search) {
+                        $senderQuery->where('name', 'LIKE', "%{$search}%");
+                    })
+                    ->orWhereHas('receiver', function ($receiverQuery) use ($search) {
+                        $receiverQuery->where('name', 'LIKE', "%{$search}%");
+                    });
+            });
+        }
+
+        $messages = $query->latest()->paginate(10);
+        return view('admin.messages.index', compact('messages', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread'));
     }
 
     /**

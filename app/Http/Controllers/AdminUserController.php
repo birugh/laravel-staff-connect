@@ -14,10 +14,21 @@ class AdminUserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->paginate(5);
-        return view('admin.users.index', compact('users'));
+        $search = $request->search;
+
+        $query = User::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $users = $query->latest()->paginate(5);
+        return view('admin.users.index', compact('users', 'search'));
     }
 
     /**

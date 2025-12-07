@@ -25,8 +25,8 @@
 
                     <tr class="border border-gray-400">
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $m['sender_name'] }}</td>
-                        <td>{{ $m['receiver_name'] }}</td>
+                        <td>{{ $m->sender?->name }}</td>
+                        <td>{{ $m->receiver?->name }}</td>
                         <td>{{ $m->limitSubject() }}</td>
                         <td>{{ $m->limitBody() }}</td>
                         <td>{{ $m->sentFull() }}</td>

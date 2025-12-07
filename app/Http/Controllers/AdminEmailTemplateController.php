@@ -10,10 +10,21 @@ class AdminEmailTemplateController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $templates = EmailTemplate::latest()->paginate(5);
-        return view('admin.email_templates.index', compact('templates'));
+        $search = $request->search;
+
+        $query = EmailTemplate::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('subject', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $templates = $query->latest()->paginate(5);
+        return view('admin.email_templates.index', compact('templates', 'search'));
     }
 
     /**
