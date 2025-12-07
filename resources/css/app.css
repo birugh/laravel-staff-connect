@@ -12,6 +12,38 @@
 
 /* TODO: Components */
 
+.container-content {
+    @apply py-6 px-10 bg-white rounded-md mb-8 shadow-md;
+}
+
+.container-content h3 {
+    @apply font-medium text-xl text-start;
+}
+
+.container-content label {
+    @apply font-medium text-lg text-gray-500 mb-2;
+}
+
+.container-content .label-user {
+    @apply font-medium text-lg text-gray-900 m-0;
+}
+
+.container-action {
+    @apply flex flex-row justify-between items-center;
+}
+
+.container-content p,
+.container-content address,
+.container-content small {
+    @apply font-normal text-base not-italic text-gray-800;
+}
+
+/* ! Separator */
+
+.h-separator {
+    @apply w-full h-[2px] bg-gray-300 rounded-full my-4;
+}
+
 /* ! Button */
 
 .btn {
@@ -94,6 +126,10 @@
 
 .field-password {
     @apply float-right relative mt-[-38px] mr-2 cursor-pointer;
+}
+
+.field-nik {
+    @apply float-right relative ml-2 cursor-pointer;
 }
 
 .field-password svg {
@@ -193,8 +229,8 @@ body.sidebar-collapsed .btn-sidebar-text {
     @apply flex flex-row justify-between items-center mb-4;
 }
 
-.dashboard__title h1 {
-    @apply font-medium text-3xl;
+.dashboard__title h2 {
+    @apply font-medium text-3xl mb-2;
 }
 
 .dashboard__action {

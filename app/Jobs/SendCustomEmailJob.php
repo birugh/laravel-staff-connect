@@ -26,9 +26,18 @@ class SendCustomEmailJob implements ShouldQueue
     public function handle()
     {
         // PLAIN TEXT VERSION
-        Mail::raw($this->body, function ($message) {
+        // Mail::raw($this->body, function ($message) {
+        //     $message->to($this->receiverEmail)
+        //         ->subject($this->subject);
+        // });
+
+        Mail::send('email.custom', [
+            'subject' => $this->subject,
+            'body'    => $this->body,
+            'receiverEmail'    => $this->receiverEmail,
+        ], function ($message) {
             $message->to($this->receiverEmail)
-                    ->subject($this->subject);
+                ->subject($this->subject);
         });
 
         // Mail::html($this->body, function ($message) { ... });

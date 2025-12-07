@@ -1,28 +1,58 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <h1>Detail Email Template</h1>
-    <p><strong>Nama:</strong> {{ $template->name }}</p>
-    <p><strong>Subject:</strong> {{ $template->subject }}</p>
+<div class="dashboard__title">
+    <h2>Email Template Detail</h2>
+</div>
 
-    <p><strong>Body:</strong></p>
-    <pre style="background: #f4f4f4; padding: 8px;">{{ $template->body }}</pre>
+<div class="container-content">
+    <div class="container-action">
+        <h3>Template Info</h3>
+    </div>
+    <div class="h-separator"></div>
 
-    <p><strong>Dynamic Fields Terdeteksi:</strong></p>
+    <div class="flex justify-between items-start mb-4">
+        <div class="flex flex-col">
+            <label>Name</label>
+            <label class="label-user">{{ $template->name }}</label>
+        </div>
+
+        <div class="flex flex-col">
+            <label>Subject</label>
+            <label class="label-user">{{ $template->subject }}</label>
+        </div>
+    </div>
+</div>
+
+<div class="container-content">
+    <div class="container-action">
+        <h3>Body</h3>
+    </div>
+    <div class="h-separator"></div>
+
+    <pre class="mt-2 bg-gray-100 p-4 whitespace-pre-wrap">{{ $template->body }}</pre>
+</div>
+
+<div class="container-content">
+    <div class="container-action">
+        <h3>Detected Dynamic Fields</h3>
+    </div>
+    <div class="h-separator"></div>
+
     @if (count($fields))
-    <ul>
+    <ul class="list-disc ml-6">
         @foreach ($fields as $field)
         <li>{{ $field }}</li>
         @endforeach
     </ul>
     @else
-    <p><em>Tidak ada dynamic field ({{ '{' }}{{ '{field}' }}{{ '}' }}) di body.</em></p>
+    <p class="text-center my-6 italic">No dynamic fields detected.</p>
     @endif
-
-    <div style="margin-top: 16px;">
-        <a href="{{ route('admin.email-templates.edit', $template) }}">Edit Template</a> |
-        <a href="{{ route('admin.email-templates.index') }}">Kembali</a>
-    </div>
 </div>
+
+<div class="dashboard__create">
+    <a class="btn btn-primary" href="{{ route('admin.email-templates.edit', $template) }}">Edit</a>
+    <a class="btn btn-secondary" href="{{ route('admin.email-templates.index') }}">Cancel</a>
+</div>
+
 @endsection

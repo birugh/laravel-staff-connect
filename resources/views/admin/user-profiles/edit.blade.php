@@ -1,20 +1,26 @@
 @extends('layouts.admin')
 
 @section('content')
-<h1>Edit User Profile</h1>
-<form action="{{ route('admin.user-profile.destroy', $userProfile) }}"
-    method="POST"
-    onsubmit="return confirm('Delete this User Profile?')">
-    @csrf
-    @method('DELETE')
-    <button type="submit">Delete This Profile</button>
-</form>
+<div class="dashboard__title">
+    <h1 class="font-medium text-2xl mb-4">Edit User Profile {{ $userProfile->id }}</h1>
+    <form action="{{ route('admin.user-profile.destroy', $userProfile) }}"
+        method="POST"
+        onsubmit="return confirm('Delete this User Profile?')">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-warning cursor-pointer mt-2 mb-4" type="submit">
+            Delete Profile
+        </button>
+    </form>
+</div>
+
 <form method="POST" action="{{ route('admin.user-profile.update', $userProfile->id) }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    <div>
-        <label>User : </label><br>
-        <select name="user_id">
+
+    <div class="mb-2">
+        <label class="label-field req">User</label><br>
+        <select class="field" name="user_id" disabled>
             @foreach($users as $user)
             <option value="{{ $user->id }}"
                 @selected($user->id == $userProfile->user_id)>
@@ -22,52 +28,59 @@
             </option>
             @endforeach
         </select>
-
+        <input type="hidden" value="{{ $userProfile->user_id }}">
         @error('name')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>NIK</label><br>
-        <input type="number" name="nik" value="{{ old('nik', $userProfile->nik) }}">
+    <div class="mb-2">
+        <label class="label-field req">NIK</label><br>
+        <input class="field" type="number" name="nik" value="{{ old('nik', $userProfile->nik) }}" required>
         @error('nik')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Phone Number</label><br>
-        <input type="text" name="phone_number" value="{{ old('phone_number', $userProfile->phone_number) }}">
+    <div class="mb-2">
+        <label class="label-field req">Phone Number</label><br>
+        <input class="field" type="text" name="phone_number" value="{{ old('phone_number', $userProfile->phone_number) }}" required>
         @error('phone_number')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Address</label><br>
-        <textarea name="address">{{ old('address', $userProfile->address) }}</textarea>
+    <div class="mb-2">
+        <label class="label-field req">Address</label><br>
+        <textarea class="field" name="address" required>{{ old('address', $userProfile->address) }}</textarea>
         @error('address')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Date of Birth</label><br>
-        <input type="date" name="date_of_birth" value="{{ old('date_of_birth', $userProfile->date_of_birth->toDateString()) }}">
+    <div class="mb-2">
+        <label class="label-field req">Date of Birth</label><br>
+        <input class="field" type="date" name="date_of_birth" value="{{ old('date_of_birth', $userProfile->date_of_birth->toDateString()) }}" required>
         @error('date_of_birth')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Foto Profil</label><br>
-        <input type="file" name="profile_path">
+    <div class="mb-2">
+        <label class="label-field">Foto Profil</label><br>
+        <input class="field" type="file" name="profile_path">
         @error('profile_path')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <button type="submit">Update</button>
+    <div class="dashboard__create">
+        <button class="btn btn-primary cursor-pointer" type="submit">
+            Update
+        </button>
+        <a class="btn btn-secondary" href="{{ route('admin.user-profile.index') }}">
+            Cancel
+        </a>
+    </div>
 </form>
 @endsection

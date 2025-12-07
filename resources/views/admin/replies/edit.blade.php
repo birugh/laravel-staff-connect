@@ -1,56 +1,64 @@
 @extends('layouts.admin')
 
 @section('content')
-<h1>Edit Reply</h1>
+<div class="dashboard__title">
+    <h1 class="font-medium text-2xl mb-4">Edit Reply {{ $reply->id }}</h1>
 
-<form action="{{ route('admin.replies.destroy', $reply->id) }}"
-    method="POST"
-    onsubmit="return confirm('Delete this user?')">
-    @csrf
-    @method('DELETE')
-    <button type="submit">Delete</button>
-</form>
+    <form action="{{ route('admin.replies.destroy', $reply->id) }}"
+        method="POST"
+        onsubmit="return confirm('Delete this reply?')">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-warning cursor-pointer mt-2" type="submit">Delete Reply</button>
+    </form>
+</div>
+
 <form method="POST" action="{{ route('admin.replies.update', $reply->id) }}">
     @csrf
     @method('PUT')
-    <div>
-        <label>Message</label><br>
-        <select name="message_id" id="message_id">
+
+    <div class="mb-2">
+        <label class="label-field req">Message</label><br>
+        <select class="field" name="message_id" id="message_id">
             @foreach ($messages as $m)
             <option value="{{ $m->id }}"
-                {{ old('sender_id', $m->id ?? '') == $reply->message_id ? 'selected' : ''}}>
+                {{ old('message_id', $reply->message_id) == $m->id ? 'selected' : '' }}>
                 {{ $m->limitSubject() }} - {{ $m->sender_name }}
             </option>
             @endforeach
         </select>
         @error('message_id')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Sender Reply</label><br>
-        <select name="user_id" id="user_id">
+    <div class="mb-2">
+        <label class="label-field req">Sender Reply</label><br>
+        <select class="field" name="user_id" id="user_id">
             @foreach ($users as $u)
             <option value="{{ $u->id }}"
-                {{ old('sender_id', $message->sender_id ?? '') == $u->id ? 'selected' : ''}}>
+                {{ old('user_id', $reply->user_id) == $u->id ? 'selected' : '' }}>
                 {{ $u->name }}
             </option>
             @endforeach
         </select>
-        @error('subject')
-        <p style="color:red">{{ $message }}</p>
+        @error('user_id')
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div>
-        <label>Body</label><br>
-        <input type="text" name="body" value="{{ old('body', $reply->body) }}">
+    <div class="mb-2">
+        <label class="label-field req">Body</label><br>
+        <textarea class="field" name="body" id="body" required>{{ old('body', $reply->body) }}</textarea>
         @error('body')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <button type="submit">Edit</button>
+    <div class="dashboard__create">
+        <button class="btn btn-primary cursor-pointer" type="submit">Update</button>
+        <a class="btn btn-secondary" href="{{ route('admin.replies.index') }}">Cancel</a>
+    </div>
+
 </form>
 @endsection

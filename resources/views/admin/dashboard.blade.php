@@ -1,13 +1,37 @@
 @extends('layouts.admin')
 @section('content')
 <div class="my-6">
-
-    <h1 class="text-xl font-medium mb-4">Dashboard</h1>
+    <div class="dashboard__title">
+        <span>
+            <h2>Dashboard Admin</h2>
+            <small class="text-lg font-medium text-gray-700">Welcome {{ Auth::user()->name }}!</small>
+        </span>
+    </div>
+    <div class="container-content">
+        <canvas id="messagesChart" class="w-full" data-chart="{{ json_encode($chartData) }}"></canvas>
+    </div>
+    <div class="flex justify-between gap-2">
+        <div class="w-full max-w-[320px] py-6 px-10 bg-white rounded-md mb-8 shadow-md">
+            <h3 class="font-medium text-2xl text-start mb-2">Total Petugas</h3>
+            <div class="h-separator"></div>
+            <small class="font-medium text-4xl">{{ $pegawaiCount }}</small>
+        </div>
+        <div class="w-full max-w-[320px] py-6 px-10 bg-white rounded-md mb-8 shadow-md">
+            <h3 class="font-medium text-2xl text-start mb-2">Total Karyawan</h3>
+            <div class="h-separator"></div>
+            <small class="font-medium text-4xl">{{ $karyawanCount }}</small>
+        </div>
+        <div class="w-full max-w-[320px] py-6 px-10 bg-white rounded-md mb-8 shadow-md">
+            <h3 class="font-medium text-2xl text-start mb-2">Total Mails</h3>
+            <div class="h-separator"></div>
+            <small class="font-medium text-4xl">{{ $sentCount }}</small>
+        </div>
+    </div>
     <!-- <div>
         <div>
             <div class="seperator"></div>
             <small>Sent</small>
-            <p>{{ $sentCount }}</p>
+            <p> sentCount }}</p>
             <div>
                 // TODO Chart
             </div>

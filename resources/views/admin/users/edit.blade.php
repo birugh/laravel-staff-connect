@@ -22,7 +22,8 @@
             minlength="5"
             type="text"
             name="name"
-            value="{{ old('name', $user->name) }}">
+            value="{{ old('name', $user->name) }}"
+            required>
         @error('name')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -33,7 +34,8 @@
         <input class="field"
             type="email"
             name="email"
-            value="{{ old('email', $user->email) }}">
+            value="{{ old('email', $user->email) }}"
+            required>
         @error('email')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -44,7 +46,8 @@
         <input class="field"
             minlength="5"
             type="password"
-            name="password">
+            name="password"
+            required>
         @error('password')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -55,7 +58,8 @@
         <input class="field"
             minlength="5"
             type="password"
-            name="password_confirmation">
+            name="password_confirmation"
+            required>
         @error('password')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -63,7 +67,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Role</label><br>
-        <select class="field" name="role"> class="field"
+        <select class="field" name="role" required>
             <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
             <option value="pegawai" {{ old('role', $user->role) == 'pegawai' ? 'selected' : '' }}>Petugas</option>
             <option value="karyawan" {{ old('role', $user->role) == 'karyawan' ? 'selected' : '' }}>Karyawan</option>

@@ -1,90 +1,97 @@
 @extends('layouts.admin')
 
 @section('content')
-<div>
-    <h1>User Detail</h1>
-    <div>
-        <h2>Account Information</h2>
-        <div>
-            <div>
-                <label>Name</label><br>
-                <input type="text" disabled value="{{ $user->name }}">
-            </div>
+<div class="dashboard__title">
+    <h2>User Detail</h1>
+</div>
 
-            <div>
-                <label>Email</label><br>
-                <input type="text" disabled value="{{ $user->email }}">
-                <!-- @if(! $user->email_verified_at)
-                <h1>This email isn't verifiied yet</h1>
-                @else
-                <h1>This email is verifiied</h1>
-                @endif -->
-            </div>
-
-            <div>
-                <label>Role</label><br>
-                <input type="text" disabled value="{{ $user->role }}">
-            </div>
-        </div>
-
-        <div>
-            <a href="{{ route('admin.user.edit', $user->id) }}">
-                Edit User
-            </a>
+<div class="container-content">
+    <div class="w-fit flex justify-start items-center">
+        <a class="h-full" href="{{ route('admin.user-profile.edit', $user->profile->id) }}">
+            <img class="h-30 max-h-30 rounded-full border-3 border-gray-300 transition-all duration-250 hover:border-blue-500" src="{{ $user->profile->profile_path !== null ? asset('storage/' . $user->profile->profile_path) : 'https://placehold.co/50x50?text=None' }}" alt="">
+        </a>
+        <div class="ml-4">
+            <h3>{{ $user->name }}</h3>
+            <small>{{ ucfirst($user->role) }}</small>
+            <address>{{ $user->profile->address }}</address>
         </div>
     </div>
+</div>
 
-    @if($user->profile)
-    <div>
-        <h2>User Profile</h2>
-
-        <div>
-            <div>
-                <label>NIK</label><br>
-                <input type="text" disabled value="{{ $user->profile->nik }}">
-            </div>
-
-            <div>
-                <label>Phone Number</label><br>
-                <input type="text" disabled value="{{ $user->profile->phone_number }}">
-            </div>
-
-            <div>
-                <label>Address</label><br>
-                <input type="text" disabled value="{{ $user->profile->address }}">
-            </div>
-
-            <div>
-                <label>Date of Birth</label><br>
-                <input type="text" disabled value="{{ $user->profile->date_of_birth->format('d M Y') }}">
-            </div>
-
-            <div>
-                <label>Photo</label><br>
-                @if($user->profile->profile_path)
-                <img src="{{ asset('storage/'.$user->profile->profile_path) }}">
-                @else
-                <p>No photo uploaded.</p>
-                @endif
-            </div>
+<div class="container-content">
+    <div class="container-action">
+        <h3>Account Information</h2>
+            <a class="btn btn-primary" href="{{ route('admin.user.edit', $user->id) }}">
+                Edit User
+            </a>
+    </div>
+    <div class="h-separator"></div>
+    <div class="flex justify-between items-start">
+        <div class="flex flex-col mb-2">
+            <label>Name</label>
+            <label class="label-user">{{ $user->name }}</label>
         </div>
 
-        <div>
-            <a href="{{ route('admin.user-profile.edit', $user->id) }}">
+        <div class="flex flex-col mb-2">
+            <label>Email</label>
+            <label class="label-user">{{ $user->email }}</label>
+            @if(!$user->email_verified_at)
+            <a class="error-message hover:underline" href="{{ route('verification.notice', $user->id) }}">
+                <h1>This email isn't verified yet, verify here.</h1>
+            </a>
+            @else
+            <h1 class="success-message">This email is verified</h1>
+            @endif
+        </div>
+
+        <div class="flex flex-col mb-2">
+            <label>Role</label>
+            <label class="label-user">{{ ucfirst($user->role) }}</label>
+            <small>Bergabung sejak: {{ $user->created_at->format('D d M Y') }}</small>
+        </div>
+    </div>
+</div>
+
+<div class="container-content">
+    <div class="container-action">
+        <h3>Profile Information</h2>
+            @if($user->profile)
+            <a class="btn btn-primary" href="{{ route('admin.user-profile.edit', $user->profile->id) }}">
                 Edit Profile
             </a>
+            @else
+            @endif
+    </div>
+    <div class="h-separator"></div>
+    @if($user->profile)
+    <div class="flex justify-between items-start mb-4">
+        <div class="flex flex-col mb-2">
+            <label>NIK</label>
+            <div class="flex items-center ">
+                <label id="nikField" class="label-user select-none cursor-pointer">{{ $user->profile->nik }}</label>
+            </div>
+        </div>
+        <div class="flex flex-col mb-2">
+            <label>Phone Number</label>
+            <label class="label-user">{{ $user->profile->phone_number }}</label>
+        </div>
+
+        <div class="flex flex-col mb-2">
+            <label>Address</label>
+            <label class="label-user">{{ ucfirst($user->profile->address) }}</label>
+            <!-- <label class="label-user">{{ Str::limit($user->profile->address, 50) }}</label> -->
+        </div>
+    </div>
+    <div class="flex justify-between items-start">
+        <div class="flex flex-col mb-2">
+            <label>Date of Birth</label>
+            <label class="label-user">{{ $user->profile->date_of_birth->format('d M Y') }}</label>
         </div>
     </div>
     @else
-    <div>
-        <p>
-            User ini belum memiliki profile.
-            <a href="{{ route('admin.user-profile.create', $user->id) }}">
-                Buat profile sekarang
-            </a>
-        </p>
+    <div class="flex justify-between items-start">
+        <p class="w-full text-center my-12">This user doesn't have a profile</h3>
     </div>
     @endif
-
 </div>
 @endsection
