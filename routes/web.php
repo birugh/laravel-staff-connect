@@ -11,6 +11,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\UserEmailSendingController;
 use App\Http\Controllers\UserMessageController;
 use App\Http\Controllers\UserMessageReplyController;
 use App\Http\Controllers\UserProfileControler;
@@ -105,6 +106,10 @@ Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     Route::post('/reply', [UserMessageReplyController::class, 'store'])->name('messages.reply');
     Route::get('/sent', [UserMessageController::class, 'sent'])->name('messages.sent');
     Route::get('/show/{id}', [UserMessageController::class, 'show'])->name('messages.show');
-    // ! MESSAGES
+    // ! PROFILE
     Route::get('/profile', [UserProfileControler::class, 'index'])->name('profile');
+    // ! EMAIL TEMPLATE SENDING
+    Route::get('/email-send', [UserEmailSendingController::class, 'create'])->name('email-send.create');
+    Route::post('/email-send/fill', [UserEmailSendingController::class, 'fillForm'])->name('email-send.fill');
+    Route::post('/email-send/send', [UserEmailSendingController::class, 'send'])->name('email-send.send');
 });

@@ -11,13 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-class AdminEmailSendingController extends Controller
+class UserEmailSendingController extends Controller
 {
     public function create()
     {
         $templates = EmailTemplate::all();
-        $employees = User::whereNot('role', 'admin')->get();
-        return view('admin.email_send.create', compact('templates', 'employees'));
+        $employees = User::whereNot('role', 'admin')->whereNot('id', Auth::user()->id)->get();
+        return view('user.email_send.create', compact('templates', 'employees'));
     }
 
     public function fillForm(Request $request)
@@ -32,7 +32,7 @@ class AdminEmailSendingController extends Controller
         preg_match_all('/{{(.*?)}}/', $template->body, $matches);
         $fields = $matches[1] ?? [];
 
-        return view('admin.email_send.fill_form', [
+        return view('user.email_send.fill_form', [
             'template'    => $template,
             'fields'      => $fields,
             'receiver_id' => $request->receiver_id,
@@ -63,7 +63,7 @@ class AdminEmailSendingController extends Controller
                 $template->subject,
                 $body
             );
-        } else { 
+        } else {
             SendCustomEmailJob::dispatch(
                 $receiver->email,
                 $template->subject,
@@ -89,7 +89,7 @@ class AdminEmailSendingController extends Controller
             'is_read'     => 0,
         ]);
 
-        return redirect()->route('admin.email-send.create')
+        return redirect()->route('user.email-send.create')
             ->with('success', $sendAt <= now() ? 'Email Sent!' : 'Email Scheduled!');
     }
 }

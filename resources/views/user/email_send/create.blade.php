@@ -18,7 +18,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.email-send.fill') }}" method="POST">
+    <form action="{{ route('user.email-send.fill') }}" method="POST">
         @csrf
 
         <div>
