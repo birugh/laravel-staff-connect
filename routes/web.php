@@ -16,13 +16,14 @@ use App\Http\Controllers\UserMessageReplyController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    if (!auth()->check()) {
+    if (!Auth::check()) {
         return redirect()->route('login');
     }
 
-    if (auth()->user()->role === 'admin') {
+    if (Auth::user()->role === 'admin') {
         return redirect()->route('admin.dashboard');
     }
 
