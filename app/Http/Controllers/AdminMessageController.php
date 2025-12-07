@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendCustomEmailJob;
 use App\Models\Message;
 use App\Models\MessageReply;
 use App\Models\User;
@@ -81,41 +82,55 @@ class AdminMessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'sender_id'   => ['required', 'exists:users,id'],
-            'receiver_id' => ['required', 'exists:users,id'],
-            'subject'     => ['required', 'min:5', 'max:50'],
-            'body'        => ['required', 'min:5', 'max:255'],
-            'sent'        => ['nullable'],  
-        ]);
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'sender_id'   => ['required', 'exists:users,id'],
+        'receiver_id' => ['required', 'exists:users,id'],
+        'subject'     => ['required', 'min:5', 'max:50'],
+        'body'        => ['required', 'min:5', 'max:255'],
+        'sent'        => ['nullable'],  // optional datetime
+    ]);
 
-        if ($validated['sender_id'] == $validated['receiver_id']) {
-            return redirect()
-                ->back()
-                ->with('error', 'Sender dan Receiver tidak boleh sama!');
-        }
-
-        $sendAt = $request->sent
-            ? Carbon::parse($request->sent)
-            : now();
-
-        $validated['is_read'] = $request->get('is_read') == 'on' ? 1 : 0;
-
-        Message::create([
-            'sender_id'   => $validated['sender_id'],
-            'receiver_id' => $validated['receiver_id'],
-            'subject'     => $validated['subject'],
-            'body'        => $validated['body'],
-            'sent'        => $sendAt,
-            'is_read'     => $validated['is_read'],
-        ]);
-
-        return redirect()
-            ->route('admin.messages.index')
-            ->with('success', 'Message berhasil dibuat!');
+    if ($validated['sender_id'] == $validated['receiver_id']) {
+        return back()->with('error', 'Sender dan Receiver tidak boleh sama!');
     }
+
+    $receiver = User::findOrFail($validated['receiver_id']);
+
+    $sendAt = $request->sent
+        ? Carbon::parse($request->sent)
+        : now();
+
+    if ($sendAt <= now()) {
+        SendCustomEmailJob::dispatch(
+            $receiver->email,
+            $validated['subject'],
+            $validated['body']
+        );
+    } else {
+        SendCustomEmailJob::dispatch(
+            $receiver->email,
+            $validated['subject'],
+            $validated['body']
+        )->delay($sendAt);
+    }
+
+    Message::create([
+        'sender_id'   => $validated['sender_id'],
+        'receiver_id' => $validated['receiver_id'],
+        'subject'     => $validated['subject'],
+        'body'        => $validated['body'],
+        'sent'        => $sendAt,
+        'is_read'     => $request->get('is_read') === 'on' ? 1 : 0,
+    ]);
+
+    return redirect()
+        ->route('admin.messages.index')
+        ->with('success', $sendAt <= now()
+            ? 'Message berhasil dikirim!'
+            : 'Message berhasil dijadwalkan!');
+}
 
 
 
