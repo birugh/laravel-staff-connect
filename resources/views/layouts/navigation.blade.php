@@ -7,8 +7,9 @@
         </button>
     </div>
     <div class="flex items-center gap-2">
-        <a href="">
+        <a href="{{ route('user.profile') }}">
             <img class="rounded-full border-2 border-transparent transition-all duration-250 hover:border-blue-500" src="https://placehold.co/36x36" alt="">
+            <!-- {{ Auth::user()->name }} -->
         </a>
     </div>
 </header>

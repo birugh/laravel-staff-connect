@@ -74,6 +74,10 @@
     @apply bg-red-600;
 }
 
+.btn-disabled:hover {
+    @apply bg-gray-600 cursor-not-allowed;
+}
+
 .btn-secondary {
     @apply bg-neutral-100 text-gray-800 font-normal rounded-md shadow-xs border border-neutral-300;
 }
@@ -207,6 +211,10 @@
 
 .btn-sidebar.btn-danger:hover {
     @apply bg-red-500 text-white;
+}
+
+.btn-sidebar.btn-disabled:hover {
+    @apply bg-gray-300 text-white;
 }
 
 body.sidebar-collapsed .sidebar {
