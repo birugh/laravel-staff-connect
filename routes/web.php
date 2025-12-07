@@ -18,8 +18,17 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
+
+    if (auth()->user()->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return redirect()->route('user.dashboard');
 });
+
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
@@ -87,7 +96,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(fu
 Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     // ! DASHBOARD
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
-    
+
     // ! MESSAGES
     Route::resource('/messages', UserMessageController::class)->except('show');
     Route::get('/inbox', [UserMessageController::class, 'index'])->name('messages.inbox');

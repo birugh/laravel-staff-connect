@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendCustomEmailJob;
 use App\Models\Message;
 use App\Models\MessageReply;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -68,17 +70,46 @@ class UserMessageController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'sender_id' => ['required'],
-            'receiver_id' => ['required'],
-            'subject' => ['required', 'min:5', 'max:50'],
-            'body' => ['required', 'min:5', 'max:255'],
-            'sent' => ['required'],
+            'sender_id'   => ['required', 'exists:users,id'],
+            'receiver_id' => ['required', 'exists:users,id'],
+            'subject'     => ['required', 'min:5', 'max:50'],
+            'body'        => ['required', 'min:5', 'max:255'],
+            'sent'        => ['nullable'],
         ]);
 
-        $validated['is_read'] = 0;
+        $receiver = User::findOrFail($request->receiver_id);
 
-        Message::create($validated);
+        $sendAt = $request->sent
+            ? Carbon::parse($request->sent)
+            : now();
 
-        return redirect()->route('user.messages.inbox')->with('success', 'Message berhasil di buat');
+        if ($sendAt <= now()) {
+            SendCustomEmailJob::dispatch(
+                $receiver->email,
+                $request->subject,
+                $request->body
+            );
+        } else {
+            SendCustomEmailJob::dispatch(
+                $receiver->email,
+                $request->subject,
+                $request->body
+            )->delay($sendAt);
+        }
+
+        Message::create([
+            'sender_id'   => $request->sender_id,
+            'receiver_id' => $request->receiver_id,
+            'subject'     => $request->subject,
+            'body'        => $request->body,
+            'sent'        => $sendAt,
+            'is_read'     => 0,
+        ]);
+
+        return redirect()
+            ->route('user.messages.inbox')
+            ->with('success', $sendAt <= now()
+                ? 'Message berhasil dikirim!'
+                : 'Message berhasil dijadwalkan!');
     }
 }

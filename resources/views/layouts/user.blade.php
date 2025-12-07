@@ -41,22 +41,25 @@
             </div>
         </main>
     </div>
+    @if(Auth::user()->hasVerifiedEmail())
     <div class="compose">
-        <form action="" method="POST">
+        <form action="{{ route('user.messages.store') }}" method="POST">
             @csrf
-
+            <input type="hidden" name="sender_id" value="{{ Auth::user()->id }}">
             <label for="subject">Pilih Karyawan</label>
             <select name="receiver_id">
-                <!-- foreach($karyawans as $k)
-                <option value=" $k->id }}"> $k->name }} ( $k->email }})</option>
-                endforeach -->
+                @foreach($karyawans as $k)
+                <option value="{{ $k->id }}"> {{ $k->name }} ({{ $k->email }} )</option>
+                @endforeach
             </select>
             <label for="subject">Subjek</label>
             <input type="text" name="subject" required>
             <textarea name="body" id="body" required></textarea>
             <input type="date" name="sent">
+            <button type="submit">Submti</button>
         </form>
     </div>
+    @endif
 </body>
 
 </html>

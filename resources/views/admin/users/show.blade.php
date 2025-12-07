@@ -14,6 +14,11 @@
             <div>
                 <label>Email</label><br>
                 <input type="text" disabled value="{{ $user->email }}">
+                <!-- @if(! $user->email_verified_at)
+                <h1>This email isn't verifiied yet</h1>
+                @else
+                <h1>This email is verifiied</h1>
+                @endif -->
             </div>
 
             <div>

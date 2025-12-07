@@ -42,8 +42,9 @@ class AdminUserController extends Controller
 
         $user = User::create($validated);
         event(new Registered($user));
-        Auth::login($user);
-        return redirect()->route('verification.notice');
+        // Auth::login($user);
+        // return redirect()->route('verification.notice');
+        return redirect()->route('admin.user.index')->with('success', 'User Created!');
     }
 
     /**

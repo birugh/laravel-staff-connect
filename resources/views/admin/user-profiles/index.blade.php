@@ -13,7 +13,7 @@
             <th>Nomor Telpon</th>
             <th>Alamat Rumah</th>
             <th>Tanggal Lahir</th>
-            <th></th>
+            <th>Action</th>
         </tr>
         @foreach ($user_profiles as $u)
         <tr>
