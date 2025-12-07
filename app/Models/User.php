@@ -50,12 +50,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
-    protected function role(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => ucfirst($value),
-        );
-    }
     public function token()
     {
         return $this->hasMany(AuthToken::class);
