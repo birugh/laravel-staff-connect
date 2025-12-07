@@ -26,9 +26,9 @@ class AdminDashboardController extends Controller
         // $recievedMail = Message::with('sender')->where('receiver_id', Auth::id())->latest()->paginate(5);
         $sentCount = Message::count();
         $recievedMail = Message::with('sender')->latest()->paginate(10);
-        $pegawaiCount = User::where('role', 'pegawai')->count();
+        $petugasCount = User::where('role', 'petugas')->count();
         $karyawanCount = User::where('role', 'karyawan')->count();
         $recievedMail = Message::with('sender')->latest()->paginate(5);
-        return view('admin.dashboard', compact('sentCount', 'recievedMail', 'pegawaiCount', 'karyawanCount'));
+        return view('admin.dashboard', compact('sentCount', 'recievedMail', 'petugasCount', 'karyawanCount'));
     }
 }

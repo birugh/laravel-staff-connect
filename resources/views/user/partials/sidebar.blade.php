@@ -21,7 +21,7 @@
             <a href="{{ route('user.messages.sent') }}">Pesan Terkirim</a>
         </li>
 
-        @if(auth()->user()->role === 'pegawai')
+        @if(auth()->user()->role === 'petugas')
         <li>
             <a href="{{ route('user.messages.create') }}">Kirim Pesan</a>
         </li>

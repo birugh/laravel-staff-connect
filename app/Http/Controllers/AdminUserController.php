@@ -37,7 +37,7 @@ class AdminUserController extends Controller
             'name' => ['required', 'min:5', 'max:50', 'string'],
             'email' => ['required', 'unique:users,email', 'email'],
             'password' => ['required', 'min:5', 'max:50', 'confirmed'],
-            'role' => ['required', 'string', 'in:admin,pegawai,karyawan']
+            'role' => ['required', 'string', 'in:admin,petugas,karyawan']
         ]);
 
         $user = User::create($validated);
@@ -74,7 +74,7 @@ class AdminUserController extends Controller
             'name' => ['required', 'min:5', 'max:50', 'string'],
             'email' => ['required', Rule::unique('users', 'email')->ignore($user), 'email'],
             'password' => ['nullable', 'min:5', 'max:50', 'confirmed'],
-            'role' => ['required', 'string', 'in:admin,pegawai,karyawan']
+            'role' => ['required', 'string', 'in:admin,petugas,karyawan']
         ]);
 
         if (empty($validated['password'])) {
