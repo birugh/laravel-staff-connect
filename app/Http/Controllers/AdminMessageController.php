@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\MessageReply;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdminMessageController extends Controller
@@ -28,11 +29,11 @@ class AdminMessageController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-public function create()
-{
-    $users = User::latest()->get();
-    return view('admin.messages.create', compact('users'));
-}
+    public function create()
+    {
+        $users = User::latest()->get();
+        return view('admin.messages.create', compact('users'));
+    }
 
 
     /**
@@ -41,25 +42,40 @@ public function create()
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'sender_id' => ['required'],
-            'receiver_id' => ['required'],
-            'subject' => ['required', 'min:5', 'max:50'],
-            'body' => ['required', 'min:5', 'max:255'],
-            'sent' => ['required'],
+            'sender_id'   => ['required', 'exists:users,id'],
+            'receiver_id' => ['required', 'exists:users,id'],
+            'subject'     => ['required', 'min:5', 'max:50'],
+            'body'        => ['required', 'min:5', 'max:255'],
+            'sent'        => ['nullable'],  
         ]);
 
-        if ($validated['sender_id'] === $validated['receiver_id']) {
-            return redirect()->route('admin.messages.create')->with('error', 'Sender dan Receiver tidak boleh sama!');
+        if ($validated['sender_id'] == $validated['receiver_id']) {
+            return redirect()
+                ->back()
+                ->with('error', 'Sender dan Receiver tidak boleh sama!');
         }
+
+        $sendAt = $request->sent
+            ? Carbon::parse($request->sent)
+            : now();
 
         $validated['is_read'] = $request->get('is_read') == 'on' ? 1 : 0;
 
-        Message::create($validated);
+        Message::create([
+            'sender_id'   => $validated['sender_id'],
+            'receiver_id' => $validated['receiver_id'],
+            'subject'     => $validated['subject'],
+            'body'        => $validated['body'],
+            'sent'        => $sendAt,
+            'is_read'     => $validated['is_read'],
+        ]);
 
-        // swal('success', 'Message berhasil dibuat');
-
-        return redirect()->route('admin.messages.index');
+        return redirect()
+            ->route('admin.messages.index')
+            ->with('success', 'Message berhasil dibuat!');
     }
+
+
 
     /**
      * Display the specified resource.
