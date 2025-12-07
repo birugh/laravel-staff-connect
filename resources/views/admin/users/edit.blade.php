@@ -69,7 +69,7 @@
         <label class="label-field req">Role</label><br>
         <select class="field" name="role" required>
             <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-            <option value="pegawai" {{ old('role', $user->role) == 'pegawai' ? 'selected' : '' }}>Petugas</option>
+            <option value="petugas" {{ old('role', $user->role) == 'petugas' ? 'selected' : '' }}>Petugas</option>
             <option value="karyawan" {{ old('role', $user->role) == 'karyawan' ? 'selected' : '' }}>Karyawan</option>
         </select>
         @error('role')

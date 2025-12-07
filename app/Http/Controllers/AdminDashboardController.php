@@ -12,13 +12,53 @@ class AdminDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // $recievedCountThisWeek = Message::where('receiver_id', Auth::id())
-        //     ->whereBetween('sent', [$now->startOfWeek(), $now->endOfWeek()])
-        //     ->count();
+        $filter = $request->filter;
+        $search = $request->search;
 
-        // $sentCountThisWeek = Message::where('sender_id', Auth::id())
-        //     ->whereBetween('sent', [$now->startOfWeek(), $now->endOfWeek()])
-        //     ->count();
+        $query = Message::with('sender');
+        $countAll = (clone $query)->count();
+
+        $countNow = (clone $query)
+            ->whereDate('sent', now()->toDateString())
+            ->count();
+
+        $countThisWeek = (clone $query)
+            ->whereBetween('sent', [now()->startOfWeek(), now()->endOfWeek()])
+            ->count();
+
+        $countUnread = (clone $query)
+            ->where('is_read', 0)
+            ->count();
+
+        $query = Message::with('sender');
+
+        switch ($filter) {
+            case 'now':
+                $query->whereDate('sent', now()->toDateString());
+                break;
+
+            case 'this_week':
+                $query->whereBetween('sent', [
+                    now()->startOfWeek(),
+                    now()->endOfWeek(),
+                ]);
+                break;
+
+            case 'unread':
+                $query->where('is_read', 0);
+                break;
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('subject', 'LIKE', "%{$search}%")
+                    ->orWhereHas('sender', function ($senderQuery) use ($search) {
+                        $senderQuery->where('name', 'LIKE', "%{$search}%");
+                    });
+            });
+        }
+
+        $recievedMail = $query->latest()->paginate(5);
 
         // $sentCount = Message::where('sender_id', operator: Auth::id())->count();
         // $recievedCount = Message::where('receiver_id', Auth::id())->count();
@@ -26,8 +66,7 @@ class AdminDashboardController extends Controller
         // $recievedMail = Message::with('sender')->where('receiver_id', Auth::id())->latest()->paginate(5);
         // $recievedMail = Message::with('sender')->latest()->paginate(10);
         $sentCount = Message::count();
-        $recievedMail = Message::with('sender')->latest()->paginate(10);
-        $pegawaiCount = User::where('role', 'pegawai')->count();
+        $petugasCount = User::where('role', 'petugas')->count();
         $karyawanCount = User::where('role', 'karyawan')->count();
 
         $messagesPerMonth = Message::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
@@ -57,12 +96,13 @@ class AdminDashboardController extends Controller
                 ->toArray()
         ];
 
-        return view('admin.dashboard', [
-            'recievedMail' => $recievedMail,
-            'pegawaiCount' => $pegawaiCount,
-            'karyawanCount' => $karyawanCount,
-            'sentCount' => $sentCount,
-            'chartData' => json_encode($chartData),
-        ]);
+        // return view('admin.dashboard', [
+        //     'recievedMail' => $recievedMail,
+        //     'pegawaiCount' => $pegawaiCount,
+        //     'karyawanCount' => $karyawanCount,
+        //     'sentCount' => $sentCount,
+        //     'chartData' => json_encode($chartData),
+        // ]);
+        return view('admin.dashboard', compact('sentCount', 'recievedMail', 'petugasCount', 'karyawanCount', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread'));
     }
 }

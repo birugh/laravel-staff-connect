@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => null,
             'password' => Hash::make('123'),
             'remember_token' => Str::random(10),
-            'role' => 'pegawai',
+            'role' => 'petugas',
         ]);
         UserProfile::create([
             'user_id' => 1,

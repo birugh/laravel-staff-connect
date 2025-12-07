@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserMessageController;
 use App\Http\Controllers\UserMessageReplyController;
+use App\Http\Controllers\UserProfileControler;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -31,6 +32,19 @@ Route::get('/', function () {
 });
 
 
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect(Auth::user()->role === 'admin' ? '/admin/dashboard' : 'user/dashboard')->with('status', 'Email verified!');
+})->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
@@ -39,19 +53,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 
-    Route::get('/email/verify', function () {
-        return view('auth.verify-email');
-    })->middleware('auth')->name('verification.notice');
-
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return redirect('/dashboard')->with('status', 'Email verified!');
-    })->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');
-
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return back()->with('status', 'Verification link sent!');
-    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
     // Forgot password
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
@@ -104,6 +105,8 @@ Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     Route::post('/reply', [UserMessageReplyController::class, 'store'])->name('messages.reply');
     Route::get('/sent', [UserMessageController::class, 'sent'])->name('messages.sent');
     Route::get('/show/{id}', [UserMessageController::class, 'show'])->name('messages.show');
+    // ! MESSAGES
+    Route::get('/profile', [UserProfileControler::class, 'index'])->name('profile');
 });
 
 Route::get('/email', function () {

@@ -67,7 +67,7 @@
         <select class="field req" name="role" required>
             <option hidden selected>Pilih role user</option>
             <option value="admin">Admin</option>
-            <option value="pegawai">Petugas</option>
+            <option value="petugas">Petugas</option>
             <option value="karyawan">Karyawan</option>
         </select>
         @error('role')

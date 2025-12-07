@@ -14,10 +14,21 @@ class AdminUserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->paginate(5);
-        return view('admin.users.index', compact('users'));
+        $search = $request->search;
+
+        $query = User::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $users = $query->latest()->paginate(5);
+        return view('admin.users.index', compact('users', 'search'));
     }
 
     /**
@@ -37,7 +48,7 @@ class AdminUserController extends Controller
             'name' => ['required', 'min:5', 'max:50', 'string'],
             'email' => ['required', 'unique:users,email', 'email'],
             'password' => ['required', 'min:5', 'max:50', 'confirmed'],
-            'role' => ['required', 'string', 'in:admin,pegawai,karyawan']
+            'role' => ['required', 'string', 'in:admin,petugas,karyawan']
         ]);
 
         $user = User::create($validated);
@@ -74,7 +85,7 @@ class AdminUserController extends Controller
             'name' => ['required', 'min:5', 'max:50', 'string'],
             'email' => ['required', Rule::unique('users', 'email')->ignore($user), 'email'],
             'password' => ['nullable', 'min:5', 'max:50', 'confirmed'],
-            'role' => ['required', 'string', 'in:admin,pegawai,karyawan']
+            'role' => ['required', 'string', 'in:admin,petugas,karyawan']
         ]);
 
         if (empty($validated['password'])) {

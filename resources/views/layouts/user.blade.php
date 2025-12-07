@@ -60,6 +60,7 @@
         @include('layouts.navigation')
         <main>
             <div class="container px-24 pt-8">
+
                 @yield('content')
             </div>
         </main>

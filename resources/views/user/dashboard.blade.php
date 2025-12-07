@@ -10,7 +10,9 @@
 </p>
 
 <a href="{{ route('user.messages.inbox') }}">Lihat Inbox</a>
-
+@if (session('status'))
+<p style="color: green">{{ session('status') }}</p>
+@endif
 <table>
     <tr>
         <th>Subject</th>

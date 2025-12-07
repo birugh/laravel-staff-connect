@@ -6,18 +6,30 @@
         <h1>Inbox</h1>
         <small> 1.923 Email</small>
     </div>
-    <form action="" method="POST">
-        @csrf
-        <input type="search" name="search" placeholder="Search by subject and sender">
+    <form action="{{ route('user.messages.inbox') }}" method="GET">
+        <input type="search" name="search" value="{{ request('search') }}" placeholder="Search by subject or sender">
     </form>
 </div>
 
 <div>
-    <a href="">All Mail</a>
-    <a href="">Now (5)</a>
-    <a href="">This Week (6)</a>
-    <a href="">Unread (9)</a>
+    <a href="{{ route('user.messages.inbox', ['filter' => 'all']) }}">
+        All Mail ({{ $countAll }})
+    </a>
+
+    <a href="{{ route('user.messages.inbox', ['filter' => 'now']) }}">
+        Now ({{ $countNow }})
+    </a>
+
+    <a href="{{ route('user.messages.inbox', ['filter' => 'this_week']) }}">
+        This Week ({{ $countThisWeek }})
+    </a>
+
+    <a href="{{ route('user.messages.inbox', ['filter' => 'unread']) }}">
+        Unread ({{ $countUnread }})
+    </a>
 </div>
+
+
 
 <div>
     <div>

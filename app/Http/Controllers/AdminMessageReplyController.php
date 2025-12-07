@@ -12,12 +12,51 @@ class AdminMessageReplyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $replies = MessageReply::with('message')
-            ->latest()
-            ->paginate(5);
-        return view('admin.replies.index', compact('replies'));
+        $filter = $request->filter;
+        $search = $request->search;
+
+        $query = MessageReply::with('message', 'user');
+        $countAll = (clone $query)->count();
+
+        $countNow = (clone $query)
+            ->whereDate('created_at', now()->toDateString())
+            ->count();
+
+        $countThisWeek = (clone $query)
+            ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->count();
+
+        $query = MessageReply::with('message', 'user');
+
+        switch ($filter) {
+            case 'now':
+                $query->whereDate('created_at', now()->toDateString());
+                break;
+
+            case 'this_week':
+                $query->whereBetween('created_at', [
+                    now()->startOfWeek(),
+                    now()->endOfWeek(),
+                ]);
+                break;
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('body', 'LIKE', "%{$search}%")
+                    ->orWhereHas('user', function ($u) use ($search) {
+                        $u->where('name', 'LIKE', "%{$search}%");
+                    })
+                    ->orWhereHas('message', function ($m) use ($search) {
+                        $m->where('subject', 'LIKE', "%{$search}%");
+                    });
+            });
+        }
+
+        $replies = $query->latest()->paginate(5);
+        return view('admin.replies.index', compact('replies', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek'));
     }
     /**
      * Show the form for creating a new resource.

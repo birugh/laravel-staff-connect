@@ -14,10 +14,23 @@ class AdminUserProfileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user_profiles = UserProfile::with('user')->paginate(5);
-        return view('admin.user-profiles.index', compact('user_profiles'));
+        $search = $request->search;
+
+        $query = UserProfile::with('user');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nik', 'LIKE', "%{$search}%")
+                    ->orWhereHas('user', function ($u) use ($search) {
+                        $u->where('name', 'LIKE', "%{$search}%");
+                    });
+            });
+        }
+
+        $user_profiles = $query->paginate(5);
+        return view('admin.user-profiles.index', compact('user_profiles', 'search'));
     }
 
     /**
