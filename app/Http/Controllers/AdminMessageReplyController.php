@@ -106,7 +106,8 @@ class AdminMessageReplyController extends Controller
 
         MessageReply::create($validated);
 
-        return redirect()->route('admin.replies.index')->with('success', 'Reply berhasil di buat');
+        swal('success', 'Reply berhasil di buat', 'Success');
+        return redirect()->route('admin.replies.index');
     }
 
     /**
@@ -138,7 +139,8 @@ class AdminMessageReplyController extends Controller
         ]);
 
         $reply->update($validated);
-        return redirect()->route('admin.replies.index')->with('success', 'Reply berhasil di update');
+        swal('success', 'Reply berhasil di update', 'Success');
+        return redirect()->route('admin.replies.index');
     }
 
     /**
@@ -147,6 +149,7 @@ class AdminMessageReplyController extends Controller
     public function destroy(MessageReply $reply)
     {
         $reply->delete();
-        return redirect()->route('admin.replies.index')->with('success', 'Reply berhasil di hapus');
+        swal('success', 'Reply berhasil di hapus', 'Success');
+        return redirect()->route('admin.replies.index');
     }
 }

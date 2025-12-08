@@ -96,7 +96,7 @@ class AdminEmailSendingController extends Controller
             'next_run_at' => $nextRun,
             'is_read'     => 0,
         ]);
-        return redirect()->route('admin.messages.templates.create')
-            ->with('success', $sendAt <= now() ? 'Email Sent!' : 'Email Scheduled!');
+        swal('success', $sendAt <= now() ? 'Email Sent!' : 'Email Scheduled!', 'Success');
+        return redirect()->route('admin.messages.templates.create');
     }
 }

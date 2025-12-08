@@ -9,7 +9,8 @@
     <div class="container-content">
         <div class="flex justify-between items-start mb-4">
             <div class="flex gap-4 items-center">
-                <img class="w-[50px] h-[50px] object-cover rounded-full border-2 border-gray-300" src="https://placehold.co/50x50?text=None" alt="sender">
+                <img class="w-12 h-12 object-cover rounded-full  border-2 border-gray-300" src="{{ $message->sender->profile ? asset('storage/' . $message->sender->profile?->profile_path) : 'https://placehold.co/36x36' }}" alt="">
+
 
                 <div class="flex flex-col gap-1">
                     <small class="font-medium text-base flex items-center gap-1">
@@ -31,7 +32,7 @@
         </div>
 
         <div class="flex justify-center items-start gap-4">
-            <img class="w-12 h-12 object-cover rounded-full  border-2 border-gray-300" src="{{ Auth::user()->profile?->profile_path ? asset('storage/' . $profile?->profile_path) : 'https://placehold.co/36x36' }}" alt="">
+            <img class="w-12 h-12 object-cover rounded-full  border-2 border-gray-300" src="{{ Auth::user()->profile ? asset('storage/' . Auth::user()->profile?->profile_path) : 'https://placehold.co/36x36' }}" alt="">
             <form class="w-full" method="POST" action="{{ route('user.messages.reply') }}">
                 @csrf
                 <input type="hidden" name="message_id" value="{{ $message->id }}">
@@ -55,8 +56,7 @@
         @foreach($replies as $reply)
         <div class="flex justify-between items-start mb-4">
             <div class="flex gap-4 items-start">
-                <img class="w-[50px] h-[50px] object-cover rounded-full border-2 border-gray-300" src="https://placehold.co/50x50?text=None" alt="sender">
-
+                <img class="w-12 h-12 object-cover rounded-full  border-2 border-gray-300" src="{{ $reply->user->profile ? asset('storage/' . $reply->user->profile?->profile_path) : 'https://placehold.co/36x36' }}" alt="">
                 <div class="flex flex-col gap-1">
                     <small class="font-medium text-base flex items-center gap-1">
                         {{ $reply->user?->name ?? 'Unknown User' }}

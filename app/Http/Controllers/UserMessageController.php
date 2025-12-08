@@ -242,10 +242,9 @@ class UserMessageController extends Controller
             'is_read'     => 0,
         ]);
 
-        return redirect()
-            ->route('user.messages.inbox')
-            ->with('success', $sendAt <= now()
-                ? 'Message berhasil dikirim!'
-                : 'Message berhasil dijadwalkan!');
+        swal('success', $sendAt <= now()
+            ? 'Message berhasil dikirim!'
+            : 'Message berhasil dijadwalkan!', 'Success');
+        return redirect()->route('user.messages.inbox');
     }
 }

@@ -77,8 +77,8 @@ class AdminUserProfileController extends Controller
         }
         UserProfile::create($validated);
 
-        return redirect()->route('admin.user-profile.index')
-            ->with('success', 'Profile user berhasil dibuat');
+        swal('success', 'Profile user berhasil dibuat', 'Success');
+        return redirect()->route('admin.user-profile.index');
     }
 
     /**
@@ -127,7 +127,8 @@ class AdminUserProfileController extends Controller
 
         $userProfile->update($validated);
 
-        return redirect()->route('admin.user-profile.index')->with('success', 'Profile user berhasil diupdate');
+        swal('success', 'Profile user berhasil diupdate', 'Success');
+        return redirect()->route('admin.user-profile.index');
     }
 
     /**
@@ -136,6 +137,7 @@ class AdminUserProfileController extends Controller
     public function destroy(UserProfile $userProfile)
     {
         $userProfile->delete();
-        return redirect()->route('admin.user-profile.index')->with('success', 'Profile user berhasil dihapus');
+        swal('success', 'Profile user berhasil dihapus', 'Success');
+        return redirect()->route('admin.user-profile.index');
     }
 }

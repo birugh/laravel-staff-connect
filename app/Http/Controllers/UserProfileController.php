@@ -59,6 +59,7 @@ class UserProfileController extends Controller
 
         $userProfile->update($validated);
 
-        return redirect()->route('user.user-profile.index')->with('success', 'Profile user berhasil diupdate');
+        swal('success', 'Profile user berhasil diupdate', 'Success');
+        return redirect()->route('user.user-profile.index');
     }
 }

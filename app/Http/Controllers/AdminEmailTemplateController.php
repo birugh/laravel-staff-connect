@@ -81,8 +81,8 @@ class AdminEmailTemplateController extends Controller
 
         EmailTemplate::create($validated);
 
-        return redirect()->route('admin.email-templates.index')
-            ->with('success', 'Template berhasil dibuat!');
+        swal('success', 'Template berhasil dibuat!', 'Success');
+        return redirect()->route('admin.email-templates.index');
     }
 
     /**
@@ -119,8 +119,8 @@ class AdminEmailTemplateController extends Controller
 
         $emailTemplate->update($validated);
 
-        return redirect()->route('admin.email-templates.index')
-            ->with('success', 'Template berhasil diperbarui!');
+        swal('success', 'Template berhasil diperbarui!', 'Success');
+        return redirect()->route('admin.email-templates.index');
     }
 
     /**
@@ -129,7 +129,7 @@ class AdminEmailTemplateController extends Controller
     public function destroy(EmailTemplate $emailTemplate)
     {
         $emailTemplate->delete();
-        return redirect()->route('admin.email-templates.index')
-            ->with('success', 'Template berhasil dihapus!');
+        swal('success', 'Template berhasil dihapus!', 'Success');
+        return redirect()->route('admin.email-templates.index');
     }
 }

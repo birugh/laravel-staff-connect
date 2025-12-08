@@ -148,11 +148,10 @@ class AdminMessageController extends Controller
             'is_read'     => $request->get('is_read') === 'on' ? 1 : 0,
         ]);
 
-        return redirect()
-            ->route('admin.messages.index')
-            ->with('success', $sendAt <= now()
-                ? 'Message berhasil dikirim!'
-                : 'Message berhasil dijadwalkan!');
+        swal('success', $sendAt <= now()
+            ? 'Message berhasil dikirim!'
+            : 'Message berhasil dijadwalkan!', 'Success');
+        return redirect()->route('admin.messages.index');
     }
 
 
@@ -204,7 +203,8 @@ class AdminMessageController extends Controller
 
         $message->update($validated);
 
-        return redirect()->route('admin.messages.index')->with('success', 'Message berhasil di update');
+        swal('success', 'Message berhasil di update', 'Success');
+        return redirect()->route('admin.messages.index');
     }
 
     /**
@@ -213,6 +213,7 @@ class AdminMessageController extends Controller
     public function destroy(Message $message)
     {
         $message->delete();
-        return redirect()->route('admin.messages.index')->with('success', 'Message berhasil di hapus');
+        swal('success', 'Message berhasil di hapus', 'Success');
+        return redirect()->route('admin.messages.index');
     }
 }
