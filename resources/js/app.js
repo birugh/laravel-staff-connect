@@ -8,12 +8,41 @@ window.Swal = Swal;
 // TODO: Toggle sidebar
 
 const toggleBtn = document.getElementById('toggleBtn');
+const sidebar = document.querySelector('.sidebar');
 
-if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-        document.body.classList.toggle('sidebar-collapsed');
+if (sidebar) {
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('sidebar-collapsed');
+        })
+    }
+
+    sidebar.addEventListener('mouseenter', () => {
+        setTimeout(() => {
+            document.body.classList.remove('sidebar-collapsed');
+        }, 100);
+    })
+    sidebar.addEventListener('mouseleave', () => {
+        setTimeout(() => {
+            document.body.classList.add('sidebar-collapsed');
+            document.querySelectorAll(".sidebar-group").forEach(group => {
+                const collapse = group.querySelector(".sidebar-collapse");
+                const arrow = group.querySelector(".arrow-icon");
+
+                if (!collapse.classList.contains('hidden')) {
+                    collapse.classList.toggle("hidden");
+                    arrow.classList.toggle("rotate-180");
+                } else {
+                    return;
+                }
+            });
+        }, 100);
     })
 }
+
+
+
+
 
 
 // TODO: Toggle password
@@ -79,3 +108,14 @@ if (el) {
         },
     });
 }
+
+document.querySelectorAll(".sidebar-group").forEach(group => {
+    const toggle = group.querySelector(".sidebar-toggle");
+    const collapse = group.querySelector(".sidebar-collapse");
+    const arrow = group.querySelector(".arrow-icon");
+
+    toggle.addEventListener("click", () => {
+        collapse.classList.toggle("hidden");
+        arrow.classList.toggle("rotate-180");
+    });
+});
