@@ -56,7 +56,7 @@
     </div>
 
     <div class="mb-2">
-        <label class="label-field">Foto Profil</label><br>
+        <label class="label-field">Profile Picture</label><br>
         <input class="field" type="file" name="profile_path">
         @error('profile_path')
         <p class="error-message">{{ $message }}</p>

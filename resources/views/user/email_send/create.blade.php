@@ -23,9 +23,9 @@
     @csrf
 
     <div class="mb-2">
-        <label class="label-field req">Pilih Template Email</label><br>
+        <label class="label-field req">Email Template</label><br>
         <select class="field" name="template_id">
-            <option value="">-- Pilih Template --</option>
+            <option value="">-- Choose template --</option>
             @foreach ($templates as $t)
             <option value="{{ $t->id }}" {{ old('template_id') == $t->id ? 'selected' : '' }}>
                 {{ $t->name }} ({{ $t->subject }})
@@ -38,9 +38,9 @@
     </div>
 
     <div class="mb-2">
-        <label class="label-field req">Pilih Penerima</label><br>
+        <label class="label-field req">Receiver</label><br>
         <select class="field" name="receiver_id">
-            <option value="">Pilih Penerima</option>
+            <option value="">Choose Receiver</option>
             @foreach ($employees as $e)
             <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }}>
                 {{ $e->name }} - {{ $e->email }}
@@ -53,7 +53,7 @@
     </div>
 
     <div class="dashboard__create">
-        <button type="submit" class="btn btn-primary cursor-pointer">Lanjut Isi Data Template</button>
+        <button type="submit" class="btn btn-primary cursor-pointer">Fill template data</button>
         <a class="btn btn-secondary" href="{{ route('admin.messages.templates.create') }}">Cancel</a>
     </div>
 </form>

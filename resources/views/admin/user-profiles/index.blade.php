@@ -18,12 +18,12 @@
             <table class="table table-hover">
                 <tr>
                     <x-th-sort column="id" label="No" />
-                    <th>Profil</th>
-                    <x-th-sort column="nama" label="Nama" />
+                    <th>Profile</th>
+                    <x-th-sort column="nama" label="Name" />
                     <x-th-sort column="nik" label="NIK" />
-                    <x-th-sort column="phone_number" label="Nomor Telpon" />
-                    <x-th-sort column="address" label="Alamat Rumah" />
-                    <x-th-sort column="date_of_birth" label="Tanggal Lahir" />
+                    <x-th-sort column="phone_number" label="Phone Number" />
+                    <x-th-sort column="address" label="Home Address" />
+                    <x-th-sort column="date_of_birth" label="Date Of Birth" />
                     <th>Action</th>
                 </tr>
                 @foreach ($user_profiles as $u)

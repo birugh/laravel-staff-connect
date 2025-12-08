@@ -64,13 +64,13 @@
                     <td>{{ $r->created_at->format('d M Y H:i') }}</td>
                     <td>
                         @if(!$r->is_read)
-                        <span class="error-message">Belum Dibaca</span>
+                        <span class="error-message">Unread</span>
                         @else
-                        <span class="success-message">Dibaca</span>
+                        <span class="success-message">Read</span>
                         @endif
                     </td>
                     <td>
-                        <a class="btn-action" href="{{ route('user.messages.show', $r->id) }}">Lihat</a>
+                        <a class="btn-action" href="{{ route('user.messages.show', $r->id) }}">View</a>
                     </td>
                 </tr>
                 @endforeach

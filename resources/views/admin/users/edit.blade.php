@@ -63,20 +63,18 @@
         <input class="field"
             minlength="5"
             type="password"
-            name="password"
-            required>
+            name="password">
         @error('password')
         <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
     <div class="mb-2">
-        <label class="label-field">Konfirmasi Password</label><br>
+        <label class="label-field">Confirm Password</label><br>
         <input class="field"
             minlength="5"
             type="password"
-            name="password_confirmation"
-            required>
+            name="password_confirmation">
         @error('password')
         <p class="error-message">{{ $message }}</p>
         @enderror
