@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="dashboard__title">
-    <h1 class="font-medium text-2xl mb-4">Edit User Profile {{ $userProfile->id }}</h1>
+    <h1 class="font-medium text-2xl mb-4">Edit Profile</h1>
 </div>
 
 <form method="POST" action="{{ route('user.user-profile.update', $userProfile->id) }}" enctype="multipart/form-data">

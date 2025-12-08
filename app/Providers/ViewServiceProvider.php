@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\UserProfile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
@@ -20,8 +22,10 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         view()->composer('layouts.*', function ($view) {
-            $karyawans = \App\Models\User::where('role', 'karyawan')->get();
-            $view->with('karyawans', $karyawans);
+            if (Auth::user()) {
+                $profile = UserProfile::find(Auth::user()->id);
+                $view->with('profile', $profile);
+            }
         });
     }
 }
