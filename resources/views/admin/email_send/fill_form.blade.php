@@ -34,7 +34,7 @@
 </div>
 @endif
 
-<form action="{{ route('admin.email-send.send') }}" method="POST">
+<form action="{{ route('admin.messages.templates.send') }}" method="POST">
     @csrf
 
     <input type="hidden" name="template_id" value="{{ $template->id }}">
@@ -86,7 +86,7 @@
 
     <div class="dashboard__create">
         <button type="submit" class="btn btn-primary cursor-pointer">Send</button>
-        <a class="btn btn-secondary" href="{{ route('admin.email-send.create') }}">Cancel</a>
+        <a class="btn btn-secondary" href="{{ route('admin.messages.templates.create') }}">Cancel</a>
     </div>
 
 </form>

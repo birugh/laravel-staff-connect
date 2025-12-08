@@ -19,7 +19,7 @@
 </div>
 @endif
 
-<form action="{{ route('user.email-send.fill') }}" method="POST">
+<form action="{{ route('user.messages.templates.fill') }}" method="POST">
     @csrf
 
     <div class="mb-2">
@@ -54,7 +54,7 @@
 
     <div class="dashboard__create">
         <button type="submit" class="btn btn-primary cursor-pointer">Lanjut Isi Data Template</button>
-        <a class="btn btn-secondary" href="{{ route('admin.email-send.create') }}">Cancel</a>
+        <a class="btn btn-secondary" href="{{ route('admin.messages.templates.create') }}">Cancel</a>
     </div>
 </form>
 @endsection

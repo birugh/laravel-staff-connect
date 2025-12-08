@@ -89,7 +89,7 @@ class AdminEmailSendingController extends Controller
             'is_read'     => 0,
         ]);
 
-        return redirect()->route('admin.email-send.create')
+        return redirect()->route('admin.messages.templates.create')
             ->with('success', $sendAt <= now() ? 'Email Sent!' : 'Email Scheduled!');
     }
 }

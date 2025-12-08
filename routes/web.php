@@ -91,9 +91,9 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(fu
     // ! EMAIL TEMPLATE
     Route::resource('email-templates', AdminEmailTemplateController::class);
     // ! EMAIL SENDING
-    Route::get('/email-send', [AdminEmailSendingController::class, 'create'])->name('email-send.create');
-    Route::post('/email-send/fill', [AdminEmailSendingController::class, 'fillForm'])->name('email-send.fill');
-    Route::post('/email-send/send', [AdminEmailSendingController::class, 'send'])->name('email-send.send');
+    Route::get('/messages/templates', [AdminEmailSendingController::class, 'create'])->name('messages.templates.create');
+    Route::post('/messages/templates/fill', [AdminEmailSendingController::class, 'fillForm'])->name('messages.templates.fill');
+    Route::post('/messages/templates/send', [AdminEmailSendingController::class, 'send'])->name('messages.templates.send');
 });
 
 // USER SPACE
@@ -112,9 +112,9 @@ Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
     // ! EMAIL TEMPLATE SENDING
     Route::middleware('verified')->group(function () {
-        Route::get('/email-send', [UserEmailSendingController::class, 'create'])->name('email-send.create');
-        Route::post('/email-send/fill', [UserEmailSendingController::class, 'fillForm'])->name('email-send.fill');
-        Route::post('/email-send/send', [UserEmailSendingController::class, 'send'])->name('email-send.send');
+        Route::get('/messages/templates', [UserEmailSendingController::class, 'create'])->name('messages.templates.create');
+        Route::post('/messages/templates/fill', [UserEmailSendingController::class, 'fillForm'])->name('messages.templates.fill');
+        Route::post('/messages/templates/send', [UserEmailSendingController::class, 'send'])->name('messages.templates.send');
     });
 });
 

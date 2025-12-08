@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <a class="btn btn-secondary mt-4" href="{{ route('admin.email-send.create') }}">
+    <a class="btn btn-secondary mt-4" href="{{ route('admin.messages.templates.create') }}">
         Send Email
     </a>
 

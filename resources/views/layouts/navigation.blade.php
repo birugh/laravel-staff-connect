@@ -6,12 +6,14 @@
             </svg>
         </button>
     </div>
+    @if($profile)
     <div class="flex items-center gap-2">
         <a href="{{ route('user.profile') }}">
             <img
                 class="rounded-full border-2 border-transparent transition-all duration-250 hover:border-blue-500 max-w-12"
-                src="{{ $profile->profile_path ? asset('storage/' . $profile->profile_path) : 'https://placehold.co/36x36' }}"
+                src="{{ $profile?->profile_path ? asset('storage/' . $profile?->profile_path) : 'https://placehold.co/36x36' }}"
                 alt="Profile Picture">
         </a>
     </div>
+    @endif
 </header>

@@ -32,7 +32,7 @@
 </div>
 @endif
 
-<form action="{{ route('user.email-send.send') }}" method="POST">
+<form action="{{ route('user.messages.templates.send') }}" method="POST">
     @csrf
     <input type="hidden" name="template_id" value="{{ $template->id }}">
     <input type="hidden" name="receiver_id" value="{{ $receiver_id }}">
@@ -84,7 +84,7 @@
 
     <div class="dashboard__create">
         <button type="submit" class="btn btn-primary cursor-pointer">Kirim Email</button>
-        <a class="btn btn-secondary" href="{{ route('admin.email-send.create') }}">Kembali</a>
+        <a class="btn btn-secondary" href="{{ route('admin.messages.templates.create') }}">Kembali</a>
     </div>
 </form>
 @endsection
