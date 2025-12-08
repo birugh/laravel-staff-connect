@@ -20,10 +20,9 @@ class UserProfileController extends Controller
 
     public function edit(UserProfile $userProfile)
     {
-        $usersWithoutProfile = User::doesntHave('profile')->get();
-        $users = $usersWithoutProfile->push($userProfile->user);
+        $user = $userProfile->user;
 
-        return view('user.profile.edit', compact('userProfile', 'users'));
+        return view('user.profile.edit', compact('userProfile', 'user'));
     }
 
     /**
