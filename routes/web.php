@@ -29,7 +29,7 @@ Route::get('/', function () {
         return redirect()->route('admin.dashboard');
     }
 
-    return redirect()->route('user.dashboard');
+    return redirect()->route('user.inbox');
 });
 
 

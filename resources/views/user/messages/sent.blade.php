@@ -33,7 +33,7 @@
             <tr>
                 <td>{{ $messages->firstItem() + $loop->index }}</td>
                 <td>{{ $msg->subject ?? '(No Subject)' }}</td>
-                <td>{{ $msg->receiver->name }}</td>
+                <td>{{ $msg->receiver?->name ?? 'USER DELETED' }}</td>
                 <td>{{ $msg->sentFull() }}</td>
                 <td>
                     <a class="btn-action" href="{{ route('user.messages.show', $msg->id) }}">

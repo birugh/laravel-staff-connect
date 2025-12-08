@@ -1,7 +1,4 @@
 <div style="width:220px; background:#f4f4f4; padding:20px">
-
-    <h3>{{ Auth::user()->email }}</h3>
-
     <ul style="list-style:none; padding:0">
         @if(auth()->user()->role !== 'admin')
         <li>

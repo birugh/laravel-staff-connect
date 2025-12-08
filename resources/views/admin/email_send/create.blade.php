@@ -25,7 +25,7 @@
     <div class="mb-2">
         <label class="label-field req">Pilih Template Email</label><br>
         <select class="field" name="template_id">
-            <option value="">-- Pilih Template --</option>
+            <option value="" hidden>-- Pilih Template --</option>
             @foreach ($templates as $t)
             <option value="{{ $t->id }}" {{ old('template_id') == $t->id ? 'selected' : '' }} required>
                 {{ $t->name }} ({{ $t->subject }})
@@ -40,7 +40,7 @@
     <div class="mb-2">
         <label class="label-field req">Pilih Penerima</label><br>
         <select class="field" name="receiver_id">
-            <option value="">-- Pilih Penerima --</option>
+            <option value="" hidden>-- Pilih Penerima --</option>
             @foreach ($employees as $e)
             <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }} required>
                 {{ $e->name }} - {{ $e->email }}

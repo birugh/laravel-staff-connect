@@ -175,7 +175,7 @@
             </li>
             <li>
                 @if(Auth::user()->hasVerifiedEmail())
-                <a class="btn-sidebar" href="{{ route('user.email-send.create') }}">
+                <a class="btn-sidebar" href="{{ route('user.messages.templates.create') }}">
                     @else
                     <a class="btn-sidebar btn-disabled" href="javascript:void(0)">
                         @endif

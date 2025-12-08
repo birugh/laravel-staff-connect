@@ -7,8 +7,10 @@
         </button>
         <x-breadcrumbs :items="generateBreadcrumbs()" />
     </div>
+    @if($profile)
     <a class="inline-flex items-center group" href="{{ route('user.profile') }}">
         {{ Str::limit(Auth::user()->name ?? 'Unknown',15) }}
         <img class="w-9 h-9 object-cover rounded-full border-2 border-transparent transition-discrete duration-350 group-hover:border-blue-500 ml-2" src="{{ $profile?->profile_path ? asset('storage/' . $profile?->profile_path) : 'https://placehold.co/36x36' }}" alt="">
     </a>
+    @endif
 </header>

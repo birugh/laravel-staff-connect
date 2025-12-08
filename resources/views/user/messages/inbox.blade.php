@@ -32,12 +32,13 @@
     <table class="table table-hover mb-4">
         <thead>
             <tr>
+                <th>No</th>
                 <x-th-sort column="sender" label="Pengirim" />
                 <x-th-sort column="subject" label="Subject" />
                 <x-th-sort column="body" label="Body" />
                 <x-th-sort column="tanggal" label="Tanggal" />
                 <x-th-sort column="is_read" label="Status" />
-                <x-th-sort column="aksi" label="Aksi" />
+                <th>Action</th>
             </tr>
         </thead>
 
@@ -45,7 +46,7 @@
             @foreach($recievedMail as $r)
             <tr>
                 <td>{{ $recievedMail->firstItem() + $loop->index }}</td>
-                <td>{{ $r->sender->name }}</td>
+                <td>{{ $r->sender?->name ?? 'USER DELETED' }}</td>
                 <td>{{ $r->subject }}</td>
                 <td>{{ $r->limitBody() }}</td>
                 <td>{{ $r->created_at->format('d M Y H:i') }}</td>
