@@ -47,6 +47,7 @@
     <div>
         <table class="table table-hover mb-4">
             <tr>
+                <th>No</th>
                 <th>Subject</th>
                 <th>Sender</th>
                 <th>Status</th>
@@ -54,6 +55,7 @@
             </tr>
             @foreach ($recievedMail as $r)
             <tr>
+                <td>{{ $recievedMail->firstItem() + $loop->index }}</td>
                 <td>{{ $r->subject }}</td>
                 <td>{{ $r->sender->name }}</td>
                 <td>

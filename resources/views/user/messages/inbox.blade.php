@@ -3,7 +3,7 @@
 @section('content')
 <div class="dashboard__title">
     <h1 class="font-medium text-xl">Inbox</h1>
-    <small class="opacity-70">{{ number_format($countAll) }} Email | {{ $unreadCount ?? '0' }} Unread mails </small>
+    <small class="opacity-70">{{ number_format($countAll) }} Email | {{ $countUnread ?? '0' }} Unread mails </small>
 </div>
 
 <form method="GET" action="{{ route('user.messages.inbox') }}" class="mb-4">
@@ -32,6 +32,7 @@
     <table class="table table-hover mb-4">
         <thead>
             <tr>
+                <th>No</th>
                 <th>Pengirim</th>
                 <th>Subject</th>
                 <th>Body</th>
@@ -44,6 +45,7 @@
         <tbody>
             @foreach($recievedMail as $r)
             <tr>
+                <td>{{ $recievedMail->firstItem() + $loop->index }}</td>
                 <td>{{ $r->sender->name }}</td>
                 <td>{{ $r->subject }}</td>
                 <td>{{ $r->limitBody() }}</td>
