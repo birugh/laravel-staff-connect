@@ -43,10 +43,33 @@ class AdminEmailTemplateController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'subject' => ['required', 'string'],
-            'body' => ['required', 'string'],
+            'body' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    if (substr_count($value, '{{') !== substr_count($value, '}}')) {
+                        return $fail("Format variable pada template tidak seimbang ({{ ... }}).");
+                    }
+
+                    preg_match_all('/{{(.*?)}}/', $value, $matches);
+
+                    foreach ($matches[1] as $inside) {
+                        $trim = trim($inside);
+
+                        if ($trim === '') {
+                            return $fail("Template variable tidak boleh kosong seperti {{ }}.");
+                        }
+
+                        if (!preg_match('/^[A-Za-z0-9_.-]+$/', $trim)) {
+                            return $fail("Nama variable dalam template tidak valid: {{$trim}}");
+                        }
+                    }
+                }
+            ]
         ]);
 
-        $template = EmailTemplate::create($validated);
+
+        EmailTemplate::create($validated);
 
         return redirect()->route('admin.email-templates.index')
             ->with('success', 'Template berhasil dibuat!');
