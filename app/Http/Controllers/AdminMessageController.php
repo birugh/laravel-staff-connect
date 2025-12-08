@@ -57,7 +57,7 @@ class AdminMessageController extends Controller
 
         if ($sort && $dir) {
 
-            if (in_array($sort, ['subject', 'sent', 'is_read', 'body'])) {
+            if (in_array($sort, ['subject', 'sent', 'is_read', 'body', 'id'])) {
                 $query->orderBy($sort, $dir);
             }
 

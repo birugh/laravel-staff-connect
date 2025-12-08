@@ -63,7 +63,6 @@
             <a class="btn btn-primary" href="{{ route('admin.user-profile.edit', $user->profile?->id) }}">
                 Edit Profile
             </a>
-            @else
             @endif
     </div>
     <div class="h-separator"></div>

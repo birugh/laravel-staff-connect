@@ -18,7 +18,7 @@
         <table class="table table-hover mb-4">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <x-th-sort column="id" label="No" />
                     <x-th-sort column="name" label="Name" />
                     <x-th-sort column="subject" label="Subject" />
                     <x-th-sort column="created_at" label="Created At" />
@@ -29,7 +29,13 @@
             <tbody>
                 @forelse ($templates as $template)
                 <tr>
-                    <td>{{ $templates->firstItem() + $loop->index }}</td>
+                    <td>
+                        @if(request('dir') === 'desc' && request('sort') === 'id')
+                        {{ $templates->total() - ($templates->firstItem() + $loop->index) + 1 }}
+                        @else
+                        {{ $templates->firstItem() + $loop->index }}
+                        @endif
+                    </td>
                     <td>{{ $template->name }}</td>
                     <td>{{ $template->subject }}</td>
                     <td>{{ $template->created_at }}</td>

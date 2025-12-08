@@ -11,7 +11,7 @@
     <div class="table-responsive">
         <table class="table table-hover mb-4">
             <tr>
-                <th>No</th>
+                <x-th-sort column="id" label="No" />
                 <x-th-sort column="name" label="Name" />
                 <x-th-sort column="email" label="Email" />
                 <x-th-sort column="role" label="Role" />
@@ -19,7 +19,13 @@
             </tr>
             @foreach ($users as $u)
             <tr>
-                <td>{{ $users->firstItem() + $loop->index }}</td>
+                <td>
+                    @if(request('dir') === 'desc' && request('sort') === 'id')
+                    {{ $users->total() - ($users->firstItem() + $loop->index) + 1 }}
+                    @else
+                    {{ $users->firstItem() + $loop->index }}
+                    @endif
+                </td>
                 <td>{{ $u->name }}</td>
                 <td>{{ $u->email }}</td>
                 <td>{{ ucfirst($u->role) }}</td>

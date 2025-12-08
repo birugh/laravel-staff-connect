@@ -18,7 +18,7 @@
             <tr>
                 <x-th-sort column="id" label="No" />
                 <x-th-sort column="subject" label="Subject" />
-                <x-th-sort column="sender" label="Sender's Reply" />
+                <x-th-sort column="sender" label="Replier" />
                 <x-th-sort column="body" label="Body" />
                 <th>Action</th>
             </tr>
