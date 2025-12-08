@@ -142,7 +142,7 @@
                     </svg>
                     </span>
                     <span class="btn-sidebar-text">
-                        Inbox
+                        Inbox {{ $unreadCount ? '(' . $unreadCount . ')' : '' }}
                     </span>
                 </a>
             </li>

@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+
 <div class="my-6">
     <div class="dashboard__title">
         <span>
@@ -25,6 +26,11 @@
             <h3 class="font-medium text-2xl text-start mb-2">Total Mails</h3>
             <div class="h-separator"></div>
             <small class="font-medium text-4xl">{{ $sentCount }}</small>
+        </div>
+        <div class="w-full max-w-[320px] py-6 px-10 bg-white rounded-md mb-8 shadow-md">
+            <h3 class="font-medium text-2xl text-start mb-2">Top Sender</h3>
+            <div class="h-separator"></div>
+            <small class="font-medium text-4xl">{{ $topSender->sender->email }} ({{ $topSender['total'] }})</small>
         </div>
     </div>
     <!-- <div>

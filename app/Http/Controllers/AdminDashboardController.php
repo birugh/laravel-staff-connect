@@ -6,6 +6,7 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Symfony\Contracts\Service\Attribute\Required;
 
 class AdminDashboardController extends Controller
@@ -32,7 +33,6 @@ class AdminDashboardController extends Controller
         $countUnread = (clone $query)
             ->where('is_read', 0)
             ->count();
-
         $query = Message::with('sender');
 
         switch ($filter) {
@@ -108,13 +108,12 @@ class AdminDashboardController extends Controller
                 ->toArray()
         ];
 
-        // return view('admin.dashboard', [
-        //     'recievedMail' => $recievedMail,
-        //     'petugasCount' => $petugasCount,
-        //     'karyawanCount' => $karyawanCount,
-        //     'sentCount' => $sentCount,
-        //     'chartData' => json_encode($chartData),
-        // ]);
+        $topSender = Message::select('sender_id', DB::raw('COUNT(*) as total'))
+            ->with('sender') 
+            ->groupBy('sender_id')
+            ->orderByDesc('total')
+            ->first();
+
         return view('admin.dashboard', compact(
             'sentCount',
             'recievedMail',
@@ -127,6 +126,7 @@ class AdminDashboardController extends Controller
             'countThisWeek',
             'countUnread',
             'chartData',
+            'topSender',
             'search',
             'filter',
             'sort',
