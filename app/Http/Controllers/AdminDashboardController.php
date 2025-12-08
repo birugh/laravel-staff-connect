@@ -98,11 +98,11 @@ class AdminDashboardController extends Controller
 
         // return view('admin.dashboard', [
         //     'recievedMail' => $recievedMail,
-        //     'pegawaiCount' => $pegawaiCount,
+        //     'petugasCount' => $petugasCount,
         //     'karyawanCount' => $karyawanCount,
         //     'sentCount' => $sentCount,
         //     'chartData' => json_encode($chartData),
         // ]);
-        return view('admin.dashboard', compact('sentCount', 'recievedMail', 'petugasCount', 'karyawanCount', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread'));
+        return view('admin.dashboard', compact('sentCount', 'recievedMail', 'petugasCount', 'karyawanCount', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread', 'chartData'));
     }
 }

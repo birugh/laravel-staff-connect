@@ -14,7 +14,7 @@
         <div class="w-full max-w-[320px] py-6 px-10 bg-white rounded-md mb-8 shadow-md">
             <h3 class="font-medium text-2xl text-start mb-2">Total Petugas</h3>
             <div class="h-separator"></div>
-            <small class="font-medium text-4xl">{{ $pegawaiCount }}</small>
+            <small class="font-medium text-4xl">{{ $petugasCount }}</small>
         </div>
         <div class="w-full max-w-[320px] py-6 px-10 bg-white rounded-md mb-8 shadow-md">
             <h3 class="font-medium text-2xl text-start mb-2">Total Karyawan</h3>

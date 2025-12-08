@@ -82,55 +82,55 @@ class AdminMessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'sender_id'   => ['required', 'exists:users,id'],
-        'receiver_id' => ['required', 'exists:users,id'],
-        'subject'     => ['required', 'min:5', 'max:50'],
-        'body'        => ['required', 'min:5', 'max:255'],
-        'sent'        => ['nullable'],  // optional datetime
-    ]);
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'sender_id'   => ['required', 'exists:users,id'],
+            'receiver_id' => ['required', 'exists:users,id'],
+            'subject'     => ['required', 'min:5', 'max:50'],
+            'body'        => ['required', 'min:5', 'max:255'],
+            'sent'        => ['nullable'],  // optional datetime
+        ]);
 
-    if ($validated['sender_id'] == $validated['receiver_id']) {
-        return back()->with('error', 'Sender dan Receiver tidak boleh sama!');
+        if ($validated['sender_id'] == $validated['receiver_id']) {
+            return back()->with('error', 'Sender dan Receiver tidak boleh sama!');
+        }
+
+        $receiver = User::findOrFail($validated['receiver_id']);
+
+        $sendAt = $request->sent
+            ? Carbon::parse($request->sent)
+            : now();
+
+        if ($sendAt <= now()) {
+            SendCustomEmailJob::dispatch(
+                $receiver->email,
+                $validated['subject'],
+                $validated['body']
+            );
+        } else {
+            SendCustomEmailJob::dispatch(
+                $receiver->email,
+                $validated['subject'],
+                $validated['body']
+            )->delay($sendAt);
+        }
+
+        Message::create([
+            'sender_id'   => $validated['sender_id'],
+            'receiver_id' => $validated['receiver_id'],
+            'subject'     => $validated['subject'],
+            'body'        => $validated['body'],
+            'sent'        => $sendAt,
+            'is_read'     => $request->get('is_read') === 'on' ? 1 : 0,
+        ]);
+
+        return redirect()
+            ->route('admin.messages.index')
+            ->with('success', $sendAt <= now()
+                ? 'Message berhasil dikirim!'
+                : 'Message berhasil dijadwalkan!');
     }
-
-    $receiver = User::findOrFail($validated['receiver_id']);
-
-    $sendAt = $request->sent
-        ? Carbon::parse($request->sent)
-        : now();
-
-    if ($sendAt <= now()) {
-        SendCustomEmailJob::dispatch(
-            $receiver->email,
-            $validated['subject'],
-            $validated['body']
-        );
-    } else {
-        SendCustomEmailJob::dispatch(
-            $receiver->email,
-            $validated['subject'],
-            $validated['body']
-        )->delay($sendAt);
-    }
-
-    Message::create([
-        'sender_id'   => $validated['sender_id'],
-        'receiver_id' => $validated['receiver_id'],
-        'subject'     => $validated['subject'],
-        'body'        => $validated['body'],
-        'sent'        => $sendAt,
-        'is_read'     => $request->get('is_read') === 'on' ? 1 : 0,
-    ]);
-
-    return redirect()
-        ->route('admin.messages.index')
-        ->with('success', $sendAt <= now()
-            ? 'Message berhasil dikirim!'
-            : 'Message berhasil dijadwalkan!');
-}
 
 
 
@@ -139,25 +139,11 @@ public function store(Request $request)
      */
     public function show(string $id)
     {
-        $message = Message::select(
-            'messages.*',
-            'sender.name as sender_name',
-            'sender.email as sender_email',
-            'receiver.name as receiver_name',
-            'receiver.email as receiver_email',
-        )
-            ->join('users as sender', 'sender.id', '=', 'messages.sender_id')
-            ->join('users as receiver', 'receiver.id', '=', 'messages.receiver_id')
-            ->where('messages.id', $id)
-            ->first();
+        $message = Message::with(['sender', 'receiver'])
+            ->findOrFail($id);
 
-        $replies = MessageReply::select(
-            'message_replies.*',
-            'sender_reply.name as sender_name',
-            'sender_reply.email as sender_email',
-        )
-            ->join('users as sender_reply', 'sender_reply.id', '=', 'message_replies.user_id')
-            ->where('message_replies.message_id', $id)
+        $replies = MessageReply::with('user')
+            ->where('message_id', $id)
             ->get();
 
         return view('admin.messages.show', compact('message', 'replies'));
@@ -168,17 +154,8 @@ public function store(Request $request)
      */
     public function edit(string $id)
     {
-        $message = Message::select(
-            'messages.*',
-            'sender.name as sender_name',
-            'sender.email as sender_email',
-            'receiver.name as receiver_name',
-            'receiver.email as receiver_email',
-        )
-            ->join('users as sender', 'sender.id', '=', 'messages.sender_id')
-            ->join('users as receiver', 'receiver.id', '=', 'messages.receiver_id')
-            ->where('messages.id', $id)
-            ->first();
+        $message = Message::with(['sender', 'receiver'])
+            ->findOrFail($id);
         $users = User::latest()->get();
         return view('admin.messages.edit', compact(['message', 'users']));
     }
