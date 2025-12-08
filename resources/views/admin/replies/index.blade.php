@@ -27,7 +27,7 @@
             <tr>
                 <td>{{ $replies->firstItem() + $loop->index }}</td>
                 <td>{{ $r->message?->limitSubject() ? $r->message?->limitSubject() . '-' : 'MESSAGE DELETED'}} {{ $r->message?->sender_name }}</td>
-                <td>{{ $r->user?->name ?? 'USER DELETED' }}</td>
+                <td>{{ $r->user?->name ?? 'UNKNOWN USER' }}</td>
                 <td>{{ $r->limitBody() }}</td>
 
                 <td>

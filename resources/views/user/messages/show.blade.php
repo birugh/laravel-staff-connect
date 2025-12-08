@@ -12,7 +12,7 @@
             <img class="w-[50px] h-[50px] object-cover rounded-full border-2 border-gray-400" src="https://placehold.co/50x50?text=None" alt="sender">
 
             <div>
-                <small class="block">{{ $message->sender?->name ? $message->sender?->name . '—'  : 'DELETED USER' }} {{ $message->sender?->email }}</small>
+                <small class="block">{{ $message->sender?->name ? $message->sender?->name . '—'  : 'UNKNOWN USER' }} {{ $message->sender?->email }}</small>
                 <small class="block">To {{ $message->receiver?->name }} — {{ $message->receiver?->email }}</small>
             </div>
         </div>
@@ -48,8 +48,8 @@
         <div class="flex items-start gap-4">
             <img class="h-10 w-10 rounded-full border-2 border-gray-400" src="https://placehold.co/50x50?text=None" alt="">
             <div>
-                <strong class="font-medium block">{{ $reply->user?->name ?? 'DELETED USER' }}</strong>
-                <small class="text-gray-400 text-sm">To {{ $message->sender_name ?? 'DELETED USER' }}</small>
+                <strong class="font-medium block">{{ $reply->user?->name ?? 'UNKNOWN USER' }}</strong>
+                <small class="text-gray-400 text-sm">To {{ $message->sender_name ?? 'UNKNOWN USER' }}</small>
                 <p class="text-gray-900 font-medium">{{ $reply->body }}</p>
                 <small class="text-gray-400 text-sm">{{ $reply->created_at->diffForHumans() }}</small>
             </div>

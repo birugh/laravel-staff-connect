@@ -46,7 +46,10 @@
             @foreach($recievedMail as $r)
             <tr>
                 <td>{{ $recievedMail->firstItem() + $loop->index }}</td>
-                <td>{{ $r->sender?->name ?? 'USER DELETED' }}</td>
+                <td>{{ $r->sender?->name ?? 'UNKNOWN USER' }}</td>
+                <!-- <td class="{{ $r->sender?->name ? '' : 'error-message' }}">
+                    {{ $r->sender?->name ?? 'UNKNOWN USER' }}
+                </td> -->
                 <td>{{ $r->subject }}</td>
                 <td>{{ $r->limitBody() }}</td>
                 <td>{{ $r->created_at->format('d M Y H:i') }}</td>

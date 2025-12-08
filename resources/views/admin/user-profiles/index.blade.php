@@ -32,7 +32,7 @@
                         src="{{ $u->profile_path !== null ? asset('storage/' . $u->profile_path) : 'https://placehold.co/50x50?text=None' }}"
                         alt="">
                 </td>
-                <td>{{ $u->user?->name ?? 'USER DELETED' }}</td>
+                <td>{{ $u->user?->name ?? 'UNKNOWN USER' }}</td>
                 <td>{{ $u->nik }}</td>
                 <td>{{ $u->phone_number }}</td>
                 <td>{{ $u->address }}</td>

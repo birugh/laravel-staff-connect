@@ -19,7 +19,7 @@
 
         <div class="flex flex-col">
             <label>Receiver</label>
-            <label class="label-user">{{ $message->receiver?->name ?? 'USER DELETED' }} ({{ $message->receiver?->email ?? 'EMAIL DELETED' }})</label>
+            <label class="label-user">{{ $message->receiver?->name ?? 'UNKNOWN USER' }} ({{ $message->receiver?->email ?? 'EMAIL DELETED' }})</label>
         </div>
 
         <div class="flex flex-col">
