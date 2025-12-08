@@ -23,7 +23,7 @@ class AdminEmailTemplateController extends Controller
             });
         }
 
-        $templates = $query->latest()->paginate(5);
+        $templates = $query->latest()->paginate(10);
         return view('admin.email_templates.index', compact('templates', 'search'));
     }
 

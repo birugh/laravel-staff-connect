@@ -58,12 +58,12 @@ class AdminDashboardController extends Controller
             });
         }
 
-        $recievedMail = $query->latest()->paginate(5);
+        $recievedMail = $query->latest()->paginate(10);
 
         // $sentCount = Message::where('sender_id', operator: Auth::id())->count();
         // $recievedCount = Message::where('receiver_id', Auth::id())->count();
         // $unreadCount = Message::where('receiver_id', Auth::id())->where('is_read', 0)->count();
-        // $recievedMail = Message::with('sender')->where('receiver_id', Auth::id())->latest()->paginate(5);
+        // $recievedMail = Message::with('sender')->where('receiver_id', Auth::id())->latest()->paginate(10);
         // $recievedMail = Message::with('sender')->latest()->paginate(10);
         $sentCount = Message::count();
         $petugasCount = User::where('role', 'petugas')->count();
