@@ -32,7 +32,7 @@
 </div>
 @endif
 
-<form action="{{ route('admin.email-send.send') }}" method="POST">
+<form action="{{ route('user.email-send.send') }}" method="POST">
     @csrf
     <input type="hidden" name="template_id" value="{{ $template->id }}">
     <input type="hidden" name="receiver_id" value="{{ $receiver_id }}">

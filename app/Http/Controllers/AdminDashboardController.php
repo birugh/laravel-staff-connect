@@ -98,7 +98,7 @@ class AdminDashboardController extends Controller
 
         // return view('admin.dashboard', [
         //     'recievedMail' => $recievedMail,
-        //     'pegawaiCount' => $pegawaiCount,
+        //     'petugasCount' => $petugasCount,
         //     'karyawanCount' => $karyawanCount,
         //     'sentCount' => $sentCount,
         //     'chartData' => json_encode($chartData),
