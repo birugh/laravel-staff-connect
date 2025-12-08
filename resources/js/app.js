@@ -126,6 +126,33 @@ document.addEventListener('input', function (e) {
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
     }
     if (e.target.classList.contains('input-name')) {
-        e.target.value = e.target.value.replace(/[^a-zA-Z0-9_]/g, '');
+        e.target.value = e.target.value.replace(/[^a-zA-Z0-9 ]/g, '');
     }
+});
+
+// TODO: Delete Validation
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const deleteBtn = document.getElementById("btnDelete");
+    const deleteForm = document.getElementById("deleteForm");
+
+    deleteBtn.addEventListener("click", function () {
+
+        Swal.fire({
+            title: "Delete this user?",
+            text: "This action cannot be undone.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel",
+            confirmButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteForm.submit();
+            }
+        });
+
+    });
+
 });
