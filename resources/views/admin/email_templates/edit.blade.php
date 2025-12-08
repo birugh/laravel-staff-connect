@@ -3,6 +3,16 @@
 @section('content')
 <div class="dashboard__title">
     <h1 class="font-medium text-2xl mb-4">Edit Email Template</h1>
+    <form method="POST"
+        action="{{ route('admin.email-templates.destroy', $emailTemplate->id) }}">
+        @csrf
+        @method('DELETE')
+        <button
+            class="btn btn-warning cursor-pointer"
+            onclick="return confirm('Yakin hapus template ini?')">
+            Delete
+        </button>
+    </form>
 </div>
 
 @if ($errors->any())
