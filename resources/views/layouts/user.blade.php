@@ -67,7 +67,7 @@
     <div class="main transition-all duration-350 min-h-screen flex-column">
         @include('layouts.navigation')
         <main>
-            <div class="w-full px-24 pt-8">
+            <div class="w-full px-24 py-8">
                 @yield('content')
             </div>
         </main>
