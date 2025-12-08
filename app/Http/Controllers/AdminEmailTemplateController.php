@@ -26,7 +26,7 @@ class AdminEmailTemplateController extends Controller
         }
 
         if ($sort && $dir) {
-            if (in_array($sort, ['name', 'subject', 'created_at'])) {
+            if (in_array($sort, ['name', 'subject', 'created_at', 'id'])) {
                 $query->orderBy($sort, $dir);
             }
         } else {
