@@ -65,7 +65,7 @@ class AdminUserController extends Controller
         event(new Registered($user));
         // Auth::login($user);
         // return redirect()->route('verification.notice');
-        swal('success', 'User Created!', 'Success');
+        swal_toast('success', 'User created successfully!');
         return redirect()->route('admin.user.index');
     }
 
@@ -107,7 +107,7 @@ class AdminUserController extends Controller
 
         $user->update($validated);
 
-        swal('success', 'User berhasil diupdate', 'Success');
+        swal_toast('success', 'User updated successfully!');
         return redirect()->route('admin.user.index');
     }
 
@@ -118,7 +118,7 @@ class AdminUserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        swal('success', 'User berhasil dihapus', 'Success');
+        swal_toast('success', 'User deleted successfully!');
         return redirect()->route('admin.user.index');
     }
 }

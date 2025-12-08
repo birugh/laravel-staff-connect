@@ -72,7 +72,6 @@ class AdminMessageController extends Controller
                     ->orderBy('r.name', $dir)
                     ->select('messages.*');
             }
-
         } else {
             $query->latest();
         }
@@ -148,9 +147,9 @@ class AdminMessageController extends Controller
             'is_read'     => $request->get('is_read') === 'on' ? 1 : 0,
         ]);
 
-        swal('success', $sendAt <= now()
-            ? 'Message berhasil dikirim!'
-            : 'Message berhasil dijadwalkan!', 'Success');
+        swal_toast('success', $sendAt <= now()
+            ? 'Message sent successfully!'
+            : 'Message scheduled successfully!');
         return redirect()->route('admin.messages.index');
     }
 
@@ -203,7 +202,7 @@ class AdminMessageController extends Controller
 
         $message->update($validated);
 
-        swal('success', 'Message berhasil di update', 'Success');
+        swal_toast('success', 'Message updated successfully!');
         return redirect()->route('admin.messages.index');
     }
 
@@ -213,7 +212,7 @@ class AdminMessageController extends Controller
     public function destroy(Message $message)
     {
         $message->delete();
-        swal('success', 'Message berhasil di hapus', 'Success');
+        swal_toast('success', 'Message successfully deleted!');
         return redirect()->route('admin.messages.index');
     }
 }

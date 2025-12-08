@@ -106,7 +106,7 @@ class AdminMessageReplyController extends Controller
 
         MessageReply::create($validated);
 
-        swal('success', 'Reply berhasil di buat', 'Success');
+        swal_toast('success', 'Reply created successfully!');
         return redirect()->route('admin.replies.index');
     }
 
@@ -139,7 +139,7 @@ class AdminMessageReplyController extends Controller
         ]);
 
         $reply->update($validated);
-        swal('success', 'Reply berhasil di update', 'Success');
+        swal_toast('success', 'Reply updated successfully!');
         return redirect()->route('admin.replies.index');
     }
 
@@ -149,7 +149,7 @@ class AdminMessageReplyController extends Controller
     public function destroy(MessageReply $reply)
     {
         $reply->delete();
-        swal('success', 'Reply berhasil di hapus', 'Success');
+        swal_toast('success', 'Reply deleted successfully!');
         return redirect()->route('admin.replies.index');
     }
 }
