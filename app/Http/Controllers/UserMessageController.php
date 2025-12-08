@@ -145,7 +145,11 @@ class UserMessageController extends Controller
         $replies = MessageReply::with('user')
             ->where('message_id', $id)
             ->get();
-
+        if ($message->is_read === 0) {
+            $message->update([
+                'is_read' => 1
+            ]);
+        }
         return view('user.messages.show', compact('message', 'replies'));
     }
 

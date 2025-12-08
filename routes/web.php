@@ -14,7 +14,7 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserEmailSendingController;
 use App\Http\Controllers\UserMessageController;
 use App\Http\Controllers\UserMessageReplyController;
-use App\Http\Controllers\UserProfileControler;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -99,7 +99,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(fu
 // USER SPACE
 Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     // ! DASHBOARD
-    // Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
     // ! MESSAGES
     Route::resource('/messages', UserMessageController::class)->except('show')->middleware('verified');
@@ -108,7 +108,8 @@ Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     Route::get('/sent', [UserMessageController::class, 'sent'])->name('messages.sent');
     Route::get('/show/{id}', [UserMessageController::class, 'show'])->name('messages.show');
     // ! PROFILE
-    Route::get('/profile', [UserProfileControler::class, 'index'])->name('profile');
+    Route::resource('/user-profile', UserProfileController::class)->except('show');
+    Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
     // ! EMAIL TEMPLATE SENDING
     Route::middleware('verified')->group(function () {
         Route::get('/email-send', [UserEmailSendingController::class, 'create'])->name('email-send.create');

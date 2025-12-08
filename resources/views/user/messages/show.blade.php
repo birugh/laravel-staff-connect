@@ -12,8 +12,8 @@
             <img class="h-20 w-20 rounded-full border-2 border-gray-400" src="https://placehold.co/50x50?text=None" alt="sender">
 
             <div>
-                <small class="block">{{ $message->sender_name }} — {{ $message->sender_email }}</small>
-                <small class="block">To {{ $message->receiver_name }} — {{ $message->receiver_email }}</small>
+                <small class="block">{{ $message->sender->name }} — {{ $message->sender->email }}</small>
+                <small class="block">To {{ $message->receiver->name }} — {{ $message->receiver->email }}</small>
             </div>
         </div>
 

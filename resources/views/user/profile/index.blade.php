@@ -8,7 +8,7 @@
 
 <div class="container-content">
     <div class="flex items-center gap-4">
-        <a class="h-full" href="{{ route('admin.user-profile.edit', $user->profile->id) }}">
+        <a class="h-full" href="{{ route('user.user-profile.edit', $user->profile->id) }}">
             <img class="h-30 max-h-30 rounded-full border-3 border-gray-300 transition-all duration-250 hover:border-blue-500" src="{{ $user->profile->profile_path !== null ? asset('storage/' . $user->profile->profile_path) : 'https://placehold.co/50x50?text=None' }}" alt="">
         </a>
 
