@@ -55,7 +55,7 @@ class AdminMessageReplyController extends Controller
             });
         }
 
-        $replies = $query->latest()->paginate(5);
+        $replies = $query->latest()->paginate(10);
         return view('admin.replies.index', compact('replies', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek'));
     }
     /**

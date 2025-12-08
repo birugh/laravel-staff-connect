@@ -27,7 +27,7 @@ class AdminUserController extends Controller
             });
         }
 
-        $users = $query->latest()->paginate(5);
+        $users = $query->latest()->paginate(10);
         return view('admin.users.index', compact('users', 'search'));
     }
 

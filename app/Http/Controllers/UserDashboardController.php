@@ -59,7 +59,7 @@ class UserDashboardController extends Controller
         }
 
         $sentCount = Message::where('sender_id', Auth::id())->count();
-        $recievedMail = $query->latest()->paginate(5);
+        $recievedMail = $query->latest()->paginate(10);
         $unreadCount = $countUnread;
 
         return view('user.dashboard', compact('sentCount', 'recievedMail', 'unreadCount', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek'));

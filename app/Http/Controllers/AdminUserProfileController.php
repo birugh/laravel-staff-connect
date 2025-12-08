@@ -29,7 +29,7 @@ class AdminUserProfileController extends Controller
             });
         }
 
-        $user_profiles = $query->paginate(5);
+        $user_profiles = $query->paginate(10);
         return view('admin.user-profiles.index', compact('user_profiles', 'search'));
     }
 
