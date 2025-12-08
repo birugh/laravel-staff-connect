@@ -7,16 +7,16 @@
     @csrf
 
     <div>
-        <label class="label-field">Email</label><br>
-        <input class="field" type="email" name="email" value="{{ old('email') }}">
+        <label class="label-field req">Email</label><br>
+        <input class="field" type="email" name="email" value="{{ old('email') }}" required>
         @error('email')
-        <p style="color:red">{{ $message }}</p>
+        <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
     <div>
-        <label class="label-field">Password</label><br>
-        <input class="field" type="password" name="password">
+        <label class="label-field req">Password</label><br>
+        <input class="field" type="password" name="password" required>
     </div>
 
     <div>

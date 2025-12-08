@@ -20,7 +20,7 @@
 
     <div class="mb-2">
         <label class="label-field req">User</label><br>
-        <select class="field" name="user_id">
+        <select class="field" name="user_id" required>
             @foreach($users as $user)
             <option value="{{ $user->id }}"
                 @selected($user->id == $userProfile->user_id)>
@@ -33,26 +33,26 @@
         <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
+    <div class="field-row">
+        <div class="w-full mb-2">
+            <label class="label-field req">NIK</label><br>
+            <input class="field input-number" type="number" name="nik" value="{{ old('nik', $userProfile->nik) }}" required>
+            @error('nik')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
 
-    <div class="mb-2">
-        <label class="label-field req">NIK</label><br>
-        <input class="field" type="number" name="nik" value="{{ old('nik', $userProfile->nik) }}" required>
-        @error('nik')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
+        <div class="w-full mb-2">
+            <label class="label-field req">Phone Number</label><br>
+            <input class="field input-number" type="text" name="phone_number" value="{{ old('phone_number', $userProfile->phone_number) }}" required>
+            @error('phone_number')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
-
-    <div class="mb-2">
-        <label class="label-field req">Phone Number</label><br>
-        <input class="field" type="text" name="phone_number" value="{{ old('phone_number', $userProfile->phone_number) }}" required>
-        @error('phone_number')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
-    </div>
-
     <div class="mb-2">
         <label class="label-field req">Address</label><br>
-        <textarea class="field" name="address" required>{{ old('address', $userProfile->address) }}</textarea>
+        <textarea class="field" name="address" rows="5" required>{{ old('address', $userProfile->address) }}</textarea>
         @error('address')
         <p class="error-message">{{ $message }}</p>
         @enderror

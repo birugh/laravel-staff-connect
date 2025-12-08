@@ -20,7 +20,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Nama Template</label><br>
-        <input class="field" type="text" name="name" value="{{ old('name') }}">
+        <input class="field" type="text" name="name" value="{{ old('name') }}" required>
         @error('name')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -43,7 +43,7 @@
     </div>
 
     <div class="dashboard__create">
-        <button type="submit" class="btn btn-primary cursor-pointer">Save</button>
+        <button type="submit" class="btn btn-primary cursor-pointer">Add</button>
         <a class="btn btn-secondary" href="{{ route('admin.email-templates.index') }}">Cancel</a>
     </div>
 

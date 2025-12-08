@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="dashboard__title">
-    <h1 class="font-medium text-2xl mb-4">Kirim Email ke Karyawan</h1>
+    <h1 class="font-medium text-2xl mb-4">Send Email to Employee</h1>
 </div>
 
 @if (session('success'))
@@ -23,9 +23,9 @@
     @csrf
 
     <div class="mb-2">
-        <label class="label-field req">Pilih Template Email</label><br>
+        <label class="label-field req">Email Template</label><br>
         <select class="field" name="template_id">
-            <option value="">-- Pilih Template --</option>
+            <option hidden selected>Choose Template</option>
             @foreach ($templates as $t)
             <option value="{{ $t->id }}" {{ old('template_id') == $t->id ? 'selected' : '' }} required>
                 {{ $t->name }} ({{ $t->subject }})
@@ -38,9 +38,9 @@
     </div>
 
     <div class="mb-2">
-        <label class="label-field req">Pilih Penerima</label><br>
+        <label class="label-field req">To</label><br>
         <select class="field" name="receiver_id">
-            <option value="">-- Pilih Penerima --</option>
+            <option hidden selected>Choose employee</option>
             @foreach ($employees as $e)
             <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }} required>
                 {{ $e->name }} - {{ $e->email }}

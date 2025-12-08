@@ -7,31 +7,31 @@
 
 <form method="POST" action="{{ route('admin.messages.store') }}">
     @csrf
+    <div class="field-row">
+        <div class="w-full mb-2">
+            <label class="label-field req">Sender</label><br>
+            <select class="field" name="sender_id" id="sender_id" required>
+                @foreach ($users as $u)
+                <option value="{{ $u->id }}">{{ $u->name }}</option>
+                @endforeach
+            </select>
+            @error('sender_id')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
 
-    <div class="mb-2">
-        <label class="label-field req">Sender</label><br>
-        <select class="field" name="sender_id" id="sender_id" required>
-            @foreach ($users as $u)
-            <option value="{{ $u->id }}">{{ $u->name }}</option>
-            @endforeach
-        </select>
-        @error('sender_id')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
+        <div class="w-full mb-2">
+            <label class="label-field req">Receiver</label><br>
+            <select class="field" name="receiver_id" id="receiver_id" required>
+                @foreach ($users as $u)
+                <option value="{{ $u->id }}">{{ $u->name }}</option>
+                @endforeach
+            </select>
+            @error('receiver_id')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
-
-    <div class="mb-2">
-        <label class="label-field req">Receiver</label><br>
-        <select class="field" name="receiver_id" id="receiver_id" required>
-            @foreach ($users as $u)
-            <option value="{{ $u->id }}">{{ $u->name }}</option>
-            @endforeach
-        </select>
-        @error('receiver_id')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
-    </div>
-
     <div class="mb-2">
         <label class="label-field">Subject</label><br>
         <input class="field" type="text" name="subject" value="{{ old('subject') }}">
@@ -42,7 +42,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Body</label><br>
-        <textarea class="field" name="body" id="body" required>{{ old('body') }}</textarea>
+        <textarea class="field" name="body" rows="5" id="body" required>{{ old('body') }}</textarea>
         @error('body')
         <p class="error-message">{{ $message }}</p>
         @enderror

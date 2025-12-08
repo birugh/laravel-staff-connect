@@ -21,7 +21,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Nama Template</label><br>
-        <input class="field" type="text" name="name" value="{{ old('name', $emailTemplate->name) }}">
+        <input class="field" type="text" name="name" value="{{ old('name', $emailTemplate->name) }}" required>
         @error('name')
         <p class="error-message">{{ $message }}</p>
         @enderror

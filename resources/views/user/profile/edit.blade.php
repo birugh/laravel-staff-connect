@@ -43,7 +43,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Address</label><br>
-        <textarea class="field" name="address" required>{{ old('address', $userProfile->address) }}</textarea>
+        <textarea class="field" name="address" rows="5" required>{{ old('address', $userProfile->address) }}</textarea>
         @error('address')
         <p class="error-message">{{ $message }}</p>
         @enderror

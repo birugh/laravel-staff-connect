@@ -40,11 +40,6 @@ if (sidebar) {
     })
 }
 
-
-
-
-
-
 // TODO: Toggle password
 
 function attachTogglePassword(inputId, showId, hideId, type = 'field') {
@@ -87,6 +82,8 @@ attachTogglePassword('passwordField', 'passwordShow', 'passwordHidden');
 attachTogglePassword('passwordConfirmField', 'passwordConfirmShow', 'passwordConfirmHidden');
 attachTogglePassword('nikField', 'nikField', 'nikField', 'label');
 
+// TODO: Chart
+
 const el = document.getElementById("messagesChart");
 
 if (el) {
@@ -109,6 +106,8 @@ if (el) {
     });
 }
 
+// TODO: Dropdown sidebar
+
 document.querySelectorAll(".sidebar-group").forEach(group => {
     const toggle = group.querySelector(".sidebar-toggle");
     const collapse = group.querySelector(".sidebar-collapse");
@@ -118,4 +117,15 @@ document.querySelectorAll(".sidebar-group").forEach(group => {
         collapse.classList.toggle("hidden");
         arrow.classList.toggle("rotate-180");
     });
+});
+
+// TODO: Input validator
+
+document.addEventListener('input', function (e) {
+    if (e.target.classList.contains('input-number')) {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    }
+    if (e.target.classList.contains('input-name')) {
+        e.target.value = e.target.value.replace(/[^a-zA-Z0-9_]/g, '');
+    }
 });

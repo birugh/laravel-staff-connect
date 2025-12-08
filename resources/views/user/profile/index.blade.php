@@ -67,7 +67,7 @@
     <div class="h-separator"></div>
     @if($user->profile)
     <div class="flex justify-between items-start mb-4">
-        <div class="flex flex-col mb-2">
+        <div class="flex flex-col w-full max-w-40 mb-2">
             <label>NIK</label>
             <div class="flex items-center ">
                 <label id="nikField" class="label-user select-none cursor-pointer">{{ $user->profile->nik }}</label>

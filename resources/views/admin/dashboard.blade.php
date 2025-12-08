@@ -47,6 +47,7 @@
     <div>
         <table class="table table-hover mb-4">
             <tr>
+                <th>No</th>
                 <x-th-sort column="subject" label="Subject" />
                 <x-th-sort column="sender" label="Sender" />
                 <x-th-sort column="is_read" label="Status" />
