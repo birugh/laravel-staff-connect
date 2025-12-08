@@ -7,24 +7,24 @@
 
 <div class="container-content">
     <div class="container-action">
-        <h3>{{ $message?->subject }}</h3>
+        <h3>{{ $message->subject }}</h3>
     </div>
     <div class="h-separator"></div>
 
     <div class="flex justify-between items-start mb-4">
         <div class="flex flex-col">
             <label>Sender</label>
-            <label class="label-user">{{ $message?->sender->name }} ({{ $message?->sender->email }})</label>
+            <label class="label-user">{{ $message->sender?->name }} ({{ $message->sender?->email }})</label>
         </div>
 
         <div class="flex flex-col">
             <label>Receiver</label>
-            <label class="label-user">{{ $message?->receiver->name }} ({{ $message?->receiver->email }})</label>
+            <label class="label-user">{{ $message->receiver?->name ?? 'USER DELETED' }} ({{ $message->receiver?->email ?? 'EMAIL DELETED' }})</label>
         </div>
 
         <div class="flex flex-col">
             <label>Sent</label>
-            <label class="label-user">{{ $message?->sent }}</label>
+            <label class="label-user">{{ $message->sent }}</label>
         </div>
     </div>
 </div>
@@ -36,7 +36,7 @@
 
     <div class="h-separator"></div>
 
-    <p class="mt-2">{{ $message?->body }}</p>
+    <p class="mt-2">{{ $message->body }}</p>
 </div>
 
 <div class="container-content">
@@ -47,7 +47,7 @@
 
     @forelse ($replies as $r)
     <div class="mb-4">
-        <h4 class="font-medium">{{ $r->user?->name }} ({{ $r->user?->email }})</h4>
+        <h4 class="font-medium">{{ $r->user?->name ?? 'USER NOT FOUND' }} ({{ $r->user?->email }})</h4>
         <p>{{ $r->body }}</p>
     </div>
     @empty

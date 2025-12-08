@@ -26,9 +26,9 @@
                 @foreach ($messages as $m)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $m->sender->name }}</td>
-                    <td>{{ $m->receiver->name ?? '(No Subject)' }}</td>
-                    <td>{{ $m->limitSubject() }}</td>
+                    <td>{{ $m->sender?->name ?? 'USER NOT FOUND' }}</td>
+                    <td>{{ $m->receiver?->name ?? 'USER NOT FOUND' }}</td>
+                    <td>{{ $m->limitSubject() ?? '(No Subject)'}}</td>
                     <td>{{ $m->limitBody() }}</td>
                     <td>{{ $m->sentFull() }}</td>
                     <td>

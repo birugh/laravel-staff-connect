@@ -54,8 +54,8 @@
             </tr>
             @foreach ($recievedMail as $r)
             <tr>
-                <td>{{ $r->subject }}</td>
-                <td>{{ $r->sender->name }}</td>
+                <td>{{ $r->subject ?? '(No Subject)'}}</td>
+                <td>{{ $r->sender?->name ?? 'USER NOT FOUND'}}</td>
                 <td>
                     <span class="status-read {{ $r->is_read == 1 ? 'read' : 'unread' }}">
                         {{ $r->is_read == 0 ? 'Unread' : 'Read' }}
