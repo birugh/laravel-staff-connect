@@ -39,7 +39,7 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect(Auth::user()->role === 'admin' ? '/admin/dashboard' : 'user/dashboard')->with('status', 'Email verified!');
+    return redirect(Auth::user()->role === 'admin' ? '/admin/dashboard' : 'user/inbox')->with('status', 'Email verified!');
 })->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {

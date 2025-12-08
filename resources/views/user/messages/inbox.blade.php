@@ -36,7 +36,7 @@
                 <x-th-sort column="sender" label="Pengirim" />
                 <x-th-sort column="subject" label="Subject" />
                 <x-th-sort column="body" label="Body" />
-                <x-th-sort column="tanggal" label="Tanggal" />
+                <x-th-sort column="sent" label="Tanggal" />
                 <x-th-sort column="is_read" label="Status" />
                 <th>Action</th>
             </tr>
