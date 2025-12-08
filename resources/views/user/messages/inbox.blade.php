@@ -32,7 +32,7 @@
     <table class="table table-hover mb-4">
         <thead>
             <tr>
-                <th>No</th>
+                <x-th-sort column="id" label="No" />
                 <x-th-sort column="sender" label="Pengirim" />
                 <x-th-sort column="subject" label="Subject" />
                 <x-th-sort column="body" label="Body" />
@@ -45,7 +45,13 @@
         <tbody>
             @foreach($recievedMail as $r)
             <tr>
-                <td>{{ $recievedMail->firstItem() + $loop->index }}</td>
+                <td>
+                    @if(request('dir') === 'desc' && request('sort') === 'id')
+                    {{ $recievedMail->total() - ($recievedMail->firstItem() + $loop->index) + 1 }}
+                    @else
+                    {{ $recievedMail->firstItem() + $loop->index }}
+                    @endif
+                </td>
                 <td>{{ $r->sender?->name ?? 'UNKNOWN USER' }}</td>
                 <!-- <td class="{{ $r->sender?->name ? '' : 'error-message' }}">
                     {{ $r->sender?->name ?? 'UNKNOWN USER' }}

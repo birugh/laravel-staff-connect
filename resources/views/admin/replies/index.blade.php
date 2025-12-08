@@ -16,7 +16,7 @@
     <div class="table-responsive">
         <table class="table table-hover mb-4">
             <tr>
-                <th>No</th>
+                <x-th-sort column="id" label="No" />
                 <x-th-sort column="subject" label="Subject" />
                 <x-th-sort column="sender" label="Sender's Reply" />
                 <x-th-sort column="body" label="Body" />
@@ -25,7 +25,13 @@
 
             @foreach ($replies as $r)
             <tr>
-                <td>{{ $replies->firstItem() + $loop->index }}</td>
+                <td>
+                    @if(request('dir') === 'desc' && request('sort') === 'id')
+                    {{ $replies->total() - ($replies->firstItem() + $loop->index) + 1 }}
+                    @else
+                    {{ $replies->firstItem() + $loop->index }}
+                    @endif
+                </td>
                 <td>{{ $r->message?->limitSubject() ? $r->message?->limitSubject() . '-' : 'MESSAGE DELETED'}} {{ $r->message?->sender_name }}</td>
                 <td>{{ $r->user?->name ?? 'UNKNOWN USER' }}</td>
                 <td>{{ $r->limitBody() }}</td>

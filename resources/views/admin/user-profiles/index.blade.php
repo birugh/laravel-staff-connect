@@ -14,7 +14,7 @@
     <div class="table-responsive">
         <table class="table table-hover mb-4">
             <tr>
-                <th>No</th>
+                <x-th-sort column="id" label="No" />
                 <th>Profil</th>
                 <x-th-sort column="nama" label="Nama" />
                 <x-th-sort column="nik" label="NIK" />
@@ -25,7 +25,13 @@
             </tr>
             @foreach ($user_profiles as $u)
             <tr>
-                <td>{{ $user_profiles->firstItem() + $loop->index }}</td>
+                <td>
+                    @if(request('dir') === 'desc' && request('sort') === 'id')
+                    {{ $user_profiles->total() - ($user_profiles->firstItem() + $loop->index) + 1 }}
+                    @else
+                    {{ $user_profiles->firstItem() + $loop->index }}
+                    @endif
+                </td>
                 <td>
                     <img
                         class="w-10 h-10 rounded-full object-cover"

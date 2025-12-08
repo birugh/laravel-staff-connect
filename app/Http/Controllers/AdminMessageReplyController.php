@@ -47,7 +47,7 @@ class AdminMessageReplyController extends Controller
 
         if ($sort && $dir) {
 
-            if (in_array($sort, ['body', 'created_at'])) {
+            if (in_array($sort, ['body', 'created_at', 'id'])) {
                 $query->orderBy($sort, $dir);
             }
 
@@ -79,7 +79,7 @@ class AdminMessageReplyController extends Controller
             });
         }
 
-        $replies = $query->paginate(5)->appends(request()->query());
+        $replies = $query->paginate(10)->appends(request()->query());
         return view('admin.replies.index', compact('replies', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek'));
     }
     /**

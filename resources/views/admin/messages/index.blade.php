@@ -15,7 +15,7 @@
         <table class="table table-hover mb-4">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <x-th-sort column="id" label="No" />
                     <x-th-sort column="sender" label="Sender" />
                     <x-th-sort column="receiver" label="Receiver" />
                     <x-th-sort column="subject" label="Subject" />
@@ -29,7 +29,13 @@
             <tbody>
                 @foreach ($messages as $m)
                 <tr>
-                    <td>{{ $messages->firstItem() + $loop->index }}</td>
+                    <td>
+                        @if(request(key: 'dir') === 'desc' && request('sort') === 'id')
+                        {{ $messages->total() - ($messages->firstItem() + $loop->index) + 1 }}
+                        @else
+                        {{ $messages->firstItem() + $loop->index }}
+                        @endif
+                    </td>
                     <td>{{ $m->sender?->name ?? 'USER NOT FOUND' }}</td>
                     <td>{{ $m->receiver?->name ?? 'USER NOT FOUND' }}</td>
                     <td>{{ $m->limitSubject() ?? '(No Subject)'}}</td>

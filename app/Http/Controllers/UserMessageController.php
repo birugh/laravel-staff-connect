@@ -58,7 +58,7 @@ class UserMessageController extends Controller
 
         // --- SORT ---
         if ($sort && $dir) {
-            if (in_array($sort, ['subject', 'sent', 'is_read', 'body'])) {
+            if (in_array($sort, ['subject', 'sent', 'is_read', 'body', 'id'])) {
                 $query->orderBy($sort, $dir);
             }
 
