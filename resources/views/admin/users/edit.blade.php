@@ -46,8 +46,7 @@
         <input class="field"
             minlength="5"
             type="password"
-            name="password"
-            required>
+            name="password">
         @error('password')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -58,8 +57,7 @@
         <input class="field"
             minlength="5"
             type="password"
-            name="password_confirmation"
-            required>
+            name="password_confirmation">
         @error('password')
         <p class="error-message">{{ $message }}</p>
         @enderror
