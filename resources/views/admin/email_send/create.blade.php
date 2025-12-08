@@ -52,9 +52,9 @@
         @enderror
     </div>
     <div class="mb-2">
-        <label class="label-field req">Pilih Penerima</label><br>
+        <label class="label-field req">Receiver</label><br>
         <select class="field" name="receiver_id">
-            <option value="" hidden>-- Pilih Penerima --</option>
+            <option value="" hidden>-- Receiver --</option>
             @foreach ($employees as $e)
             <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }} required>
                 {{ $e->name }} - {{ $e->email }}

@@ -10,13 +10,13 @@
 
 
     <div class="mb-2">
-        <label class="label-field">Pengirim</label>
+        <label class="label-field">Sender</label>
         <input class="field" type="text" name="sender_id" value="{{ Auth::user()->email }}" readonly>
         <input type="hidden" name="sender_id" value="{{ Auth::user()->id }}">
     </div>
 
     <div class="mb-2">
-        <label class="label-field req">Penerima</label><br>
+        <label class="label-field req">Reciever</label><br>
         <select class="field" name="receiver_id" required>
             @foreach($users as $k)
             <option value="{{ $k->id }}">{{ $k->name }} ({{ $k->email }})</option>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="mb-2">
-        <label class="label-field req">Isi Pesan</label><br>
+        <label class="label-field req">Body</label><br>
         <textarea class="field" name="body" rows="5" required>{{ old('body') }}</textarea>
         @error('body')
         <p class="error-message">{{ $message }}</p>
@@ -49,13 +49,13 @@
     </div>
 
     <div class="mb-2">
-        <label class="label-field req">Frekuensi Pengiriman</label><br>
+        <label class="label-field req">Recurrence</label><br>
         <select class="field" name="recurrence">
-            <option value="">Sekali saja</option>
-            <option value="hourly" {{ old('recurrence')=='hourly' ? 'selected':'' }}>Setiap Jam</option>
-            <option value="daily" {{ old('recurrence')=='daily' ? 'selected':'' }}>Setiap Hari</option>
-            <option value="weekly" {{ old('recurrence')=='weekly' ? 'selected':'' }}>Setiap Minggu</option>
-            <option value="monthly" {{ old('recurrence')=='monthly' ? 'selected':'' }}>Setiap Bulan</option>
+            <option value="">Once</option>
+            <option value="hourly" {{ old('recurrence')=='hourly' ? 'selected':'' }}>Every Hour</option>
+            <option value="daily" {{ old('recurrence')=='daily' ? 'selected':'' }}>Every Day </option>
+            <option value="weekly" {{ old('recurrence')=='weekly' ? 'selected':'' }}>Every Week</option>
+            <option value="monthly" {{ old('recurrence')=='monthly' ? 'selected':'' }}>Every Month</option>
         </select>
     </div>
 

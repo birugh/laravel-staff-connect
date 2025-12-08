@@ -96,7 +96,7 @@ if (el) {
         data: {
             labels: chartData.labels,
             datasets: [{
-                label: 'Jumlah Pesan per Bulan',
+                label: 'Messages monthly',
                 data: chartData.data,
                 backgroundColor: 'rgba(54, 162, 235, 0.6)',
                 borderColor: '#2563eb',

@@ -31,7 +31,13 @@
                     </td>
                     <td>{{ $u->name }}</td>
                     <td>{{ $u->email }}</td>
-                    <td>{{ ucfirst($u->role) }}</td>
+                    @if($u->role === 'admin')
+                    <td>Admin</td>
+                    @elseif($u->role === 'petugas')
+                    <td>Officer</td>
+                    @else
+                    <td>Employee</td>
+                    @endif
                     <td>
                         <div class="dashboard__action">
                             <a class="btn-action group" href="{{ route('admin.user.show', $u) }}">

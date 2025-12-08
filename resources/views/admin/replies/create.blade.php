@@ -21,7 +21,7 @@
         </div>
 
         <div class="w-80 mb-2">
-            <label class="label-field req">Sender Reply</label><br>
+            <label class="label-field req">Replier</label><br>
             <select class="field" name="user_id" id="user_id" required>
                 @foreach ($users as $u)
                 <option value="{{ $u->id }}">{{ $u->name }}</option>

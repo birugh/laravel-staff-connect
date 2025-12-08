@@ -93,11 +93,11 @@ class AdminDashboardController extends Controller
             5 => 'Mei',
             6 => 'Jun',
             7 => 'Jul',
-            8 => 'Agu',
+            8 => 'Aug',
             9 => 'Sep',
             10 => 'Okt',
             11 => 'Nov',
-            12 => 'Des',
+            12 => 'Dec',
         ];
 
         $chartData = [

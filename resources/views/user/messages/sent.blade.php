@@ -26,7 +26,7 @@
                     <x-th-sort column="subject" label="Subject" />
                     <x-th-sort column="receiver" label="Receiver" />
                     <x-th-sort column="sent" label="Date" />
-                    <th>Aksi</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 

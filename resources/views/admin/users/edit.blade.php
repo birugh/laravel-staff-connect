@@ -66,7 +66,7 @@
     </div>
 
     <div class="mb-2">
-        <label class="label-field">Konfirmasi Password</label><br>
+        <label class="label-field">Confirm Password</label><br>
         <input class="field"
             minlength="5"
             type="password"
