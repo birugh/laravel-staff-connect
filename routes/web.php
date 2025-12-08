@@ -46,6 +46,7 @@ Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('status', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
@@ -98,10 +99,10 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(fu
 // USER SPACE
 Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     // ! DASHBOARD
-    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+    // Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
     // ! MESSAGES
-    Route::resource('/messages', UserMessageController::class)->except('show');
+    Route::resource('/messages', UserMessageController::class)->except('show')->middleware('verified');
     Route::get('/inbox', [UserMessageController::class, 'index'])->name('messages.inbox');
     Route::post('/reply', [UserMessageReplyController::class, 'store'])->name('messages.reply');
     Route::get('/sent', [UserMessageController::class, 'sent'])->name('messages.sent');
@@ -109,9 +110,11 @@ Route::middleware('auth')->prefix('/user')->name('user.')->group(function () {
     // ! PROFILE
     Route::get('/profile', [UserProfileControler::class, 'index'])->name('profile');
     // ! EMAIL TEMPLATE SENDING
-    Route::get('/email-send', [UserEmailSendingController::class, 'create'])->name('email-send.create');
-    Route::post('/email-send/fill', [UserEmailSendingController::class, 'fillForm'])->name('email-send.fill');
-    Route::post('/email-send/send', [UserEmailSendingController::class, 'send'])->name('email-send.send');
+    Route::middleware('verified')->group(function () {
+        Route::get('/email-send', [UserEmailSendingController::class, 'create'])->name('email-send.create');
+        Route::post('/email-send/fill', [UserEmailSendingController::class, 'fillForm'])->name('email-send.fill');
+        Route::post('/email-send/send', [UserEmailSendingController::class, 'send'])->name('email-send.send');
+    });
 });
 
 Route::get('/email', function () {

@@ -66,6 +66,11 @@ class UserMessageController extends Controller
 
         $recievedMail = $query->latest()->get();
 
+        Message::with('sender')
+            ->where('receiver_id', Auth::id())
+            ->where('is_read', 0)
+            ->count();
+
         return view('user.messages.inbox', compact(
             'recievedMail',
             'filter',
@@ -156,7 +161,7 @@ class UserMessageController extends Controller
         $validated = $request->validate([
             'sender_id'   => ['required', 'exists:users,id'],
             'receiver_id' => ['required', 'exists:users,id'],
-            'subject'     => ['required', 'min:5', 'max:50'],
+            'subject'     => ['nullable', 'min:5', 'max:50'],
             'body'        => ['required', 'min:5', 'max:255'],
             'sent'        => ['nullable'],
         ]);

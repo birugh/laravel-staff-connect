@@ -31,7 +31,7 @@
 
             </span>
             <span class="btn-sidebar-text">
-                Dashboard User
+                Manajemen User
             </span>
         </a>
     </li>
@@ -42,7 +42,7 @@
             </svg>
 
             <span class="btn-sidebar-text">
-                Dashboard Profile
+                Manajemen Profile
             </span>
         </a>
     </li>
@@ -53,7 +53,7 @@
             </svg>
             </span>
             <span class="btn-sidebar-text">
-                Dashboard Mail
+                Manajemen Mail
             </span>
         </a>
     </li>
@@ -64,7 +64,7 @@
             </svg>
             </span>
             <span class="btn-sidebar-text">
-                Dashboard Reply
+                Manajemen Reply
             </span>
         </a>
     </li>
@@ -75,7 +75,7 @@
             </svg>
             </span>
             <span class="btn-sidebar-text">
-                Dashboard Email Template
+                Manajemen Email Template
             </span>
         </a>
     </li>

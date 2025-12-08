@@ -12,10 +12,12 @@ class UserMessageReplyController extends Controller
         $validated = $request->validate([
             'message_id' => ['required'],
             'user_id' => ['required'],
-            'body' => ['required', 'min:10', 'max:255'],
+            'body' => ['required', 'min:5', 'max:255'],
         ]);
 
+
         MessageReply::create($validated);
+
 
         return redirect()->back()->with('success', 'Reply berhasil di buat');
     }
