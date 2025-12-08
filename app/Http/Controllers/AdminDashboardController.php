@@ -81,7 +81,7 @@ class AdminDashboardController extends Controller
         $petugasCount = User::where('role', 'petugas')->count();
         $karyawanCount = User::where('role', 'karyawan')->count();
 
-        $messagesPerMonth = Message::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+        $messagesPerMonth = Message::selectRaw('MONTH(sent) as month, COUNT(*) as total')
             ->groupBy('month')
             ->pluck('total', 'month');
 
