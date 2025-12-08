@@ -32,7 +32,7 @@ class AdminUserProfileController extends Controller
         }
 
         if ($sort && $dir) {
-            if (in_array($sort, ['nik', 'phone_number', 'date_of_birth', 'address'])) {
+            if (in_array($sort, ['nik', 'phone_number', 'date_of_birth', 'address', 'id'])) {
                 $query->orderBy($sort, $dir);
             }
 

@@ -19,10 +19,10 @@
 
 
     <div class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-hover mb-4">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <x-th-sort column="id" label="No" />
                     <x-th-sort column="subject" label="Subject" />
                     <x-th-sort column="receiver" label="Receiver" />
                     <x-th-sort column="sent" label="Date" />
@@ -33,9 +33,15 @@
             <tbody>
                 @foreach($messages as $msg)
                 <tr>
-                    <td>{{ $messages->firstItem() + $loop->index }}</td>
+                    <td>
+                        @if(request('dir') === 'desc' && request('sort') === 'id')
+                        {{ $messages->total() - ($messages->firstItem() + $loop->index) + 1 }}
+                        @else
+                        {{ $messages->firstItem() + $loop->index }}
+                        @endif
+                    </td>
                     <td>{{ $msg->subject ?? '(No Subject)' }}</td>
-                    <td>{{ $msg->receiver->name }}</td>
+                    <td>{{ $msg->receiver?->name ?? 'UNKNOWN USER' }}</td>
                     <td>{{ $msg->sentFull() }}</td>
                     <td>
                         <a class="btn-action" href="{{ route('user.messages.show', $msg->id) }}">

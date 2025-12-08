@@ -66,7 +66,7 @@
 
     <div class="mb-2">
         <label class="label-field">Sent Date</label><br>
-        <input class="field" type="date" name="sent" value="{{ old('sent', $message->sentDate ?? '') }}">
+        <input class="field" type="datetime-local" name="sent" value="{{ old('sent', $message->sentDate ?? '') }}">
         @error('sent')
         <p class="error-message">{{ $message }}</p>
         @enderror

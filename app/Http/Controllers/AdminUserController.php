@@ -30,7 +30,7 @@ class AdminUserController extends Controller
         }
 
         if ($sort && $dir) {
-            if (in_array($sort, ['name', 'email', 'role', 'created_at'])) {
+            if (in_array($sort, ['name', 'email', 'role', 'created_at', 'id'])) {
                 $query->orderBy($sort, $dir);
             }
         } else {

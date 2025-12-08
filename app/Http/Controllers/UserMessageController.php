@@ -58,7 +58,7 @@ class UserMessageController extends Controller
 
         // --- SORT ---
         if ($sort && $dir) {
-            if (in_array($sort, ['subject', 'sent', 'is_read', 'body'])) {
+            if (in_array($sort, ['subject', 'sent', 'is_read', 'body', 'id'])) {
                 $query->orderBy($sort, $dir);
             }
 
@@ -145,7 +145,7 @@ class UserMessageController extends Controller
         }
 
         if ($sort && $dir) {
-            if (in_array($sort, ['subject', 'sent', 'is_read'])) {
+            if (in_array($sort, ['subject', 'sent', 'is_read', 'id'])) {
                 $query->orderBy($sort, $dir);
             }
 
@@ -201,6 +201,7 @@ class UserMessageController extends Controller
             'subject'     => ['nullable', 'min:5', 'max:50'],
             'body'        => ['required', 'min:5', 'max:255'],
             'sent'        => ['nullable'],
+            'recurrence'  => ['nullable']
         ]);
 
         $receiver = User::findOrFail($request->receiver_id);
@@ -223,12 +224,21 @@ class UserMessageController extends Controller
             )->delay($sendAt);
         }
 
+        $recurrence = $request->recurrence;
+
+        if ($recurrence) {
+            $nextRun = Carbon::now();
+        } else {
+            $nextRun = $sendAt;
+        }
         Message::create([
             'sender_id'   => $request->sender_id,
             'receiver_id' => $request->receiver_id,
             'subject'     => $request->subject,
             'body'        => $request->body,
             'sent'        => $sendAt,
+            'recurrence'  => $recurrence,
+            'next_run_at'  => $nextRun,
             'is_read'     => 0,
         ]);
 

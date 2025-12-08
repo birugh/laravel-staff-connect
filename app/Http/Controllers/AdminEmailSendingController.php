@@ -25,7 +25,12 @@ class AdminEmailSendingController extends Controller
         $request->validate([
             'template_id' => ['required', 'exists:email_templates,id'],
             'receiver_id' => ['required', 'exists:users,id'],
+            'sender_id'   => ['required', 'exists:users,id'],
         ]);
+
+        if ($request->sender_id == $request->receiver_id) {
+            return back()->with('error', 'Sender dan Receiver tidak boleh sama!');
+        }
 
         $template = EmailTemplate::findOrFail($request->template_id);
 
@@ -36,6 +41,7 @@ class AdminEmailSendingController extends Controller
             'template'    => $template,
             'fields'      => $fields,
             'receiver_id' => $request->receiver_id,
+            'sender_id' => $request->sender_id,
         ]);
     }
 
@@ -44,11 +50,13 @@ class AdminEmailSendingController extends Controller
         $request->validate([
             'template_id' => ['required', 'exists:email_templates,id'],
             'receiver_id' => ['required', 'exists:users,id'],
+            'sender_id' => ['required', 'exists:users,id'],
             'fields'      => ['array'],
         ]);
 
         $template = EmailTemplate::findOrFail($request->template_id);
         $receiver = User::findOrFail($request->receiver_id);
+        $sender = User::findOrFail($request->sender_id);
 
         $body = $template->body;
 
@@ -63,7 +71,7 @@ class AdminEmailSendingController extends Controller
                 $template->subject,
                 $body
             );
-        } else { 
+        } else {
             SendCustomEmailJob::dispatch(
                 $receiver->email,
                 $template->subject,
@@ -80,7 +88,7 @@ class AdminEmailSendingController extends Controller
 
         Message::create([
             'receiver_id' => $receiver->id,
-            'sender_id'   => Auth::id(),
+            'sender_id'   => $sender->id,
             'subject'     => $template->subject,
             'body'        => $body,
             'sent'        => $nextRun,
@@ -88,7 +96,6 @@ class AdminEmailSendingController extends Controller
             'next_run_at' => $nextRun,
             'is_read'     => 0,
         ]);
-
         return redirect()->route('admin.messages.templates.create')
             ->with('success', $sendAt <= now() ? 'Email Sent!' : 'Email Scheduled!');
     }

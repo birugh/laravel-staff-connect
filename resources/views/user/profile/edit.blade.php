@@ -11,15 +11,8 @@
 
     <div class="mb-2">
         <label class="label-field req">User</label><br>
-        <select class="field" name="user_id">
-            @foreach($users as $user)
-            <option value="{{ $user->id }}"
-                @selected($user->id == $userProfile->user_id)>
-                {{ $user->name }} ({{ $user->email }})
-            </option>
-            @endforeach
-        </select>
-        <input type="hidden" value="{{ $userProfile->user_id }}">
+        <input class="field" type="text" readonly value="{{ $user->name }} ({{ $user->email }})">
+        <input type="hidden" readonly name="user_id" value="{{ $user->id }}">
         @error('name')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -27,7 +20,7 @@
 
     <div class="mb-2">
         <label class="label-field req">NIK</label><br>
-        <input class="field" type="number" name="nik" value="{{ old('nik', $userProfile->nik) }}" required>
+        <input class="field" type="number" name="nik" readonly value="{{ old('nik', $userProfile->nik) }}" required>
         @error('nik')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -35,7 +28,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Phone Number</label><br>
-        <input class="field" type="text" name="phone_number" value="{{ old('phone_number', $userProfile->phone_number) }}" required>
+        <input class="field" type="text" name="phone_number" readonly value="{{ old('phone_number', $userProfile->phone_number) }}" required>
         @error('phone_number')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -43,7 +36,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Address</label><br>
-        <textarea class="field" name="address" rows="5" required>{{ old('address', $userProfile->address) }}</textarea>
+        <textarea class="field" name="address" readonly required>{{ old('address', $userProfile->address) }}</textarea>
         @error('address')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -51,7 +44,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Date of Birth</label><br>
-        <input class="field" type="date" name="date_of_birth" value="{{ old('date_of_birth', $userProfile->date_of_birth->toDateString()) }}" required>
+        <input class="field" type="date" name="date_of_birth" readonly value="{{ old('date_of_birth', $userProfile->date_of_birth->toDateString()) }}" required>
         @error('date_of_birth')
         <p class="error-message">{{ $message }}</p>
         @enderror

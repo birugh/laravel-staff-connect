@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        // --- Create 3 main users ---
+        $admin = User::create([
             'name' => 'zulfahmi',
             'email' => 'pahmi@gmail.com',
             'email_verified_at' => now(),
@@ -26,7 +27,8 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
             'role' => 'admin',
         ]);
-        User::create([
+
+        $karyawan = User::create([
             'name' => 'tiara',
             'email' => 'tiara@gmail.com',
             'email_verified_at' => now(),
@@ -34,7 +36,8 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
             'role' => 'karyawan',
         ]);
-        User::create([
+
+        $petugas = User::create([
             'name' => 'biru',
             'email' => 'biru@gmail.com',
             'email_verified_at' => null,
@@ -42,33 +45,22 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
             'role' => 'petugas',
         ]);
-        UserProfile::create([
-            'user_id' => 1,
-            'nik' => fake()->numerify('################'),
-            'phone_number' => fake()->numerify('#############'),
-            'address' => fake()->address(),
-            'date_of_birth' => fake()->date()
-        ]);
-        UserProfile::create([
-            'user_id' => 2,
-            'nik' => fake()->numerify('################'),
-            'phone_number' => fake()->numerify('#############'),
-            'address' => fake()->address(),
-            'date_of_birth' => fake()->date()
-        ]);
-        UserProfile::create([
-            'user_id' => 3,
-            'nik' => fake()->numerify('################'),
-            'phone_number' => fake()->numerify('#############'),
-            'address' => fake()->address(),
-            'date_of_birth' => fake()->date()
-        ]);
+
+        UserProfile::factory()->create(['user_id' => $admin->id]);
+        UserProfile::factory()->create(['user_id' => $karyawan->id]);
+        UserProfile::factory()->create(['user_id' => $petugas->id]);
+
+        // --- Generate random users with messages & replies ---
         User::factory()
-            ->has(Message::factory()
-                ->has(MessageReply::factory()
-                    ->count(3))
-                ->count(5))
+            ->has(
+                Message::factory()
+                    ->has(MessageReply::factory()->count(3))
+                    ->count(5)
+            )
             ->count(7)
             ->create();
+
+        // --- Email templates ---
+        $this->call(EmailTemplateSeeder::class);
     }
 }

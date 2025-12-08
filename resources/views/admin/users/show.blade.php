@@ -7,13 +7,17 @@
 
 <div class="container-content">
     <div class="w-fit flex justify-start items-center">
-        <a class="h-full" href="{{ route('admin.user-profile.edit', $user->profile->id) }}">
-            <img class="h-30 max-h-30 w-30 max-w-30 object-cover rounded-full border-3 border-gray-300 transition-all duration-250 hover:border-blue-500" src="{{ $user->profile->profile_path !== null ? asset('storage/' . $user->profile->profile_path) : 'https://placehold.co/50x50?text=None' }}" alt="">
+        @if($user->profile)
+        <a class="h-full" href="{{ route('admin.user-profile.edit', $user->profile?->id) }}">
+            <img class="h-30 max-h-30 rounded-full border-3 border-gray-300 transition-all duration-250 hover:border-blue-500" src="{{ $user->profile?->profile_path !== null ? asset('storage/' . $user->profile?->profile_path) : 'https://placehold.co/50x50?text=None' }}" alt="">
         </a>
+        @else
+        <img class="h-30 max-h-30 rounded-full border-3 border-gray-300 transition-all duration-250 hover:border-blue-500" src="{{ $user->profile?->profile_path !== null ? asset('storage/' . $user->profile?->profile_path) : 'https://placehold.co/50x50?text=None' }}" alt="">
+        @endif
         <div class="ml-4">
             <h3>{{ $user->name }}</h3>
             <small>{{ ucfirst($user->role) }}</small>
-            <address>{{ $user->profile->address }}</address>
+            <address>{{ $user->profile?->address ?? '-' }}</address>
         </div>
     </div>
 </div>
@@ -56,10 +60,9 @@
     <div class="container-action">
         <h3>Profile Information</h2>
             @if($user->profile)
-            <a class="btn btn-primary" href="{{ route('admin.user-profile.edit', $user->profile->id) }}">
+            <a class="btn btn-primary" href="{{ route('admin.user-profile.edit', $user->profile?->id) }}">
                 Edit Profile
             </a>
-            @else
             @endif
     </div>
     <div class="h-separator"></div>
@@ -68,24 +71,24 @@
         <div class="flex flex-col w-full max-w-40 mb-2">
             <label>NIK</label>
             <div class="flex items-center ">
-                <label id="nikField" class="label-user select-none cursor-pointer">{{ $user->profile->nik }}</label>
+                <label id="nikField" class="label-user select-none cursor-pointer">{{ $user->profile?->nik }}</label>
             </div>
         </div>
         <div class="flex flex-col mb-2">
             <label>Phone Number</label>
-            <label class="label-user">{{ $user->profile->phone_number }}</label>
+            <label class="label-user">{{ $user->profile?->phone_number }}</label>
         </div>
 
         <div class="flex flex-col mb-2">
             <label>Address</label>
-            <label class="label-user">{{ ucfirst($user->profile->address) }}</label>
-            <!-- <label class="label-user">{{ Str::limit($user->profile->address, 50) }}</label> -->
+            <label class="label-user">{{ ucfirst($user->profile?->address) }}</label>
+            <!-- <label class="label-user">{{ Str::limit($user->profile?->address, 50) }}</label> -->
         </div>
     </div>
     <div class="flex justify-between items-start">
         <div class="flex flex-col mb-2">
             <label>Date of Birth</label>
-            <label class="label-user">{{ $user->profile->date_of_birth->format('d M Y') }}</label>
+            <label class="label-user">{{ $user->profile?->date_of_birth->format('d M Y') }}</label>
         </div>
     </div>
     @else

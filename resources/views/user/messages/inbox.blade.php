@@ -35,21 +35,30 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <x-th-sort column="id" label="No" />
                     <x-th-sort column="sender" label="Pengirim" />
                     <x-th-sort column="subject" label="Subject" />
                     <x-th-sort column="body" label="Body" />
-                    <x-th-sort column="tanggal" label="Tanggal" />
+                    <x-th-sort column="sent" label="Tanggal" />
                     <x-th-sort column="is_read" label="Status" />
-                    <x-th-sort column="aksi" label="Aksi" />
+                    <th>Action</th>
                 </tr>
             </thead>
 
             <tbody>
                 @foreach($recievedMail as $r)
                 <tr>
-                    <td>{{ $recievedMail->firstItem() + $loop->index }}</td>
-                    <td>{{ $r->sender->name }}</td>
+                    <td>
+                        @if(request('dir') === 'desc' && request('sort') === 'id')
+                        {{ $recievedMail->total() - ($recievedMail->firstItem() + $loop->index) + 1 }}
+                        @else
+                        {{ $recievedMail->firstItem() + $loop->index }}
+                        @endif
+                    </td>
+                    <td>{{ $r->sender?->name ?? 'Unknown User' }}</td>
+                    <!-- <td class="{{ $r->sender?->name ? '' : 'error-message' }}">
+                    {{ $r->sender?->name ?? 'UNKNOWN USER' }}
+                </td> -->
                     <td>{{ $r->subject }}</td>
                     <td>{{ $r->limitBody() }}</td>
                     <td>{{ $r->created_at->format('d M Y H:i') }}</td>
@@ -67,9 +76,5 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="px-4 py-2 my-2">
-            {{ $recievedMail->links('pagination::tailwind') }}
-        </div>
     </div>
-</div>
-@endsection
+    @endsection

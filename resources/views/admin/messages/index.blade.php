@@ -13,11 +13,12 @@
             </form>
         </div>
 
+
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        <x-th-sort column="id" label="No" />
                         <x-th-sort column="sender" label="Sender" />
                         <x-th-sort column="receiver" label="Receiver" />
                         <x-th-sort column="subject" label="Subject" />
@@ -31,10 +32,16 @@
                 <tbody>
                     @foreach ($messages as $m)
                     <tr>
-                        <td>{{ $messages->firstItem() + $loop->index }}</td>
-                        <td>{{ $m->sender->name }}</td>
-                        <td>{{ $m->receiver->name ?? '(No Subject)' }}</td>
-                        <td>{{ $m->limitSubject() }}</td>
+                        <td>
+                            @if(request(key: 'dir') === 'desc' && request('sort') === 'id')
+                            {{ $messages->total() - ($messages->firstItem() + $loop->index) + 1 }}
+                            @else
+                            {{ $messages->firstItem() + $loop->index }}
+                            @endif
+                        </td>
+                        <td>{{ $m->sender?->name ?? 'USER NOT FOUND' }}</td>
+                        <td>{{ $m->receiver?->name ?? 'USER NOT FOUND' }}</td>
+                        <td>{{ $m->limitSubject() ?? '(No Subject)'}}</td>
                         <td>{{ $m->limitBody() }}</td>
                         <td>{{ $m->sentFull() }}</td>
                         <td>
@@ -42,7 +49,6 @@
                                 {{ $m['is_read'] ? 'Read' : 'Unread' }}
                             </span>
                         </td>
-
                         <td>
                             <div class="dashboard__action">
                                 <a class="btn-action group" href="{{ route('admin.messages.show', $m) }}">
@@ -56,7 +62,6 @@
                                     </svg>
                                     View
                                 </a>
-
                                 <a class="btn-action group" href="{{ route('admin.messages.edit', $m) }}">
                                     <svg class="btn-action-icon group-hover:stroke-blue-900" xmlns="http://www.w3.org/2000/svg"
                                         fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -73,11 +78,11 @@
                     @endforeach
                 </tbody>
             </table>
-
-            <div class="px-4 py-2 my-2">
-                {{ $messages->links('pagination::tailwind') }}
-            </div>
         </div>
+    </div>
+
+    <div class="px-4 py-2 my-2">
+        {{ $messages->links('pagination::tailwind') }}
     </div>
 </div>
 @endsection

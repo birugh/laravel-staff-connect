@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Message;
 use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -22,9 +23,16 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         view()->composer('layouts.*', function ($view) {
-            if (Auth::user()) {
-                $profile = UserProfile::find(Auth::user()->id);
-                $view->with('profile', $profile);
+            if (Auth::check()) {
+                $profile = Auth::user()->profile;
+                $unreadCount = Message::where('is_read', 0)
+                    ->where('receiver_id', Auth::id())
+                    ->count();
+
+                $view->with([
+                    'profile'     => $profile,
+                    'unreadCount' => $unreadCount,
+                ]);
             }
         });
     }

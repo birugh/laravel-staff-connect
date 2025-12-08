@@ -59,8 +59,8 @@
 
                 <div class="flex flex-col gap-1">
                     <small class="font-medium text-base flex items-center gap-1">
-                        {{ $reply->user?->name }}
-                        <span class="font-normal text-sm text-gray-500">&lt;{{ $reply->user?->email }}&gt;</span>
+                        {{ $reply->user?->name ?? 'Unknown User' }}
+                        <span class="font-normal text-sm text-gray-500">&lt;{{ $reply->user?->email ?? 'Unknown Email'}}&gt;</span>
                     </small>
                     <small class="font-medium text-base flex items-center gap-1 text-gray-500">
                         To {{ $message->sender_name }}

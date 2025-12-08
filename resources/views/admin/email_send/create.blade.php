@@ -42,6 +42,20 @@
         <select class="field" name="receiver_id">
             <option hidden selected>Choose employee</option>
             @foreach ($employees as $e)
+            <option value="{{ $e->id }}" {{ old('sender_id') == $e->id ? 'selected' : '' }} required>
+                {{ $e->name }} - {{ $e->email }}
+            </option>
+            @endforeach
+        </select>
+        @error('sender_id')
+        <p class="error-message">{{ $message }}</p>
+        @enderror
+    </div>
+    <div class="mb-2">
+        <label class="label-field req">Pilih Penerima</label><br>
+        <select class="field" name="receiver_id">
+            <option value="" hidden>-- Pilih Penerima --</option>
+            @foreach ($employees as $e)
             <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }} required>
                 {{ $e->name }} - {{ $e->email }}
             </option>

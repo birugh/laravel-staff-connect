@@ -19,16 +19,16 @@
 
             <div class="flex flex-col gap-1">
                 <small class="font-medium text-base flex items-center gap-1">
-                    {{ $message->sender->name }}
+                    {{ $message->sender?->name }}
                     <span class="font-normal text-sm text-gray-500">
-                        &lt;{{ $message->sender->email }}&gt;
+                        &lt;{{ $message->sender?->email }}&gt;
                     </span>
                 </small>
 
                 <small class="font-medium text-base flex items-center gap-1 text-gray-500">
-                    To {{ $message->receiver->name }}
+                    To {{ $message->receiver?->name ?? 'Unknown User' }}
                     <span class="font-normal text-sm text-gray-500">
-                        &lt;{{ $message->receiver->email }}&gt;
+                        &lt;{{ $message->receiver?->email ?? 'Unknown Email'}}&gt;
                     </span>
                 </small>
             </div>
@@ -63,9 +63,9 @@
 
             <div class="flex flex-col gap-2">
                 <small class="font-medium text-base flex items-center gap-1">
-                    {{ $reply->user?->name }}
+                    {{ $reply->user?->name ?? 'Unknown User' }}
                     <span class="font-normal text-sm text-gray-500">
-                        &lt;{{ $reply->user?->email }}&gt;
+                        &lt;{{ $reply->user?->email ?? 'Unknown Email' }}&gt;
                     </span>
                 </small>
                 <small class="font-medium text-base flex items-center gap-1 text-gray-500">

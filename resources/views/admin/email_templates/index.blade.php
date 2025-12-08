@@ -22,22 +22,29 @@
                 <input class="w-full py-1.5 px-2 border-2 ring-0 rounded-md border-neutral-200 transition-colors duration-300 outline-none bg-white" type="search" name="search" placeholder="Search by Name or Subject" value="{{ request('search') }}">
             </form>
         </div>
+
         <div class="table-responsive">
-            <table class="table table-hover mb-4">
+            <table class="table table-hover">
                 <thead>
                     <tr>
-                        <x-th-sort column="no" label="No" />
+                        <x-th-sort column="id" label="No" />
                         <x-th-sort column="name" label="Name" />
                         <x-th-sort column="subject" label="Subject" />
                         <x-th-sort column="created_at" label="Created At" />
-                        <x-th-sort column="action" label="Action" />
+                        <th>Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @forelse ($templates as $template)
                     <tr>
-                        <td>{{ $templates->firstItem() + $loop->index }}</td>
+                        <td>
+                            @if(request('dir') === 'desc' && request('sort') === 'id')
+                            {{ $templates->total() - ($templates->firstItem() + $loop->index) + 1 }}
+                            @else
+                            {{ $templates->firstItem() + $loop->index }}
+                            @endif
+                        </td>
                         <td>{{ $template->name }}</td>
                         <td>{{ $template->subject }}</td>
                         <td>{{ $template->created_at }}</td>
@@ -83,8 +90,7 @@
                 {{ $templates->links('pagination::tailwind') }}
             </div>
         </div>
+        </table>
     </div>
-
-
 </div>
 @endsection

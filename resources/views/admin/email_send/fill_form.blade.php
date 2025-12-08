@@ -39,6 +39,7 @@
 
     <input type="hidden" name="template_id" value="{{ $template->id }}">
     <input type="hidden" name="receiver_id" value="{{ $receiver_id }}">
+    <input type="hidden" name="sender_id" value="{{ $sender_id }}">
 
     <div class="container-content">
         <div class="container-action">

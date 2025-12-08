@@ -11,11 +11,10 @@
                 <input class="w-full py-1.5 px-2 border-2 ring-0 rounded-md border-neutral-200 transition-colors duration-300 outline-none bg-white" type="search" name="search" placeholder="Search by Name or Email" value="{{ request('search') }}">
             </form>
         </div>
-
         <div class="table-responsive">
             <table class="table table-hover">
                 <tr>
-                    <th>No</th>
+                    <x-th-sort column="id" label="No" />
                     <x-th-sort column="name" label="Name" />
                     <x-th-sort column="email" label="Email" />
                     <x-th-sort column="role" label="Role" />
@@ -23,7 +22,13 @@
                 </tr>
                 @foreach ($users as $u)
                 <tr>
-                    <td>{{ $users->firstItem() + $loop->index }}</td>
+                    <td>
+                        @if(request('dir') === 'desc' && request('sort') === 'id')
+                        {{ $users->total() - ($users->firstItem() + $loop->index) + 1 }}
+                        @else
+                        {{ $users->firstItem() + $loop->index }}
+                        @endif
+                    </td>
                     <td>{{ $u->name }}</td>
                     <td>{{ $u->email }}</td>
                     <td>{{ ucfirst($u->role) }}</td>

@@ -16,36 +16,54 @@
             </form>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-hover mb-4">
-                <tr>
-                    <th>No</th>
-                    <x-th-sort column="subject" label="Subject" />
-                    <x-th-sort column="sender" label="Sender's Reply" />
-                    <x-th-sort column="body" label="Body" />
-                    <th>Action</th>
-                </tr>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <tr>
+                <x-th-sort column="id" label="No" />
+                <x-th-sort column="subject" label="Subject" />
+                <x-th-sort column="sender" label="Replier" />
+                <x-th-sort column="body" label="Body" />
+                <th>Action</th>
+            </tr>
 
-                @foreach ($replies as $r)
-                <tr>
-                    <td>{{ $replies->firstItem() + $loop->index }}</td>
-                    <td>{{ $r->message->limitSubject() }} - {{ $r->message->sender_name }}</td>
-                    <td>{{ $r->user->name }}</td>
-                    <td>{{ $r->limitBody() }}</td>
+            @foreach ($replies as $r)
+            <tr>
+                <td>
+                    @if(request('dir') === 'desc' && request('sort') === 'id')
+                    {{ $replies->total() - ($replies->firstItem() + $loop->index) + 1 }}
+                    @else
+                    {{ $replies->firstItem() + $loop->index }}
+                    @endif
+                </td>
+                <td>{{ $r->message?->limitSubject() ? $r->message?->limitSubject() . '-' : 'Message deleted'}} {{ $r->message?->sender_name }}</td>
+                <td>{{ $r->user?->name ?? 'Unknown User' }}</td>
+                <td>{{ $r->limitBody() }}</td>
 
-                    <td>
-                        <div class="dashboard__action">
-
-                            <a class="btn-action group" href="{{ route('admin.messages.show', $r->message->id) }}">
-                                <svg class="btn-action-icon group-hover:stroke-blue-900" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                </svg>
-                                View
-                            </a>
+                <td>
+                    <div class="dashboard__action">
+                        @if($r->message)
+                        <a class="btn-action group" href="{{ route('admin.messages.show', $r->message?->id) }}">
+                            <svg class="btn-action-icon group-hover:stroke-blue-900" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                            View
+                        </a>
+                        @else
+                        <a class="btn-action disabled group">
+                            <svg class="btn-action-icon group-hover:stroke-blue-900" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                            View
+                        </a>
+                        @endif
 
                             <a class="btn-action group" href="{{ route('admin.replies.edit', $r) }}">
                                 <svg class="btn-action-icon group-hover:stroke-blue-900" xmlns="http://www.w3.org/2000/svg"
