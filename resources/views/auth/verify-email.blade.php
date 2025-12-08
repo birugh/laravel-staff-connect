@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('content')
-<div class="h-screen max-h-[620px] flex items-center">
+<div class="h-[calc(100vh-120px)] flex items-center">
     <div class="p-12 w-full max-w-[420px] bg-white rounded-md shadow-md mx-auto">
 
         <div class="dashboard__title">
