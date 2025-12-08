@@ -58,19 +58,29 @@
         @endforelse
     </div>
 
-    <div style="margin-top: 8px;">
-        <label>Jadwalkan Kirim (opsional)</label><br>
-        <input type="datetime-local" name="sent" value="{{ old('sent') }}">
-    </div>
+    <div class="container-content">
+        <div class="container-action">
+            <h3>Pengaturan Pengiriman</h3>
+        </div>
 
-    <label>Frekuensi Pengiriman</label>
-    <select name="recurrence">
-        <option value="">Sekali saja</option>
-        <option value="hourly">Setiap Jam</option>
-        <option value="daily">Setiap Hari</option>
-        <option value="weekly">Setiap Minggu</option>
-        <option value="monthly">Setiap Bulan</option>
-    </select>
+        <div class="h-separator"></div>
+
+        <div class="mb-2">
+            <label class="label-field">Jadwalkan Kirim (Opsional)</label><br>
+            <input class="field" type="datetime-local" name="sent" value="{{ old('sent') }}">
+        </div>
+
+        <div class="mb-2">
+            <label class="label-field req">Frekuensi Pengiriman</label><br>
+            <select class="field" name="recurrence">
+                <option value="">Sekali saja</option>
+                <option value="hourly" {{ old('recurrence')=='hourly' ? 'selected':'' }}>Setiap Jam</option>
+                <option value="daily" {{ old('recurrence')=='daily' ? 'selected':'' }}>Setiap Hari</option>
+                <option value="weekly" {{ old('recurrence')=='weekly' ? 'selected':'' }}>Setiap Minggu</option>
+                <option value="monthly" {{ old('recurrence')=='monthly' ? 'selected':'' }}>Setiap Bulan</option>
+            </select>
+        </div>
+    </div>
 
     <div class="dashboard__create">
         <button type="submit" class="btn btn-primary cursor-pointer">Kirim Email</button>
