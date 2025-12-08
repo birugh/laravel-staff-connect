@@ -67,8 +67,7 @@
     <div class="main transition-all duration-350 min-h-screen flex-column">
         @include('layouts.navigation')
         <main>
-            <div class="container px-24 pt-8">
-
+            <div class="w-full px-24 pt-8">
                 @yield('content')
             </div>
         </main>
@@ -76,11 +75,14 @@
 
     <!-- // TODO: SweetAlert -->
     @if (session('error'))
+    <div>tes</div>
     {{ swal('error', session('error'), 'Error') }}
+    {{ session()->forget('error') }}
     @endif
 
     @if (session('status'))
     {{ swal_toast('success', session('status')) }}
+    {{ session()->forget('status') }}
     @endif
 
     @if (session('swal'))

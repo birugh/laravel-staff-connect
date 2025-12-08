@@ -103,6 +103,6 @@ class AdminDashboardController extends Controller
         //     'sentCount' => $sentCount,
         //     'chartData' => json_encode($chartData),
         // ]);
-        return view('admin.dashboard', compact('sentCount', 'recievedMail', 'petugasCount', 'karyawanCount', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread'));
+        return view('admin.dashboard', compact('sentCount', 'recievedMail', 'petugasCount', 'karyawanCount', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread', 'chartData'));
     }
 }

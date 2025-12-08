@@ -40,7 +40,7 @@
     <div class="mb-2">
         <label class="label-field req">Pilih Penerima</label><br>
         <select class="field" name="receiver_id">
-            <option value="">-- Pilih Penerima --</option>
+            <option value="">Pilih Penerima</option>
             @foreach ($employees as $e)
             <option value="{{ $e->id }}" {{ old('receiver_id') == $e->id ? 'selected' : '' }}>
                 {{ $e->name }} - {{ $e->email }}

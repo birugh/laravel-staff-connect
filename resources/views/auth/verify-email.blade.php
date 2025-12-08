@@ -1,21 +1,21 @@
 @extends('layouts.user')
 
 @section('content')
-    <h1>Verifikasi Email</h1>
+<div class="h-screen max-h-[620px] flex items-center">
+    <div class="p-12 w-full max-w-[420px] bg-white rounded-md shadow-md mx-auto">
 
-    <p>Silakan cek email kamu dan klik link verifikasi.</p>
+        <div class="dashboard__title">
+            <h1 class="font-medium text-2xl">Verifikasi Email</h1>
+        </div>
 
-    @if (session('status'))
-        <p style="color: green">{{ session('status') }}</p>
-    @endif
+        <p class="mb-4">Silakan cek email kamu dan klik link verifikasi.</p>
 
-    <form method="POST" action="{{ route('verification.send') }}">
-        @csrf
-        <button type="submit">Kirim ulang email verifikasi</button>
-    </form>
-
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
+        <form method="POST" action="{{ route('verification.send') }}" class="mb-4">
+            @csrf
+            <button class="btn btn-primary cursor-pointer" type="submit">
+                Kirim ulang email verifikasi
+            </button>
+        </form>
+    </div>
+</div>
 @endsection

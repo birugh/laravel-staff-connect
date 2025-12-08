@@ -3,7 +3,7 @@
 @section('content')
 <div class="dashboard__title">
     <h1 class="font-medium text-xl">Inbox</h1>
-    <small class="opacity-70">{{ number_format($countAll) }} Email</small>
+    <small class="opacity-70">{{ number_format($countAll) }} Email | {{ $unreadCount ?? '0' }} Unread mails </small>
 </div>
 
 <form method="GET" action="{{ route('user.messages.inbox') }}" class="mb-4">

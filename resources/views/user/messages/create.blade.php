@@ -44,7 +44,7 @@
     </div>
 
     <div class="mb-2">
-        <label class="label-field">Sent On (opsional)</label><br>
+        <label class="label-field">Sent On</label><br>
         <input class="field" type="datetime-local" name="sent">
     </div>
 

@@ -63,7 +63,7 @@ class AuthController extends Controller
             ]);
 
             // return redirect()->intended('/dashboard');
-            return $user->role === 'admin' ? redirect()->intended('admin/dashboard') : redirect()->intended('user/dashboard');
+            return $user->role === 'admin' ? redirect()->intended('admin/dashboard') : redirect()->intended('user/inbox');
         }
 
         return back()->withErrors([
