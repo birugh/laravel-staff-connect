@@ -17,6 +17,8 @@ class AdminUserController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $sort = $request->sort;
+        $dir = $request->dir;
 
         $query = User::query();
 
@@ -27,7 +29,15 @@ class AdminUserController extends Controller
             });
         }
 
-        $users = $query->latest()->paginate(10);
+        if ($sort && $dir) {
+            if (in_array($sort, ['name', 'email', 'role', 'created_at'])) {
+                $query->orderBy($sort, $dir);
+            }
+        } else {
+            $query->latest();
+        }
+
+        $users = $query->paginate(10)->appends(request()->query());
         return view('admin.users.index', compact('users', 'search'));
     }
 

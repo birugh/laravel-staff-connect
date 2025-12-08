@@ -18,11 +18,11 @@
         <table class="table table-hover mb-4">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Subject</th>
-                    <th>Created At</th>
-                    <th>Action</th>
+                    <x-th-sort column="no" label="No" />
+                    <x-th-sort column="name" label="Name" />
+                    <x-th-sort column="subject" label="Subject" />
+                    <x-th-sort column="created_at" label="Created At" />
+                    <x-th-sort column="action" label="Action" />
                 </tr>
             </thead>
 

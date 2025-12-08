@@ -13,9 +13,9 @@
         <table class="table table-hover mb-4">
             <tr>
                 <th>No</th>
-                <th>Subject</th>
-                <th>Sender's Reply</th>
-                <th>Body</th>
+                <x-th-sort column="subject" label="Subject" />
+                <x-th-sort column="sender" label="Sender's Reply" />
+                <x-th-sort column="body" label="Body" />
                 <th>Action</th>
             </tr>
 

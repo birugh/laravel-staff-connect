@@ -11,11 +11,11 @@
         <table class="table table-hover mb-4">
             <tr>
                 <th>Profil</th>
-                <th>Nama</th>
-                <th>NIK</th>
-                <th>Nomor Telpon</th>
-                <th>Alamat Rumah</th>
-                <th>Tanggal Lahir</th>
+                <x-th-sort column="nama" label="Nama" />
+                <x-th-sort column="nik" label="NIK" />
+                <x-th-sort column="phone_number" label="Nomor Telpon" />
+                <x-th-sort column="address" label="Alamat Rumah" />
+                <x-th-sort column="date_of_birth" label="Tanggal Lahir" />
                 <th>Action</th>
             </tr>
             @foreach ($user_profiles as $u)

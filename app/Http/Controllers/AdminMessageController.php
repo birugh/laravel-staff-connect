@@ -18,6 +18,8 @@ class AdminMessageController extends Controller
     {
         $filter = $request->filter;
         $search = $request->search;
+        $sort = $request->sort;
+        $dir = $request->dir;
 
         $query = Message::with('sender', 'receiver');
         $countAll = (clone $query)->count();
@@ -53,6 +55,28 @@ class AdminMessageController extends Controller
                 break;
         }
 
+        if ($sort && $dir) {
+
+            if (in_array($sort, ['subject', 'sent', 'is_read', 'body'])) {
+                $query->orderBy($sort, $dir);
+            }
+
+            if ($sort === 'sender') {
+                $query->join('users as s', 's.id', '=', 'messages.sender_id')
+                    ->orderBy('s.name', $dir)
+                    ->select('messages.*');
+            }
+
+            if ($sort === 'receiver') {
+                $query->join('users as r', 'r.id', '=', 'messages.receiver_id')
+                    ->orderBy('r.name', $dir)
+                    ->select('messages.*');
+            }
+
+        } else {
+            $query->latest();
+        }
+
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('subject', 'LIKE', "%{$search}%")
@@ -64,8 +88,7 @@ class AdminMessageController extends Controller
                     });
             });
         }
-
-        $messages = $query->latest()->paginate(10);
+        $messages = $query->paginate(10)->appends(request()->query());
         return view('admin.messages.index', compact('messages', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread'));
     }
 

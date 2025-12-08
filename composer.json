@@ -29,7 +29,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/Alert.php"
+            "app/Helpers/Alert.php",
+            "app/Helpers/SortHelper.php"
         ]
     },
     "autoload-dev": {

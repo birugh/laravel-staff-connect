@@ -32,12 +32,12 @@
     <table class="table table-hover mb-4">
         <thead>
             <tr>
-                <th>Pengirim</th>
-                <th>Subject</th>
-                <th>Body</th>
-                <th>Tanggal</th>
-                <th>Status</th>
-                <th>Aksi</th>
+                <x-th-sort column="sender" label="Pengirim" />
+                <x-th-sort column="subject" label="Subject" />
+                <x-th-sort column="body" label="Body" />
+                <x-th-sort column="tanggal" label="Tanggal" />
+                <x-th-sort column="is_read" label="Status" />
+                <x-th-sort column="aksi" label="Aksi" />
             </tr>
         </thead>
 

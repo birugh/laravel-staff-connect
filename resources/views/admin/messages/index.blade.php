@@ -12,12 +12,12 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Sender</th>
-                    <th>Receiver</th>
-                    <th>Subject</th>
-                    <th>Body</th>
-                    <th>Sent</th>
-                    <th>Read</th>
+                    <x-th-sort column="sender" label="Sender" />
+                    <x-th-sort column="receiver" label="Receiver" />
+                    <x-th-sort column="subject" label="Subject" />
+                    <x-th-sort column="body" label="Body" />
+                    <x-th-sort column="sent" label="Sent" />
+                    <x-th-sort column="is_read" label="Status" />
                     <th>Action</th>
                 </tr>
             </thead>
