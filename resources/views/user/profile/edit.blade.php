@@ -1,20 +1,11 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
 @section('content')
 <div class="dashboard__title">
-    <h1 class="font-medium text-2xl mb-4">Edit User Profile {{ $userProfile->id }}</h1>
-    <form action="{{ route('admin.user-profile.destroy', $userProfile) }}"
-        method="POST"
-        onsubmit="return confirm('Delete this User Profile?')">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-warning cursor-pointer mt-2 mb-4" type="submit">
-            Delete Profile
-        </button>
-    </form>
+    <h1 class="font-medium text-2xl mb-4">Edit Profile</h1>
 </div>
 
-<form method="POST" action="{{ route('admin.user-profile.update', $userProfile->id) }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('user.user-profile.update', $userProfile->id) }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -78,7 +69,7 @@
         <button class="btn btn-primary cursor-pointer" type="submit">
             Update
         </button>
-        <a class="btn btn-secondary" href="{{ route('admin.user-profile.index') }}">
+        <a class="btn btn-secondary" href="{{ route('user.user-profile.index') }}">
             Cancel
         </a>
     </div>

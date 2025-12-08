@@ -13,6 +13,8 @@ class AdminEmailTemplateController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $sort = $request->sort;
+        $dir = $request->dir;
 
         $query = EmailTemplate::query();
 
@@ -23,7 +25,15 @@ class AdminEmailTemplateController extends Controller
             });
         }
 
-        $templates = $query->latest()->paginate(10);
+        if ($sort && $dir) {
+            if (in_array($sort, ['name', 'subject', 'created_at'])) {
+                $query->orderBy($sort, $dir);
+            }
+        } else {
+            $query->latest();
+        }
+
+        $templates = $query->paginate(10)->appends(request()->query());
         return view('admin.email_templates.index', compact('templates', 'search'));
     }
 

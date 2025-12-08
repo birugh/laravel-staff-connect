@@ -14,6 +14,9 @@ class AdminDashboardController extends Controller
     {
         $filter = $request->filter;
         $search = $request->search;
+        $sort = $request->sort;
+        $dir = $request->dir;
+
 
         $query = Message::with('sender');
         $countAll = (clone $query)->count();
@@ -49,6 +52,20 @@ class AdminDashboardController extends Controller
                 break;
         }
 
+        if ($sort && $dir) {
+
+            if (in_array($sort, ['subject', 'sent', 'is_read'])) {
+                $query->orderBy($sort, $dir);
+            }
+
+            if ($sort === 'sender') {
+                $query->join('users as s', 's.id', '=', 'messages.sender_id')
+                    ->orderBy('s.name', $dir)
+                    ->select('messages.*'); // agar tidak rusak pagination
+            }
+        } else {
+            $query->latest();
+        }
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('subject', 'LIKE', "%{$search}%")
@@ -58,18 +75,13 @@ class AdminDashboardController extends Controller
             });
         }
 
-        $recievedMail = $query->latest()->paginate(10);
+        $recievedMail = $query->paginate(10)->appends(request()->query());
 
-        // $sentCount = Message::where('sender_id', operator: Auth::id())->count();
-        // $recievedCount = Message::where('receiver_id', Auth::id())->count();
-        // $unreadCount = Message::where('receiver_id', Auth::id())->where('is_read', 0)->count();
-        // $recievedMail = Message::with('sender')->where('receiver_id', Auth::id())->latest()->paginate(10);
-        // $recievedMail = Message::with('sender')->latest()->paginate(10);
         $sentCount = Message::count();
         $petugasCount = User::where('role', 'petugas')->count();
         $karyawanCount = User::where('role', 'karyawan')->count();
 
-        $messagesPerMonth = Message::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+        $messagesPerMonth = Message::selectRaw('MONTH(sent) as month, COUNT(*) as total')
             ->groupBy('month')
             ->pluck('total', 'month');
 
@@ -103,6 +115,22 @@ class AdminDashboardController extends Controller
         //     'sentCount' => $sentCount,
         //     'chartData' => json_encode($chartData),
         // ]);
-        return view('admin.dashboard', compact('sentCount', 'recievedMail', 'petugasCount', 'karyawanCount', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread', 'chartData'));
+        return view('admin.dashboard', compact(
+            'sentCount',
+            'recievedMail',
+            'petugasCount',
+            'karyawanCount',
+            'filter',
+            'search',
+            'countAll',
+            'countNow',
+            'countThisWeek',
+            'countUnread',
+            'chartData',
+            'search',
+            'filter',
+            'sort',
+            'dir',
+        ));
     }
 }

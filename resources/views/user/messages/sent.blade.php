@@ -11,9 +11,9 @@
 </form>
 
 <div class="flex gap-4 mb-4">
-    <a class="btn btn-secondary" href="">All Mail</a>
-    <a class="btn btn-secondary" href="">Now (5)</a>
-    <a class="btn btn-secondary" href="">This Week (6)</a>
+    <a class="btn btn-secondary" href="{{ route('user.messages.sent', ['filter' => 'all']) }}">All Mail ({{ $countAll }})</a>
+    <a class="btn btn-secondary" href="{{ route('user.messages.sent', ['filter' => 'now']) }}">Now ({{ $countNow }})</a>
+    <a class="btn btn-secondary" href="{{ route('user.messages.sent', ['filter' => 'this_week']) }}">This Week ({{ $countThisWeek }})</a>
 </div>
 
 <div class="table-responsive">
@@ -21,9 +21,9 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Subject</th>
-                <th>Receiver</th>
-                <th>Date</th>
+                <x-th-sort column="subject" label="Subject" />
+                <x-th-sort column="receiver" label="Receiver" />
+                <x-th-sort column="sent" label="Date" />
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -32,6 +32,7 @@
             @foreach($messages as $msg)
             <tr>
                 <td>{{ $messages->firstItem() + $loop->index }}</td>
+                <td>{{ $msg->subject ?? '(No Subject)' }}</td>
                 <td>{{ $msg->receiver->name }}</td>
                 <td>{{ $msg->sentFull() }}</td>
                 <td>

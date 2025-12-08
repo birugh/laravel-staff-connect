@@ -12,9 +12,9 @@
         <table class="table table-hover mb-4">
             <tr>
                 <th>No</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
+                <x-th-sort column="name" label="Name" />
+                <x-th-sort column="email" label="Email" />
+                <x-th-sort column="role" label="Role" />
                 <th>Action</th>
             </tr>
             @foreach ($users as $u)

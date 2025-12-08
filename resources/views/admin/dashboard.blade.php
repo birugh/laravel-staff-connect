@@ -47,11 +47,10 @@
     <div>
         <table class="table table-hover mb-4">
             <tr>
-                <th>No</th>
-                <th>Subject</th>
-                <th>Sender</th>
-                <th>Status</th>
-                <th>Date</th>
+                <x-th-sort column="subject" label="Subject" />
+                <x-th-sort column="sender" label="Sender" />
+                <x-th-sort column="is_read" label="Status" />
+                <x-th-sort column="sent" label="Date" />
             </tr>
             @foreach ($recievedMail as $r)
             <tr>

@@ -16,6 +16,8 @@ class AdminMessageReplyController extends Controller
     {
         $filter = $request->filter;
         $search = $request->search;
+        $sort = $request->sort;
+        $dir = $request->dir;
 
         $query = MessageReply::with('message', 'user');
         $countAll = (clone $query)->count();
@@ -43,6 +45,28 @@ class AdminMessageReplyController extends Controller
                 break;
         }
 
+        if ($sort && $dir) {
+
+            if (in_array($sort, ['body', 'created_at'])) {
+                $query->orderBy($sort, $dir);
+            }
+
+            if ($sort === 'subject') {
+                $query->join('messages as m', 'm.id', '=', 'message_replies.message_id')
+                    ->orderBy('m.subject', $dir)
+                    ->select('message_replies.*');
+            }
+
+            if ($sort === 'sender') {
+                $query->join('users as u', 'u.id', '=', 'message_replies.user_id')
+                    ->orderBy('u.name', $dir)
+                    ->select('message_replies.*');
+            }
+        } else {
+            $query->latest();
+        }
+
+
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('body', 'LIKE', "%{$search}%")
@@ -55,7 +79,7 @@ class AdminMessageReplyController extends Controller
             });
         }
 
-        $replies = $query->latest()->paginate(10);
+        $replies = $query->paginate(5)->appends(request()->query());
         return view('admin.replies.index', compact('replies', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek'));
     }
     /**

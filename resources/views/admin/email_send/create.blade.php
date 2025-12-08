@@ -19,7 +19,7 @@
 </div>
 @endif
 
-<form action="{{ route('admin.email-send.fill') }}" method="POST">
+<form action="{{ route('admin.messages.templates.fill') }}" method="POST">
     @csrf
 
     <div class="mb-2">

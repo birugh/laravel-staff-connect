@@ -19,22 +19,6 @@
             </div>
         </main>
     </div>
-    <!-- <div>
-        <form action="" method="POST">
-            @csrf
-
-            <label for="subject">Pilih Karyawan</label>
-            <select name="receiver_id">
-                @foreach($karyawans as $k)
-                <option value=" $k->id }}"> {{ $k->name }} ( {{ $k->email }})</option>
-                @endforeach
-            </select>
-            <label for="subject">Subjek</label>
-            <input type="text" name="subject" required>
-            <textarea name="body" id="body" required></textarea>
-            <input type="date" name="sent">
-        </form>
-    </div> -->
     <!-- // TODO: SweetAlert -->
     @if (session('error'))
     {{ swal('error', session('error'), 'Error') }}

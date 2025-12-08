@@ -17,6 +17,8 @@ class AdminUserProfileController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $sort = $request->sort;
+        $dir = $request->dir;
 
         $query = UserProfile::with('user');
 
@@ -29,7 +31,21 @@ class AdminUserProfileController extends Controller
             });
         }
 
-        $user_profiles = $query->paginate(10);
+        if ($sort && $dir) {
+            if (in_array($sort, ['nik', 'phone_number', 'date_of_birth', 'address'])) {
+                $query->orderBy($sort, $dir);
+            }
+
+            if ($sort === 'nama' || $sort === 'user') {
+                $query->join('users as u', 'u.id', '=', 'user_profiles.user_id')
+                    ->orderBy('u.name', $dir)
+                    ->select('user_profiles.*');
+            }
+        } else {
+            $query->latest();
+        }
+
+        $user_profiles = $query->paginate(10)->appends(request()->query());
         return view('admin.user-profiles.index', compact('user_profiles', 'search'));
     }
 

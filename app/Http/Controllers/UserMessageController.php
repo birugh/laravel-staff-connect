@@ -16,6 +16,8 @@ class UserMessageController extends Controller
     {
         $filter = $request->filter;
         $search = $request->search;
+        $sort = $request->sort;
+        $dir = $request->dir;
 
         // --- COUNTS ---
         $query = Message::with('sender')
@@ -54,6 +56,21 @@ class UserMessageController extends Controller
                 break;
         }
 
+        // --- SORT ---
+        if ($sort && $dir) {
+            if (in_array($sort, ['subject', 'sent', 'is_read', 'body'])) {
+                $query->orderBy($sort, $dir);
+            }
+
+            if ($sort === 'sender') {
+                $query->join('users as s', 's.id', '=', 'messages.sender_id')
+                    ->orderBy('s.name', $dir)
+                    ->select('messages.*');
+            }
+        } else {
+            $query->latest();
+        }
+
         // --- SEARCH ---
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -88,6 +105,8 @@ class UserMessageController extends Controller
     {
         $filter = $request->filter;
         $search = $request->search;
+        $sort = $request->sort;
+        $dir = $request->dir;
 
         $query = Message::with(['sender', 'receiver'])
             ->where('sender_id', Auth::id());
@@ -125,6 +144,20 @@ class UserMessageController extends Controller
                 break;
         }
 
+        if ($sort && $dir) {
+            if (in_array($sort, ['subject', 'sent', 'is_read'])) {
+                $query->orderBy($sort, $dir);
+            }
+
+            if ($sort === 'receiver') {
+                $query->join('users as r', 'r.id', '=', 'messages.receiver_id')
+                    ->orderBy('r.name', $dir)
+                    ->select('messages.*');
+            }
+        } else {
+            $query->latest();
+        }
+
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('subject', 'LIKE', "%{$search}%")
@@ -134,7 +167,7 @@ class UserMessageController extends Controller
             });
         }
 
-        $messages = $query->latest()->paginate(10);
+        $messages = $query->paginate(10)->appends(request()->query());
         return view('user.messages.sent', compact('messages', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek', 'countUnread'));
     }
     public function show(string $id)
@@ -145,7 +178,11 @@ class UserMessageController extends Controller
         $replies = MessageReply::with('user')
             ->where('message_id', $id)
             ->get();
-
+        if ($message->is_read === 0) {
+            $message->update([
+                'is_read' => 1
+            ]);
+        }
         return view('user.messages.show', compact('message', 'replies'));
     }
 

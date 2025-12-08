@@ -12,6 +12,8 @@ class UserDashboardController extends Controller
     {
         $filter = $request->filter;
         $search = $request->search;
+        $sort = $request->sort;
+        $dir = $request->dir;
 
         $query = Message::with('sender')
             ->where('receiver_id', Auth::id());
@@ -58,8 +60,22 @@ class UserDashboardController extends Controller
             });
         }
 
+        if ($sort && $dir) {
+            if (in_array($sort, ['subject', 'sent', 'is_read'])) {
+                $query->orderBy($sort, $dir);
+            }
+
+            if ($sort === 'sender') {
+                $query->join('users as s', 's.id', '=', 'messages.sender_id')
+                    ->orderBy('s.name', $dir)
+                    ->select('messages.*');
+            }
+        } else {
+            $query->latest();
+        }
+
         $sentCount = Message::where('sender_id', Auth::id())->count();
-        $recievedMail = $query->latest()->paginate(10);
+        $recievedMail = $query->paginate(10)->appends(request()->query());
         $unreadCount = $countUnread;
 
         return view('user.dashboard', compact('sentCount', 'recievedMail', 'unreadCount', 'filter', 'search', 'countAll', 'countNow', 'countThisWeek'));

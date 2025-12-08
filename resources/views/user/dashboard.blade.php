@@ -13,12 +13,12 @@
 @if (session('status'))
 <p style="color: green">{{ session('status') }}</p>
 @endif
-<table>
+    <table>
     <tr>
-        <th>Subject</th>
-        <th>Sender</th>
-        <th>Status</th>
-        <th>Date</th>
+        <x-th-sort column="subject" label="Subject" />
+        <x-th-sort column="sender" label="Sender" />
+        <x-th-sort column="status" label="Status" />
+        <x-th-sort column="date" label="Date" />
     </tr>
     @foreach ($recievedMail as $r)
     <tr>
