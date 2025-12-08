@@ -49,7 +49,8 @@
             <input class="field"
                 type="text"
                 name="fields[{{ $field }}]"
-                value="{{ old('fields.'.$field) }}">
+                value="{{ old('fields.'.$field) }}"
+                required>
         </div>
         @empty
         <p class="italic text-center my-6">
@@ -66,7 +67,7 @@
         <div class="h-separator"></div>
 
         <div class="mb-2">
-            <label class="label-field">Jadwalkan Kirim (Opsional)</label><br>
+            <label class="label-field">Jadwalkan Kirim</label><br>
             <input class="field" type="datetime-local" name="sent" value="{{ old('sent') }}">
         </div>
 
@@ -83,7 +84,7 @@
     </div>
 
     <div class="dashboard__create">
-        <button type="submit" class="btn btn-primary cursor-pointer">Kirim Email</button>
+        <button type="submit" class="btn btn-primary cursor-pointer">Send email</button>
         <a class="btn btn-secondary" href="{{ route('admin.messages.templates.create') }}">Kembali</a>
     </div>
 </form>

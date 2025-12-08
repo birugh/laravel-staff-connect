@@ -2,76 +2,79 @@
 
 @section('content')
 <div class="dashboard__title">
-    <h1 class="font-medium text-xl">Inbox</h1>
+    <h2 class="font-medium text-xl">Inbox</h2>
     <small class="opacity-70">{{ number_format($countAll) }} Email | {{ $countUnread ?? '0' }} Unread mails </small>
 </div>
 
-<form method="GET" action="{{ route('user.messages.inbox') }}" class="mb-4">
-    <input class="field" type="search" name="search" placeholder="Search by subject or sender" value="{{ request('search') }}">
-</form>
+<div class="bg-white rounded-lg border-2 border-gray-300 overflow-hidden">
+    <div class="flex justify-between items-center px-2 py-2">
+        <div class="flex gap-4">
+            <a class="btn btn-secondary" href="{{ route('user.messages.inbox', ['filter' => 'all']) }}">
+                All Mail ({{ $countAll }})
+            </a>
 
-<div class="flex gap-4 mb-4">
-    <a class="btn btn-secondary" href="{{ route('user.messages.inbox', ['filter' => 'all']) }}">
-        All Mail ({{ $countAll }})
-    </a>
+            <a class="btn btn-secondary" href="{{ route('user.messages.inbox', ['filter' => 'now']) }}">
+                Now ({{ $countNow }})
+            </a>
 
-    <a class="btn btn-secondary" href="{{ route('user.messages.inbox', ['filter' => 'now']) }}">
-        Now ({{ $countNow }})
-    </a>
+            <a class="btn btn-secondary" href="{{ route('user.messages.inbox', ['filter' => 'this_week']) }}">
+                This Week ({{ $countThisWeek }})
+            </a>
 
-    <a class="btn btn-secondary" href="{{ route('user.messages.inbox', ['filter' => 'this_week']) }}">
-        This Week ({{ $countThisWeek }})
-    </a>
+            <a class="btn btn-secondary" href="{{ route('user.messages.inbox', ['filter' => 'unread']) }}">
+                Unread ({{ $countUnread }})
+            </a>
+        </div>
+        <form class="w-full max-w-70" method="GET" action="{{ route('user.messages.inbox') }}">
+            <input class="w-full py-1.5 px-2 border-2 ring-0 rounded-md border-neutral-200 transition-colors duration-300 outline-none bg-white" type="search" name="search" placeholder="Search by Subject or Sender" value="{{ request('search') }}">
+        </form>
+    </div>
 
-    <a class="btn btn-secondary" href="{{ route('user.messages.inbox', ['filter' => 'unread']) }}">
-        Unread ({{ $countUnread }})
-    </a>
-</div>
 
-<div class="table-responsive">
-    <table class="table table-hover mb-4">
-        <thead>
-            <tr>
-                <x-th-sort column="id" label="No" />
-                <x-th-sort column="sender" label="Pengirim" />
-                <x-th-sort column="subject" label="Subject" />
-                <x-th-sort column="body" label="Body" />
-                <x-th-sort column="sent" label="Tanggal" />
-                <x-th-sort column="is_read" label="Status" />
-                <th>Action</th>
-            </tr>
-        </thead>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <x-th-sort column="id" label="No" />
+                    <x-th-sort column="sender" label="Pengirim" />
+                    <x-th-sort column="subject" label="Subject" />
+                    <x-th-sort column="body" label="Body" />
+                    <x-th-sort column="sent" label="Tanggal" />
+                    <x-th-sort column="is_read" label="Status" />
+                    <th>Action</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            @foreach($recievedMail as $r)
-            <tr>
-                <td>
-                    @if(request('dir') === 'desc' && request('sort') === 'id')
-                    {{ $recievedMail->total() - ($recievedMail->firstItem() + $loop->index) + 1 }}
-                    @else
-                    {{ $recievedMail->firstItem() + $loop->index }}
-                    @endif
-                </td>
-                <td>{{ $r->sender?->name ?? 'UNKNOWN USER' }}</td>
-                <!-- <td class="{{ $r->sender?->name ? '' : 'error-message' }}">
+            <tbody>
+                @foreach($recievedMail as $r)
+                <tr>
+                    <td>
+                        @if(request('dir') === 'desc' && request('sort') === 'id')
+                        {{ $recievedMail->total() - ($recievedMail->firstItem() + $loop->index) + 1 }}
+                        @else
+                        {{ $recievedMail->firstItem() + $loop->index }}
+                        @endif
+                    </td>
+                    <td>{{ $r->sender?->name ?? 'Unknown User' }}</td>
+                    <!-- <td class="{{ $r->sender?->name ? '' : 'error-message' }}">
                     {{ $r->sender?->name ?? 'UNKNOWN USER' }}
                 </td> -->
-                <td>{{ $r->subject }}</td>
-                <td>{{ $r->limitBody() }}</td>
-                <td>{{ $r->created_at->format('d M Y H:i') }}</td>
-                <td>
-                    @if(!$r->is_read)
-                    <span class="error-message">Belum Dibaca</span>
-                    @else
-                    <span class="success-message">Dibaca</span>
-                    @endif
-                </td>
-                <td>
-                    <a class="btn-action" href="{{ route('user.messages.show', $r->id) }}">Lihat</a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@endsection
+                    <td>{{ $r->subject }}</td>
+                    <td>{{ $r->limitBody() }}</td>
+                    <td>{{ $r->created_at->format('d M Y H:i') }}</td>
+                    <td>
+                        @if(!$r->is_read)
+                        <span class="error-message">Belum Dibaca</span>
+                        @else
+                        <span class="success-message">Dibaca</span>
+                        @endif
+                    </td>
+                    <td>
+                        <a class="btn-action" href="{{ route('user.messages.show', $r->id) }}">Lihat</a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @endsection

@@ -16,40 +16,40 @@
 <form method="POST" action="{{ route('admin.replies.update', $reply->id) }}">
     @csrf
     @method('PUT')
+    <div class="field-row">
+        <div class="w-full mb-2">
+            <label class="label-field req">Message</label><br>
+            <select class="field" name="message_id" id="message_id">
+                @foreach ($messages as $m)
+                <option value="{{ $m->id }}"
+                    {{ old('message_id', $reply->message_id) == $m->id ? 'selected' : '' }}>
+                    {{ $m->limitSubject() }} - {{ $m->sender_name }}
+                </option>
+                @endforeach
+            </select>
+            @error('message_id')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
 
-    <div class="mb-2">
-        <label class="label-field req">Message</label><br>
-        <select class="field" name="message_id" id="message_id">
-            @foreach ($messages as $m)
-            <option value="{{ $m->id }}"
-                {{ old('message_id', $reply->message_id) == $m->id ? 'selected' : '' }}>
-                {{ $m->limitSubject() }} - {{ $m->sender_name }}
-            </option>
-            @endforeach
-        </select>
-        @error('message_id')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
+        <div class="w-80 mb-2">
+            <label class="label-field req">Sender Reply</label><br>
+            <select class="field" name="user_id" id="user_id">
+                @foreach ($users as $u)
+                <option value="{{ $u->id }}"
+                    {{ old('user_id', $reply->user_id) == $u->id ? 'selected' : '' }}>
+                    {{ $u->name }}
+                </option>
+                @endforeach
+            </select>
+            @error('user_id')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
-
-    <div class="mb-2">
-        <label class="label-field req">Sender Reply</label><br>
-        <select class="field" name="user_id" id="user_id">
-            @foreach ($users as $u)
-            <option value="{{ $u->id }}"
-                {{ old('user_id', $reply->user_id) == $u->id ? 'selected' : '' }}>
-                {{ $u->name }}
-            </option>
-            @endforeach
-        </select>
-        @error('user_id')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
-    </div>
-
     <div class="mb-2">
         <label class="label-field req">Body</label><br>
-        <textarea class="field" name="body" id="body" required>{{ old('body', $reply->body) }}</textarea>
+        <textarea class="field" name="body" rows="5" id="body" required>{{ old('body', $reply->body) }}</textarea>
         @error('body')
         <p class="error-message">{{ $message }}</p>
         @enderror

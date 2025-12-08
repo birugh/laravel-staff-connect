@@ -21,25 +21,27 @@
         @enderror
     </div>
 
-    <div class="mb-2">
-        <label class="label-field req">NIK</label><br>
-        <input class="field" maxlength="16" type="number" name="nik" value="{{ old('nik') }}" required>
-        @error('nik')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
-    </div>
+    <div class="field-row">
+        <div class="w-full mb-2">
+            <label class="label-field req">NIK</label><br>
+            <input class="field input-number" maxlength="16" type="number" name="nik" value="{{ old('nik') }}" required>
+            @error('nik')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
 
-    <div class="mb-2">
-        <label class="label-field req">Phone Number</label><br>
-        <input class="field" maxlength="13" type="text" name="phone_number" value="{{ old('phone_number') }}" required>
-        @error('phone_number')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
+        <div class="w-full mb-2">
+            <label class="label-field req">Phone Number</label><br>
+            <input class="field input-number" maxlength="13" type="number" name="phone_number" value="{{ old('phone_number') }}" required>
+            @error('phone_number')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
 
     <div class="mb-2">
         <label class="label-field req">Address</label><br>
-        <textarea class="field" minlength="5" name="address" required>{{ old('address') }}</textarea>
+        <textarea class="field" minlength="5" name="address" rows="5" required>{{ old('address') }}</textarea>
         @error('address')
         <p class="error-message">{{ $message }}</p>
         @enderror

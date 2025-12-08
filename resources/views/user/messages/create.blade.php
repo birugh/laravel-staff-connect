@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="dashboard__title">
-    <h1 class="font-medium text-2xl mb-4">Kirim Pesan</h1>
+    <h1 class="font-medium text-2xl mb-4">Send message</h1>
 </div>
 
 <form method="POST" action="{{ route('user.messages.store') }}" enctype="multipart/form-data">
@@ -17,7 +17,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Penerima</label><br>
-        <select class="field" name="receiver_id">
+        <select class="field" name="receiver_id" required>
             @foreach($users as $k)
             <option value="{{ $k->id }}">{{ $k->name }} ({{ $k->email }})</option>
             @endforeach
@@ -37,7 +37,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Isi Pesan</label><br>
-        <textarea class="field" name="body" rows="5">{{ old('body') }}</textarea>
+        <textarea class="field" name="body" rows="5" required>{{ old('body') }}</textarea>
         @error('body')
         <p class="error-message">{{ $message }}</p>
         @enderror
@@ -60,7 +60,7 @@
     </div>
 
     <div class="dashboard__create">
-        <button type="submit" class="btn btn-primary cursor-pointer">Kirim</button>
+        <button type="submit" class="btn btn-primary cursor-pointer">Send</button>
         <a class="btn btn-secondary" href="{{ route('user.messages.inbox') }}">Cancel</a>
     </div>
 </form>

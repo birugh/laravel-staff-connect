@@ -8,24 +8,40 @@
 <form method="POST" action="{{ route('admin.user.store') }}" enctype="multipart/form-data">
     @csrf
 
-    <div class="mb-2">
-        <label class="label-field req">Nama</label><br>
-        <input class="field" minlength="5" type="text" name="name" value="{{ old('name') }}" required>
-        @error('name')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
+    <div class="field-row">
+        <div class="w-full mb-2">
+            <label class="label-field req">Nama</label>
+            <input class="field input-name" minlength="5" type="text" name="name" value="{{ old('name') }}" required>
+            @error('name')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="w-full mb-2">
+            <label class="label-field req">Role</label>
+            <select class="field req" name="role" required>
+                <option hidden selected>Pilih role user</option>
+                <option value="admin">Admin</option>
+                <option value="petugas">Petugas</option>
+                <option value="karyawan">Karyawan</option>
+            </select>
+            @error('role')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
 
     <div class="mb-2">
-        <label class="label-field req">Email</label><br>
+        <label class="label-field req">Email</label>
         <input class="field" type="email" name="email" value="{{ old('email') }}" required>
         @error('email')
         <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <div class="mb-2">
-        <label class="label-field req">Password</label><br>
+
+
+    <div class="w-full mb-2">
+        <label class="label-field req">Password</label>
         <input class="field" minlength="5" type="password" name="password" id="passwordField" required>
         <span class="field-password stroke-gray-600" id="passwordShow">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -43,8 +59,8 @@
         @enderror
     </div>
 
-    <div class="mb-2">
-        <label class="label-field req">Konfirmasi Password</label><br>
+    <div class="w-full mb-2">
+        <label class="label-field req">Konfirmasi Password</label>
         <input class="field" minlength="5" type="password" name="password_confirmation" id="passwordConfirmField" required>
         <span class="field-password stroke-gray-600" id="passwordConfirmShow">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -62,18 +78,6 @@
         @enderror
     </div>
 
-    <div class="mb-2">
-        <label class="label-field req">Role</label><br>
-        <select class="field req" name="role" required>
-            <option hidden selected>Pilih role user</option>
-            <option value="admin">Admin</option>
-            <option value="petugas">Petugas</option>
-            <option value="karyawan">Karyawan</option>
-        </select>
-        @error('role')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
-    </div>
     <div class="dashboard__create">
         <button class="btn btn-primary cursor-pointer" type="submit">Add</button>
         <a class="btn btn-secondary" href="{{ route('admin.user.index') }}">Cancel</a>

@@ -12,6 +12,8 @@
 
 /* TODO: Components */
 
+/* ! Scrollbar */
+
 ::-webkit-scrollbar {
     @apply w-[6px];
 }
@@ -27,6 +29,16 @@
 ::-webkit-scrollbar-thumb:hover {
     @apply bg-[#555];
 }
+
+/* ! Containers */
+
+.container {
+    @apply w-full px-24 pt-8 mx-auto;
+}
+
+/* .container {
+    @apply w-full max-w-[800px] px-24 pt-8 mx-auto;
+} */
 
 .container-content {
     @apply py-6 px-10 bg-white rounded-md mb-8 shadow-md;
@@ -51,7 +63,7 @@
 .container-content p,
 .container-content address,
 .container-content small {
-    @apply font-normal text-base not-italic text-gray-800;
+    /* @apply font-normal text-base not-italic text-gray-800; */
 }
 
 /* ! Separator */
@@ -136,11 +148,15 @@
 
 /* ! Text Field */
 .field {
-    @apply w-full p-1 border-2 ring-0 rounded-sm border-neutral-200 transition-colors duration-300 mb-2 outline-none bg-white
+    @apply w-full p-1 border-2 ring-0 rounded-sm border-neutral-200 transition-colors duration-300 mb-2 outline-none bg-white;
 }
 
 .field:hover {
     @apply border-transparent ring-2 ring-blue-500
+}
+
+.field-row {
+    @apply flex flex-row justify-between gap-4;
 }
 
 .label-field {
@@ -179,7 +195,7 @@
 /* ! Table */
 
 .table {
-    @apply w-full border-separate border-spacing-0 rounded-lg border border-gray-300 bg-white overflow-hidden text-sm text-gray-800;
+    @apply w-full border-separate border-spacing-0 bg-white overflow-hidden text-sm text-gray-800;
 }
 
 .table th {
@@ -296,7 +312,7 @@ body.sidebar-collapsed .btn-sidebar-text {
 html,
 body {
     scrollbar-gutter: stable;
-    overflow-x: hidden !important;
+    /* overflow-x: hidden !important; */
 
 }
 

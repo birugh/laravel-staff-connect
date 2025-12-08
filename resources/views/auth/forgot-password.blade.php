@@ -9,7 +9,7 @@
     <label class="label-field">Email</label><br>
     <input class="field" type="email" name="email" value="{{ old('email') }}" required>
 
-    <button class="btn btn-primary cursor-pointer mt-2 mb-4" type="submit">Kirim Link</button>
+    <button class="btn btn-primary cursor-pointer mt-2 mb-4" type="submit">Send link</button>
 </form>
 
 <p class="text-center">

@@ -13,7 +13,7 @@
         <form method="POST" action="{{ route('verification.send') }}" class="mb-4">
             @csrf
             <button class="btn btn-primary cursor-pointer" type="submit">
-                Kirim ulang email verifikasi
+                Resend
             </button>
         </form>
     </div>

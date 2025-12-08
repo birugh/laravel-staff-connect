@@ -11,7 +11,7 @@
     <div class="container-content">
         <canvas id="messagesChart" class="w-full" data-chart="{{ json_encode($chartData) }}"></canvas>
     </div>
-    <div class="flex justify-between gap-2">
+    <div class="flex justify-between gap-2 w-">
         <div class="w-full max-w-[320px] py-6 px-10 bg-white rounded-md mb-8 shadow-md">
             <h3 class="font-medium text-2xl text-start mb-2">Total Petugas</h3>
             <div class="h-separator"></div>
@@ -28,9 +28,9 @@
             <small class="font-medium text-4xl">{{ $sentCount }}</small>
         </div>
         <div class="w-full max-w-[320px] py-6 px-10 bg-white rounded-md mb-8 shadow-md">
-            <h3 class="font-medium text-2xl text-start mb-2">Top Sender</h3>
+            <h3 class="font-medium text-lg text-start mb-2">Top Sender</h3>
             <div class="h-separator"></div>
-            <small class="font-medium text-4xl">{{ $topSender->sender->email }} ({{ $topSender['total'] }})</small>
+            <small class="font-medium text-2xl w-full">{{ Str::limit($topSender->sender->email, 15) }} ({{ $topSender['total'] }})</small>
         </div>
     </div>
     <!-- <div>
@@ -50,7 +50,8 @@
             -->
         </div>
     </div>
-    <div>
+    <div class="bg-white rounded-lg border-2 border-gray-300 overflow-hidden">
+
         <table class="table table-hover mb-4">
             <tr>
                 <x-th-sort column="id" label="No" />
@@ -79,7 +80,7 @@
             </tr>
             @endforeach
         </table>
-        <div class="my-2">
+        <div class="px-4 py-2 my-2">
             {{ $recievedMail->links('pagination::tailwind') }}
         </div>
     </div>

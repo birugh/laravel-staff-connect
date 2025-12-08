@@ -16,17 +16,30 @@
     @csrf
     @method('PUT')
 
-    <div class="mb-2">
-        <label class="label-field req">Nama</label><br>
-        <input class="field"
-            minlength="5"
-            type="text"
-            name="name"
-            value="{{ old('name', $user->name) }}"
-            required>
-        @error('name')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
+    <div class="field-row">
+        <div class="w-full mb-2">
+            <label class="label-field req">Nama</label><br>
+            <input class="field input-name"
+                minlength="5"
+                type="text"
+                name="name"
+                value="{{ old('name', $user->name) }}"
+                required>
+            @error('name')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="w-full mb-2">
+            <label class="label-field req">Role</label><br>
+            <select class="field" name="role" required>
+                <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                <option value="petugas" {{ old('role', $user->role) == 'petugas' ? 'selected' : '' }}>Petugas</option>
+                <option value="karyawan" {{ old('role', $user->role) == 'karyawan' ? 'selected' : '' }}>Karyawan</option>
+            </select>
+            @error('role')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
 
     <div class="mb-2">
@@ -63,17 +76,7 @@
         @enderror
     </div>
 
-    <div class="mb-2">
-        <label class="label-field req">Role</label><br>
-        <select class="field" name="role" required>
-            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-            <option value="petugas" {{ old('role', $user->role) == 'petugas' ? 'selected' : '' }}>Petugas</option>
-            <option value="karyawan" {{ old('role', $user->role) == 'karyawan' ? 'selected' : '' }}>Karyawan</option>
-        </select>
-        @error('role')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
-    </div>
+
     <div class="dashboard__create">
         <button class="btn btn-primary cursor-pointer" type="submit">Update</button>
         <a class="btn btn-secondary" href="{{ route('admin.user.index') }}">Cancel</a>

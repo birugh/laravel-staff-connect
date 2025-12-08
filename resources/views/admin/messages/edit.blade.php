@@ -17,37 +17,37 @@
 <form method="POST" action="{{ route('admin.messages.update', $message->id) }}">
     @csrf
     @method('PUT')
+    <div class="field-row">
+        <div class="w-full mb-2">
+            <label class="label-field req">Sender</label><br>
+            <select class="field" name="sender_id">
+                @foreach ($users as $u)
+                <option value="{{ $u->id }}"
+                    {{ old('sender_id', $message->sender_id) == $u->id ? 'selected' : '' }}>
+                    {{ $u->name }}
+                </option>
+                @endforeach
+            </select>
+            @error('sender_id')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
 
-    <div class="mb-2">
-        <label class="label-field req">Sender</label><br>
-        <select class="field" name="sender_id">
-            @foreach ($users as $u)
-            <option value="{{ $u->id }}"
-                {{ old('sender_id', $message->sender_id) == $u->id ? 'selected' : '' }}>
-                {{ $u->name }}
-            </option>
-            @endforeach
-        </select>
-        @error('sender_id')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
+        <div class="w-full mb-2">
+            <label class="label-field req">Receiver</label><br>
+            <select class="field" name="receiver_id" required>
+                @foreach ($users as $u)
+                <option value="{{ $u->id }}"
+                    {{ old('receiver_id', $message->receiver_id ?? '') == $u->id ? 'selected' : '' }}>
+                    {{ $u->name }}
+                </option>
+                @endforeach
+            </select>
+            @error('receiver_id')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
-
-    <div class="mb-2">
-        <label class="label-field req">Receiver</label><br>
-        <select class="field" name="receiver_id">
-            @foreach ($users as $u)
-            <option value="{{ $u->id }}"
-                {{ old('receiver_id', $message->receiver_id ?? '') == $u->id ? 'selected' : '' }}>
-                {{ $u->name }}
-            </option>
-            @endforeach
-        </select>
-        @error('receiver_id')
-        <p class="error-message">{{ $message }}</p>
-        @enderror
-    </div>
-
     <div class="mb-2">
         <label class="label-field">Subject</label><br>
         <input class="field" type="text" name="subject" value="{{ old('subject', $message->subject ?? '(No Subject)') }}">
@@ -58,7 +58,7 @@
 
     <div class="mb-2">
         <label class="label-field req">Body</label><br>
-        <textarea class="field" name="body" required>{{ old('body', $message->body ?? '') }}</textarea>
+        <textarea class="field" name="body" rows="5" required>{{ old('body', $message->body ?? '') }}</textarea>
         @error('body')
         <p class="error-message">{{ $message }}</p>
         @enderror

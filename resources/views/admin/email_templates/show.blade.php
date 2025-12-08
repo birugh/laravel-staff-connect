@@ -35,7 +35,7 @@
 
 <div class="container-content">
     <div class="container-action">
-        <h3>Detected Dynamic Fields</h3>
+        <h3>Dynamic Fields</h3>
     </div>
     <div class="h-separator"></div>
 
@@ -46,7 +46,7 @@
         @endforeach
     </ul>
     @else
-    <p class="text-center my-6 italic">No dynamic fields detected.</p>
+    <p class="text-center my-6 italic">No dynamic fields found.</p>
     @endif
 </div>
 

@@ -4,7 +4,7 @@
     <h1>Reset Password</h1>
 
     @if ($errors->any())
-        <ul style="color:red">
+        <ul class="error-message">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach

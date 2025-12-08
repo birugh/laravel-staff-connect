@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="dashboard__title">
-    <h1 class="font-medium text-2xl mb-4">Isi Data untuk Template: {{ $template->name }}</h1>
+    <h1 class="font-medium text-2xl mb-4">Fill in the Data for the Template: {{ $template->name }}</h1>
 </div>
 
 <div class="container-content">
@@ -43,7 +43,7 @@
 
     <div class="container-content">
         <div class="container-action">
-            <h3>Isi Dynamic Fields</h3>
+            <h3>Dynamic Fields</h3>
         </div>
 
         <div class="h-separator"></div>
@@ -54,33 +54,34 @@
             <input class="field"
                 type="text"
                 name="fields[{{ $field }}]"
-                value="{{ old('fields.'.$field) }}">
+                value="{{ old('fields.'.$field) }}"
+                required>
         </div>
         @empty
-        <p class="text-center my-6 italic">Tidak ada dynamic field pada template ini.</p>
+        <p class="text-center my-6 italic">There are no dynamic fields in this template.</p>
         @endforelse
     </div>
 
     <div class="container-content">
         <div class="container-action">
-            <h3>Pengaturan Pengiriman</h3>
+            <h3>Delivery Settings</h3>
         </div>
 
         <div class="h-separator"></div>
 
         <div class="mb-2">
-            <label class="label-field">Jadwalkan Kirim (Opsional)</label><br>
+            <label class="label-field">Schedule Delivery</label><br>
             <input class="field" type="datetime-local" name="sent" value="{{ old('sent') }}">
         </div>
 
         <div class="mb-2">
-            <label class="label-field req">Frekuensi Pengiriman</label><br>
+            <label class="label-field req">Delivery Frequency</label><br>
             <select class="field" name="recurrence">
-                <option value="">Sekali saja</option>
-                <option value="hourly" {{ old('recurrence')=='hourly' ? 'selected':'' }}>Setiap Jam</option>
-                <option value="daily" {{ old('recurrence')=='daily' ? 'selected':'' }}>Setiap Hari</option>
-                <option value="weekly" {{ old('recurrence')=='weekly' ? 'selected':'' }}>Setiap Minggu</option>
-                <option value="monthly" {{ old('recurrence')=='monthly' ? 'selected':'' }}>Setiap Bulan</option>
+                <option value="">One-time Only</option>
+                <option value="hourly" {{ old('recurrence')=='hourly' ? 'selected':'' }}>Hourly</option>
+                <option value="daily" {{ old('recurrence')=='daily' ? 'selected':'' }}>Daily</option>
+                <option value="weekly" {{ old('recurrence')=='weekly' ? 'selected':'' }}>Weekly</option>
+                <option value="monthly" {{ old('recurrence')=='monthly' ? 'selected':'' }}>Monthly</option>
             </select>
         </div>
     </div>
