@@ -30,6 +30,7 @@
         },
         "files": [
             "app/Helpers/Alert.php",
+            "app/Helpers/Breadcrumb.php",
             "app/Helpers/SortHelper.php"
         ]
     },

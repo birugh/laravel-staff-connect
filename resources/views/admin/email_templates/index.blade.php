@@ -29,7 +29,7 @@
             <tbody>
                 @forelse ($templates as $template)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $templates->firstItem() + $loop->index }}</td>
                     <td>{{ $template->name }}</td>
                     <td>{{ $template->subject }}</td>
                     <td>{{ $template->created_at }}</td>
@@ -37,7 +37,7 @@
                     <td>
                         <div class="dashboard__action">
                             <a class="btn-action group" href="{{ route('admin.email-templates.show', $template) }}">
-                                <svg class="btn-action-icon group-hover:stroke-blue-900" 
+                                <svg class="btn-action-icon group-hover:stroke-blue-900"
                                     xmlns="http://www.w3.org/2000/svg" fill="none"
                                     viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor">
@@ -50,7 +50,7 @@
                             </a>
 
                             <a class="btn-action group" href="{{ route('admin.email-templates.edit', $template) }}">
-                                <svg class="btn-action-icon group-hover:stroke-blue-900" 
+                                <svg class="btn-action-icon group-hover:stroke-blue-900"
                                     xmlns="http://www.w3.org/2000/svg" fill="none"
                                     viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor">
@@ -64,7 +64,7 @@
                                 action="{{ route('admin.email-templates.destroy', $template) }}">
                                 @csrf
                                 @method('DELETE')
-                                <button 
+                                <button
                                     class="btn-action text-red-600"
                                     onclick="return confirm('Yakin hapus template ini?')">
                                     Delete

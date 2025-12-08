@@ -44,6 +44,7 @@
         <tbody>
             @foreach($recievedMail as $r)
             <tr>
+                <td>{{ $recievedMail->firstItem() + $loop->index }}</td>
                 <td>{{ $r->sender->name }}</td>
                 <td>{{ $r->subject }}</td>
                 <td>{{ $r->limitBody() }}</td>

@@ -81,7 +81,7 @@ class UserMessageController extends Controller
             });
         }
 
-        $recievedMail = $query->get();
+        $recievedMail = $query->latest()->paginate(10);
 
         Message::with('sender')
             ->where('receiver_id', Auth::id())
@@ -95,7 +95,7 @@ class UserMessageController extends Controller
             'countAll',
             'countNow',
             'countThisWeek',
-            'countUnread'
+            'countUnread',
         ));
     }
 

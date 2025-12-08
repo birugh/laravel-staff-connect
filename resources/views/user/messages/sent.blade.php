@@ -20,6 +20,7 @@
     <table class="table table-hover mb-4">
         <thead>
             <tr>
+                <th>No</th>
                 <x-th-sort column="subject" label="Subject" />
                 <x-th-sort column="receiver" label="Receiver" />
                 <x-th-sort column="sent" label="Date" />
@@ -30,6 +31,7 @@
         <tbody>
             @foreach($messages as $msg)
             <tr>
+                <td>{{ $messages->firstItem() + $loop->index }}</td>
                 <td>{{ $msg->subject ?? '(No Subject)' }}</td>
                 <td>{{ $msg->receiver->name }}</td>
                 <td>{{ $msg->sentFull() }}</td>

@@ -9,6 +9,10 @@
         </a>
     </div>
 
+    <form method="GET" action="{{ route('admin.replies.index') }}" class="mb-4">
+        <input class="field" type="search" name="search" placeholder="Search by Subject, Body or Name" value="{{ request('search') }}">
+    </form>
+
     <div class="table-responsive">
         <table class="table table-hover mb-4">
             <tr>
@@ -21,7 +25,7 @@
 
             @foreach ($replies as $r)
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td>{{ $replies->firstItem() + $loop->index }}</td>
                 <td>{{ $r->message?->limitSubject() ? $r->message?->limitSubject() . '-' : 'MESSAGE DELETED'}} {{ $r->message?->sender_name }}</td>
                 <td>{{ $r->user?->name ?? 'USER DELETED' }}</td>
                 <td>{{ $r->limitBody() }}</td>

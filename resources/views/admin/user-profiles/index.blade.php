@@ -7,9 +7,14 @@
         <a class="btn btn-primary" href="{{ route('admin.user-profile.create') }}">Create User Profile</a>
     </div>
 
+    <form method="GET" action="{{ route('admin.user-profile.index') }}" class="mb-4">
+        <input class="field" type="search" name="search" placeholder="Search by NIK or Name" value="{{ request('search') }}">
+    </form>
+
     <div class="table-responsive">
         <table class="table table-hover mb-4">
             <tr>
+                <th>No</th>
                 <th>Profil</th>
                 <x-th-sort column="nama" label="Nama" />
                 <x-th-sort column="nik" label="NIK" />
@@ -20,6 +25,7 @@
             </tr>
             @foreach ($user_profiles as $u)
             <tr>
+                <td>{{ $user_profiles->firstItem() + $loop->index }}</td>
                 <td>
                     <img
                         class="w-10 h-10 rounded-full object-cover"

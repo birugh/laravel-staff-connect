@@ -12,6 +12,22 @@
 
 /* TODO: Components */
 
+::-webkit-scrollbar {
+    @apply w-[6px];
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-[#f1f1f1] rounded-[10px];
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-[#888] rounded-[10px];
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#555];
+}
+
 .container-content {
     @apply py-6 px-10 bg-white rounded-md mb-8 shadow-md;
 }
@@ -92,6 +108,14 @@
 
 .btn-action {
     @apply flex flex-row text-blue-600 hover:text-blue-900;
+}
+
+.btn-action.disabled {
+    @apply flex flex-row text-gray-600 cursor-not-allowed;
+}
+
+.btn-action.disabled .btn-action-icon {
+    @apply stroke-gray-600;
 }
 
 .btn-action-icon {
@@ -201,6 +225,10 @@
     @apply w-full;
 }
 
+.sidebar-group .sidebar-toggle {
+    @apply w-full cursor-pointer p-2;
+}
+
 .btn-sidebar {
     @apply w-full inline-flex gap-2 text-gray-900 font-medium p-2 rounded-md transition-colors duration-150
 }
@@ -215,6 +243,14 @@
 
 .btn-sidebar.btn-disabled:hover {
     @apply bg-gray-300 text-white;
+}
+
+.sidebar-group .btn-sidebar {
+    @apply pl-10;
+}
+
+.sidebar-toggle.btn-sidebar {
+    @apply pl-2;
 }
 
 body.sidebar-collapsed .sidebar {
@@ -254,13 +290,20 @@ body.sidebar-collapsed .btn-sidebar-text {
 :root {
     --gutter: 32px;
     --sidebar-width: 280px;
-    --sidebar-collapsed-width: 70px;
+    --sidebar-collapsed-width: 76px;
 }
 
+html,
+body {
+    scrollbar-gutter: stable;
+    overflow-x: hidden !important;
+
+}
 
 * {
     scroll-behavior: smooth;
 }
+
 
 body {
     background-color: #f3f4f6;

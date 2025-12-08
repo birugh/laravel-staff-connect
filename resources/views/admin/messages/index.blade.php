@@ -7,6 +7,10 @@
         <a class="btn btn-primary" href="{{ route('admin.messages.create') }}">Create Message</a>
     </div>
 
+    <form method="GET" action="{{ route('admin.messages.index') }}" class="mb-4">
+        <input class="field" type="search" name="search" placeholder="Search by Subject, Sender or Receiver" value="{{ request('search') }}">
+    </form>
+
     <div class="table-responsive">
         <table class="table table-hover mb-4">
             <thead>
@@ -25,7 +29,7 @@
             <tbody>
                 @foreach ($messages as $m)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $messages->firstItem() + $loop->index }}</td>
                     <td>{{ $m->sender?->name ?? 'USER NOT FOUND' }}</td>
                     <td>{{ $m->receiver?->name ?? 'USER NOT FOUND' }}</td>
                     <td>{{ $m->limitSubject() ?? '(No Subject)'}}</td>

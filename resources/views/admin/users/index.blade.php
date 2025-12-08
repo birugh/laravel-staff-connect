@@ -5,6 +5,9 @@
         <h2>User List</h2>
         <a class="btn btn-primary" href="{{ route('admin.user.create') }}">Create User</a>
     </div>
+    <form method="GET" action="{{ route('admin.user.index') }}" class="mb-4">
+        <input class="field" type="search" name="search" placeholder="Search by Name or Email" value="{{ request('search') }}">
+    </form>
     <div class="table-responsive">
         <table class="table table-hover mb-4">
             <tr>

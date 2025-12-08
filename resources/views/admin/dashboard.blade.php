@@ -47,6 +47,7 @@
     <div>
         <table class="table table-hover mb-4">
             <tr>
+                <th>No</th>
                 <x-th-sort column="subject" label="Subject" />
                 <x-th-sort column="sender" label="Sender" />
                 <x-th-sort column="is_read" label="Status" />
@@ -54,6 +55,7 @@
             </tr>
             @foreach ($recievedMail as $r)
             <tr>
+                <td>{{ $recievedMail->firstItem() + $loop->index }}</td>
                 <td>{{ $r->subject ?? '(No Subject)'}}</td>
                 <td>{{ $r->sender?->name ?? 'USER NOT FOUND'}}</td>
                 <td>
