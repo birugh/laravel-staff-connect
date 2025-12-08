@@ -4,12 +4,15 @@
 <div class="dashboard__title">
     <h1 class="font-medium text-2xl mb-4">Edit Reply {{ $reply->id }}</h1>
 
-    <form action="{{ route('admin.replies.destroy', $reply->id) }}"
-        method="POST"
-        onsubmit="return confirm('Delete this reply?')">
+    <form id="deleteForm"
+        action="{{ route('admin.replies.destroy', $user) }}"
+        method="POST">
         @csrf
         @method('DELETE')
-        <button class="btn btn-warning cursor-pointer mt-2" type="submit">Delete Reply</button>
+
+        <button type="button" id="btnDelete" class="btn btn-warning cursor-pointer mt-2 mb-4">
+            Delete Reply
+        </button>
     </form>
 </div>
 

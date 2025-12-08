@@ -3,27 +3,17 @@
 @section('content')
 <div class="dashboard__title">
     <h1 class="font-medium text-2xl mb-4">Edit Email Template</h1>
-    <form method="POST"
-        action="{{ route('admin.email-templates.destroy', $emailTemplate->id) }}">
+    <form id="deleteForm"
+        action="{{ route('admin.email-templates.destroy', $user) }}"
+        method="POST">
         @csrf
         @method('DELETE')
-        <button
-            class="btn btn-warning cursor-pointer"
-            onclick="return confirm('Yakin hapus template ini?')">
-            Delete
+
+        <button type="button" id="btnDelete" class="btn btn-warning cursor-pointer mt-2 mb-4">
+            Delete Template
         </button>
     </form>
 </div>
-
-@if ($errors->any())
-<div class="error-message mb-4">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
 
 <form action="{{ route('admin.email-templates.update', $emailTemplate) }}" method="POST">
     @csrf

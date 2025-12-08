@@ -3,13 +3,17 @@
 @section('content')
 <div class="dashboard__title">
     <h1 class="font-medium text-2xl mb-4">Edit User {{ $user->id }}</h1>
-    <form action="{{ route('admin.user.destroy', $user) }}"
-        method="POST"
-        onsubmit="return confirm('Delete this User?')">
+    <form id="deleteForm"
+        action="{{ route('admin.user.destroy', $user) }}"
+        method="POST">
         @csrf
         @method('DELETE')
-        <button class="btn btn-warning cursor-pointer mt-2 mb-4" type="submit">Delete User</button>
+
+        <button type="button" id="btnDelete" class="btn btn-warning cursor-pointer mt-2 mb-4">
+            Delete User
+        </button>
     </form>
+
 </div>
 
 <form method="POST" action="{{ route('admin.user.update', $user->id) }}">
