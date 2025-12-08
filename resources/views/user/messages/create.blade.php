@@ -48,6 +48,17 @@
         <input class="field" type="datetime-local" name="sent">
     </div>
 
+    <div class="mb-2">
+        <label class="label-field req">Frekuensi Pengiriman</label><br>
+        <select class="field" name="recurrence">
+            <option value="">Sekali saja</option>
+            <option value="hourly" {{ old('recurrence')=='hourly' ? 'selected':'' }}>Setiap Jam</option>
+            <option value="daily" {{ old('recurrence')=='daily' ? 'selected':'' }}>Setiap Hari</option>
+            <option value="weekly" {{ old('recurrence')=='weekly' ? 'selected':'' }}>Setiap Minggu</option>
+            <option value="monthly" {{ old('recurrence')=='monthly' ? 'selected':'' }}>Setiap Bulan</option>
+        </select>
+    </div>
+
     <div class="dashboard__create">
         <button type="submit" class="btn btn-primary cursor-pointer">Kirim</button>
         <a class="btn btn-secondary" href="{{ route('user.messages.inbox') }}">Cancel</a>
