@@ -14,7 +14,17 @@ class Message extends Model
     /** @use HasFactory<\Database\Factories\MessageFactory> */
     use HasFactory, SoftDeletes;
     protected $table = 'messages';
-    protected $fillable = ['sender_id', 'receiver_id', 'subject', 'sent', 'body', 'is_read'];
+    protected $fillable = [
+        'sender_id',
+        'receiver_id',
+        'subject',
+        'body',
+        'sent',
+        'recurrence',
+        'next_run_at',
+        'is_read',
+    ];
+
     public function messageReplies()
     {
         return $this->hasMany(MessageReply::class, 'message_id');

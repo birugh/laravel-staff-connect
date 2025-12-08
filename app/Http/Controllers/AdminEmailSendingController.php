@@ -63,7 +63,7 @@ class AdminEmailSendingController extends Controller
                 $template->subject,
                 $body
             );
-        } else { 
+        } else {
             SendCustomEmailJob::dispatch(
                 $receiver->email,
                 $template->subject,
@@ -88,7 +88,6 @@ class AdminEmailSendingController extends Controller
             'next_run_at' => $nextRun,
             'is_read'     => 0,
         ]);
-
         return redirect()->route('admin.messages.templates.create')
             ->with('success', $sendAt <= now() ? 'Email Sent!' : 'Email Scheduled!');
     }
