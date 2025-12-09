@@ -17,7 +17,6 @@
         <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
-
     <div class="mb-2">
         <label class="label-field req">NIK</label><br>
         <input class="field" type="number" name="nik" readonly value="{{ old('nik', $userProfile->nik) }}" required>

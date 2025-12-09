@@ -4,7 +4,7 @@
 <div class="dashboard__title">
     <h1 class="font-medium text-2xl mb-4">Edit User Profile {{ $userProfile->id }}</h1>
     <form id="deleteForm"
-        action="{{ route('admin.user-profile.destroy', $user) }}"
+        action="{{ route('admin.user-profile.destroy', $userProfile->id) }}"
         method="POST">
         @csrf
         @method('DELETE')
