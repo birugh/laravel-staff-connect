@@ -59,7 +59,7 @@ class UserProfileController extends Controller
 
         $userProfile->update($validated);
 
-        swal('success', 'Profile user berhasil diupdate', 'Success');
+        swal_toast('success', 'Profile updated successfully!');
         return redirect()->route('user.user-profile.index');
     }
 }

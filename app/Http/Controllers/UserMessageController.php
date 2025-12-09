@@ -242,9 +242,9 @@ class UserMessageController extends Controller
             'is_read'     => 0,
         ]);
 
-        swal('success', $sendAt <= now()
-            ? 'Message berhasil dikirim!'
-            : 'Message berhasil dijadwalkan!', 'Success');
+        swal_toast('success', $sendAt <= now()
+            ? 'Message sent successfully!'
+            : 'Message scheduled successfully!');
         return redirect()->route('user.messages.inbox');
     }
 }

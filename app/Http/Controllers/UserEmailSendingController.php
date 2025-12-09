@@ -89,7 +89,7 @@ class UserEmailSendingController extends Controller
             'is_read'     => 0,
         ]);
 
-        swal('success', $sendAt <= now() ? 'Email Sent!' : 'Email Scheduled!', 'Success');
+        swal_toast('success', $sendAt <= now() ? 'Email Sent!' : 'Email Scheduled!');
         return redirect()->route('user.messages.templates.create');
     }
 }

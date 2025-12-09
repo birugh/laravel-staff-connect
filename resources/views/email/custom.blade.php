@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<body>
+<body style="font-family: Arial, Helvetica, sans-serif;">
     <main>
         <div style="padding-left:96px; padding-right:96px; margin-left:auto; margin-right:auto;">
             <div style="height:100vh; display:flex; align-items:center;">

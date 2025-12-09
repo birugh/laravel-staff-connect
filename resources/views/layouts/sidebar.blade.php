@@ -1,8 +1,8 @@
 <aside class="sidebar transition-discrete duration-350 fixed top-0 left-0 h-screen flex-row overflow-y-auto py-5 px-4 bg-white border-r-2 border-gray-300 shadow-2xl custom-scrollbar">
     <div class="h-8">
         <a class="flex flex-row gap-2 items-center justify-center" href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class="size-8">
+                <path fill="#2563eb" d="M112 128C85.5 128 64 149.5 64 176C64 191.1 71.1 205.3 83.2 214.4L291.2 370.4C308.3 383.2 331.7 383.2 348.8 370.4L556.8 214.4C568.9 205.3 576 191.1 576 176C576 149.5 554.5 128 528 128L112 128zM64 260L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 260L377.6 408.8C343.5 434.4 296.5 434.4 262.4 408.8L64 260z" />
             </svg>
             <h1 class="sidebar-title font-medium text-xl whitespace-nowrap">Staff Connect</h1>
         </a>
